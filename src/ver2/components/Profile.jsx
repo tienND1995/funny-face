@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import img2 from "../components/image/Rectangle4958.png";
-import Header from "./Header";
 import axios from "axios";
 import useEventStore from "../../utils/store";
-
 import ReactLoading from "react-loading";
 import * as faceapi from "face-api.js";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import "../components/Profile.css";
 import HistoryCommentList from "./HistoryCommentList";
 import EventListProfile from "./EventListProfile";
 import ManagerAcount from "./ManagerAcount";
+
 
 export default function Profile() {
   const [data, setData] = useState([]);
@@ -54,7 +54,7 @@ export default function Profile() {
       setImgData(data.list_img);
     } catch (error) {
       console.error("Error fetching data:", error);
-      alert("Server error getList 8-12 images");
+      // alert("Server error getList 8-12 images");
     }
   };
 
@@ -395,7 +395,7 @@ export default function Profile() {
   }, []);
 
   return (
-    <div className="bg-[#E9E9E9] w-[100%] h-full">
+    <div className="bg-[#323232] w-[100%] h-full">
       {notiImage.status ? (
         <>
           <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-[1000] outline-none focus:outline-none">
@@ -424,107 +424,287 @@ export default function Profile() {
         </>
       ) : null}
       <div className="h-full">
-        <div
-          style={{ backgroundImage: `url(${img2})` }}
-          className="lg:w-[100%] h-[250px] rounded-b-3xl bg-no-repeat bg-cover "
-        >
-          <Header />
+        <div className="relative">
+          <div
+            style={{ backgroundImage: `url(${img2})` }}
+            className=" lg:w-[100%] h-[300px] rounded-t-3xl bg-no-repeat bg-cover "
+          ></div>
+          <img
+            src={
+              data.link_avatar == "1"
+                ? "https://i.ibb.co/WHmrzPt/106287976-917734608745320-4594528301123064306-n.jpg"
+                : data.link_avatar
+            }
+            className=" absolute bottom-10 left-20 lg:ml-1 ml-40 lg:w-[130px] lg:h-[130px] w-[160px] h-[160px] border border-white rounded-full object-cover"
+            alt=""
+          />
         </div>
         {setIsLoading ? renderLoading() : null}
-        <div className="md:flex md:justify-around">
-          <div className="relative lg:-top-28 lg:left-16  max-lg:-top-28 max-lg:left-1/2 max-lg:translate-x-[-50%] rounded-3xl lg:w-[550px] lg:h-[220px] w-[330px] h-[250px] bg-gradient-to-r from-violet-500 to-fuchsia-400">
-            <div className="md:flex max-md:flex-col md:justify-around py-4 px-3">
-              <div>
-                <img
-                  src={
-                    data.link_avatar == "1"
-                      ? "https://i.ibb.co/WHmrzPt/106287976-917734608745320-4594528301123064306-n.jpg"
-                      : data.link_avatar
-                  }
-                  className="lg:ml-1 ml-40 lg:w-[130px] lg:h-[130px] w-[100px] h-[100px] border border-white rounded-full object-cover"
-                  alt=""
-                />
-                <div className="w-full text-center">
-                  <h1 className="lg:text-4xl lg:my-3 lg:max-w-[150px] text-white max-lg:my-2 max-lg:text-3xl underline">
-                    @{data.user_name}
-                  </h1>
+        <div className="line border-[#C6C6C6]">
+          <div className="flex mt-12 w-[100%]">
+            <div className="flex-1  w-full text-center">
+              <h1 className="lg:text-5xl lg:my-3 lg:max-w-[150px] text-white max-lg:my-2 max-lg:text-3xl pl-4">
+                @{data.user_name}
+              </h1>
+            </div>
+            <div className="flex">
+              <button
+                onClick={() => openModal()}
+                className="max-lg:hidden bg-white shadow-gray-500 rounded-full py-4 px-9 text-[15px] my-8 mx-5"
+              >
+                <div className="flex justify-center items-center">
+                  <span> Edit profile</span>
                 </div>
-              </div>
-              <div className="md:py-5">
-                <div className="flex justify-around lg:w-[300px] text-center">
-                  <div className="text-3xl text-white">
-                    <h1 className="ml-8">{data.count_sukien}</h1>
-                    <p>Events</p>
-                  </div>
-                  <div className="text-3xl text-white">
-                    <h1>{data.count_view}</h1>
-                    <p>View</p>
-                  </div>
-                  <div className="text-3xl text-white">
-                    <h1 className="ml-10">{data.count_comment}</h1>
-                    <p>Comments</p>
-                  </div>
-                </div>
-                <div className="flex justify-center items-center py-4 gap-3 md:my-8">
-                  <button
-                    className=" bg-white shadow-gray-500 rounded-full py-2 px-5 text-[14px]"
-                    onClick={() => setShowEvent(true)}
-                  >
-                    View Events
-                  </button>
-                  <button
-                    onClick={() => openModal()}
-                    className="md:hidden bg-white shadow-gray-500 rounded-full py-2 px-5 text-[14px]"
-                  >
-                    <div className="flex justify-center items-center">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width={16}
-                        height={16}
-                        viewBox="0 0 24 24"
-                        style={{
-                          fill: "rgba(0, 0, 0, 1)",
-                          transform: "",
-                          msfilter: "",
-                        }}
-                      >
-                        <path d="M11.587 6.999H7.702a2 2 0 0 0-1.88 1.316l-3.76 10.342c-.133.365-.042.774.232 1.049l.293.293 6.422-6.422c-.001-.026-.008-.052-.008-.078a1.5 1.5 0 1 1 1.5 1.5c-.026 0-.052-.007-.078-.008l-6.422 6.422.293.293a.997.997 0 0 0 1.049.232l10.342-3.761a2 2 0 0 0 1.316-1.88v-3.885L19 10.414 13.586 5l-1.999 1.999zm8.353 2.062-5-5 2.12-2.121 5 5z" />
-                      </svg>
-                      <span> Edit </span>
+              </button>
+              <button
+                className="max-lg:hidden py-2 pr-2 rounded-lg hover:bg-gray-300 transition-all"
+                onClick={() => setShowManagerAccount(true)}
+              >
+                <svg
+                  width="32"
+                  height="32"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M20.1 9.21994C18.29 9.21994 17.55 7.93994 18.45 6.36994C18.97 5.45994 18.66 4.29994 17.75 3.77994L16.02 2.78994C15.23 2.31994 14.21 2.59994 13.74 3.38994L13.63 3.57994C12.73 5.14994 11.25 5.14994 10.34 3.57994L10.23 3.38994C9.78 2.59994 8.76 2.31994 7.97 2.78994L6.24 3.77994C5.33 4.29994 5.02 5.46994 5.54 6.37994C6.45 7.93994 5.71 9.21994 3.9 9.21994C2.86 9.21994 2 10.0699 2 11.1199V12.8799C2 13.9199 2.85 14.7799 3.9 14.7799C5.71 14.7799 6.45 16.0599 5.54 17.6299C5.02 18.5399 5.33 19.6999 6.24 20.2199L7.97 21.2099C8.76 21.6799 9.78 21.3999 10.25 20.6099L10.36 20.4199C11.26 18.8499 12.74 18.8499 13.65 20.4199L13.76 20.6099C14.23 21.3999 15.25 21.6799 16.04 21.2099L17.77 20.2199C18.68 19.6999 18.99 18.5299 18.47 17.6299C17.56 16.0599 18.3 14.7799 20.11 14.7799C21.15 14.7799 22.01 13.9299 22.01 12.8799V11.1199C22 10.0799 21.15 9.21994 20.1 9.21994ZM12 15.2499C10.21 15.2499 8.75 13.7899 8.75 11.9999C8.75 10.2099 10.21 8.74994 12 8.74994C13.79 8.74994 15.25 10.2099 15.25 11.9999C15.25 13.7899 13.79 15.2499 12 15.2499Z"
+                    fill="white"
+                  />
+                </svg>
+              </button>
+              {showManagerAccount && (
+                <ManagerAcount close={() => setShowManagerAccount(false)} />
+              )}
+              {showModal ? (
+                <>
+                  <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+                    <div className="relative lg:w-[1000px] h-[600px] mt-60 max-w-3xl">
+                      <div className="border-0 w-[672px] h-[303px] rounded-lg shadow-lg relative bg-[#323232] outline-none focus:outline-none">
+                        <div className="relative p-6 flex-auto">
+                          <div className="flex flex-auto relative ">
+                            <p className=" text-center text-white slab text-3xl leading-relaxed header_profile">
+                              Profile
+                            </p>
+                            <div className=" btn_close rounded-b">
+                              <button
+                                className="text-[#FF2C61] "
+                                type="button"
+                                onClick={() => closeModals()}
+                              >
+                                <svg
+                                  width="32"
+                                  height="32"
+                                  viewBox="0 0 32 32"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M16.0003 2.6665C8.65366 2.6665 2.66699 8.65317 2.66699 15.9998C2.66699 23.3465 8.65366 29.3332 16.0003 29.3332C23.347 29.3332 29.3337 23.3465 29.3337 15.9998C29.3337 8.65317 23.347 2.6665 16.0003 2.6665ZM20.4803 19.0665C20.867 19.4532 20.867 20.0932 20.4803 20.4798C20.2803 20.6798 20.027 20.7732 19.7737 20.7732C19.5203 20.7732 19.267 20.6798 19.067 20.4798L16.0003 17.4132L12.9337 20.4798C12.7337 20.6798 12.4803 20.7732 12.227 20.7732C11.9737 20.7732 11.7203 20.6798 11.5203 20.4798C11.1337 20.0932 11.1337 19.4532 11.5203 19.0665L14.587 15.9998L11.5203 12.9332C11.1337 12.5465 11.1337 11.9065 11.5203 11.5198C11.907 11.1332 12.547 11.1332 12.9337 11.5198L16.0003 14.5865L19.067 11.5198C19.4537 11.1332 20.0937 11.1332 20.4803 11.5198C20.867 11.9065 20.867 12.5465 20.4803 12.9332L17.4137 15.9998L20.4803 19.0665Z"
+                                    fill="white"
+                                  />
+                                </svg>
+                              </button>
+                            </div>
+                          </div>
+                          <div className="flex  mt-14 text-3xl text-black ">
+                            <div className="w-1/3 ">
+                              <img
+                                alt=""
+                                src={
+                                  data.link_avatar == "1"
+                                    ? "https://i.ibb.co/WHmrzPt/106287976-917734608745320-4594528301123064306-n.jpg"
+                                    : data.link_avatar
+                                }
+                                className="lg:w-[130px] lg:h-[130px] w-{160px} h-{160px} mt-5 rounded-full object-cover m-auto"
+                              ></img>
+                            </div>
+                            <div className="w-2/3 mt-10 ">
+                              <div className="w-full input_name">
+                                <input
+                                  type="text"
+                                  id="name"
+                                  value={data.user_name}
+                                  className="w-full rounded-xl "
+                                ></input>
+                              </div>
+                              <div className="flex ">
+                                <button
+                                  onClick={() => openModals()}
+                                  className=" bg-white btn shadow-gray-500 rounded-lg w-1/2  mr-2"
+                                >
+                                  Upload image
+                                </button>
+                                <button
+                                  onClick={() => openModals()}
+                                  className=" bg-lime-500 btn text-white shadow-gray-500 rounded-lg w-1/2 ml-2"
+                                >
+                                  Save
+                                </button>
+                              </div>
+                              {showModals ? (
+                                <>
+                                  <div className="justify-center md:items-center flex overflow-auto fixed inset-0 z-50 outline-none focus:outline-none">
+                                    <div className="">
+                                      <div className="max-lg:ml-0 max-lg:w-full lg:-ml-16 ml-6 lg:w-[700px] w-[400px] border-0 rounded-lg shadow-lg relative flex flex-col bg-white outline-none focus:outline-none">
+                                        <div className="relative p-6 flex-auto lg:h-[800px] h-[700px]">
+                                          <p className=" text-center text-black-500 slab text-3xl leading-relaxed text-black">
+                                            Update Avatar
+                                          </p>
+                                          <div className="mt-10 text-3xl text-black">
+                                            <div>
+                                              <h1 className="py-3">
+                                                Suggestion
+                                              </h1>
+                                            </div>
+                                            <div className="grid lg:grid-cols-6 gap-x-8 gap-y-4 grid-cols-3 h-[120px] overflow-x-hidden">
+                                              {imgdata.map((item, index) => (
+                                                <div
+                                                  key={index}
+                                                  className="w-[100px] h-[100px] border-2 flex justify-center items-center"
+                                                  onClick={() =>
+                                                    handlePickAvatar(item)
+                                                  }
+                                                >
+                                                  <img
+                                                    src={item}
+                                                    className="w-[90px] h-[90px] hover:scale-105 transition-all cursor-pointer"
+                                                    type="file"
+                                                    alt=""
+                                                  />
+                                                </div>
+                                              ))}
+                                            </div>
+                                            <div className="border-t bg-slate-700 min-w-full my-4"></div>
+                                          </div>
+                                          <div className="md:mt-10 md:my-10">
+                                            <div className="flex md:justify-between flex-col text-3xl text-black">
+                                              <div>
+                                                <h1 className="my-1">
+                                                  Uploaded Avatar
+                                                </h1>
+                                              </div>
+
+                                              <div className="max-sm:py-2">
+                                                <input
+                                                  type="file"
+                                                  accept="image/*"
+                                                  onChange={handleImageChange}
+                                                />
+                                              </div>
+                                            </div>
+                                            <div className="grid lg:grid-cols-6 gap-x-8 gap-y-4 grid-cols-3 overflow-x-hidden h-[120px]">
+                                              <div
+                                                className="w-[100px] h-[100px] border-2"
+                                                id="imgUploadedAvatar"
+                                              >
+                                                {selectedImage && (
+                                                  <img
+                                                    src={URL.createObjectURL(
+                                                      selectedImage
+                                                    )}
+                                                    className="w-[100px] h-[100px]"
+                                                    alt="Selected"
+                                                  />
+                                                )}
+                                              </div>
+                                            </div>
+                                            <div className="border-t bg-slate-700 min-w-full my-4"></div>
+                                          </div>
+                                          <div className="md:mt-10">
+                                            <div className="flex justify-between text-3xl text-black">
+                                              <div>
+                                                <h1 className="py-3">
+                                                  Your Gallery
+                                                </h1>
+                                              </div>
+                                            </div>
+                                            <div className="grid lg:grid-cols-6 gap-x-8 gap-y-4 grid-cols-3 overflow-x-hidden h-[120px]">
+                                              {imgdata.map((item, index) => (
+                                                <div
+                                                  key={index}
+                                                  className="w-[100px] h-[100px] border-2 flex justify-center items-center"
+                                                  onClick={() =>
+                                                    handlePickAvatar(item)
+                                                  }
+                                                >
+                                                  <img
+                                                    alt=""
+                                                    src={item}
+                                                    className="w-[90px] h-[90px] hover:scale-105 transition-all cursor-pointer"
+                                                    type="file"
+                                                  />
+                                                </div>
+                                              ))}
+                                            </div>
+                                          </div>
+                                          <div className="mt-10">
+                                            <h1 className="text-center">
+                                              Access Your Gallery
+                                            </h1>
+                                            <div className="flex justify-between mt-10 text-3xl text-black">
+                                              <button
+                                                onClick={() =>
+                                                  handleUploadAvatar()
+                                                }
+                                                className="hover:scale-105 hover:bg-gray-700 hover:transition-all lg:ml-80 ml-20 text-white bg-gray-500 shadow-white rounded-full w-[250px] h-[30px]"
+                                              >
+                                                Update Avatar
+                                              </button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+                                </>
+                              ) : null}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  </button>
-                  <button
-                    className="lg:hidden py-2 px-2 rounded-lg hover:bg-gray-100 transition-all"
-                    onClick={() => setShowManagerAccount(true)}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width={16}
-                      height={16}
-                      viewBox="0 0 24 24"
-                      style={{
-                        fill: "rgba(0, 0, 0, 1)",
-                        transform: "",
-                        msfilter: "",
-                      }}
-                    >
-                      <path d="M12 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
-                    </svg>
-                  </button>
-                </div>
+                  </div>
+                  <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+                </>
+              ) : null}
+            </div>
+          </div>
+          <div className="md:py-5">
+            <div className="flex justify-around lg:w-[300px] text-center pb-2 pl-4">
+              <div className=" flex text-3xl text-white mr-9">
+                <h1 className="mr-3 ">{data.count_sukien}</h1>
+                <p>Events</p>
+              </div>
+              <div className="flex text-3xl text-white mr-9">
+                <h1 className="mr-3">{data.count_view}</h1>
+                <p>View</p>
+              </div>
+              <div className="flex text-3xl text-white">
+                <h1 className="mr-3">{data.count_comment}</h1>
+                <p>Comments</p>
               </div>
             </div>
           </div>
-          <div className="">
+        </div>
+        <div className="flex items-center py-4 gap-3 md:my-8 pl-4">
+          <div className=" event">
+            <button
+              className=" text-white shadow-gray-500 rounded-full py-2 px-5 text-[24px] uppercase "
+              onClick={() => setShowEvent(true)}
+            >
+              Events
+            </button>
             <button
               onClick={() => openModal()}
-              className="max-lg:hidden bg-white shadow-gray-500 rounded-full py-2 px-5 text-[14px] my-8 mx-7"
+              className="md:hidden bg-white shadow-gray-500 rounded-full py-2 px-5 text-[14px]"
             >
               <div className="flex justify-center items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width={24}
-                  height={24}
+                  width={16}
+                  height={16}
                   viewBox="0 0 24 24"
                   style={{
                     fill: "rgba(0, 0, 0, 1)",
@@ -532,19 +712,19 @@ export default function Profile() {
                     msfilter: "",
                   }}
                 >
-                  <path d="M11.587 6.999H7.702a2 2 0 0 0-1.88 1.316l-3.76 10.342c-.133.365-.042.774.232 1.049l.293.293 6.422-6.422c-.001-.026-.008-.052-.008-.078a1.5 1.5 0 1 1 1.5 1.5c-.026 0-.052-.007-.078-.008l-6.422 6.422.293.293a.997.997 0 0 0 1.049.232l10.342-3.761a2 2 0 0 0 1.316-1.88v-3.885L19 10.414 13.586 5l-1.999 1.999zm8.353 2.062-5-5 2.12-2.121 5 5z" />{" "}
+                  <path d="M11.587 6.999H7.702a2 2 0 0 0-1.88 1.316l-3.76 10.342c-.133.365-.042.774.232 1.049l.293.293 6.422-6.422c-.001-.026-.008-.052-.008-.078a1.5 1.5 0 1 1 1.5 1.5c-.026 0-.052-.007-.078-.008l-6.422 6.422.293.293a.997.997 0 0 0 1.049.232l10.342-3.761a2 2 0 0 0 1.316-1.88v-3.885L19 10.414 13.586 5l-1.999 1.999zm8.353 2.062-5-5 2.12-2.121 5 5z" />
                 </svg>
-                <span> Edit your profile</span>
+                <span> Edit </span>
               </div>
             </button>
             <button
-              className="max-lg:hidden py-2 px-2 rounded-lg hover:bg-gray-300 transition-all"
+              className="lg:hidden py-2 px-2 rounded-lg hover:bg-gray-100 transition-all"
               onClick={() => setShowManagerAccount(true)}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width={24}
-                height={24}
+                width={16}
+                height={16}
                 viewBox="0 0 24 24"
                 style={{
                   fill: "rgba(0, 0, 0, 1)",
@@ -555,197 +735,72 @@ export default function Profile() {
                 <path d="M12 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
               </svg>
             </button>
-            {showManagerAccount && (
-              <ManagerAcount close={() => setShowManagerAccount(false)} />
-            )}
-            {showModal ? (
-              <>
-                <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-                  <div className="relative lg:w-[1000px] h-[600px] mt-60 max-w-3xl">
-                    <div className="border-0 lg:w-[500px] w-[300px] rounded-lg shadow-lg relative flex flex-col bg-white outline-none focus:outline-none">
-                      <div className="relative p-6 flex-auto h-[400px]">
-                        <p className="my-4 text-center text-black-500 slab text-3xl leading-relaxed">
-                          Edit Profile
-                        </p>
-                        <div className="flex lg:justify-around justify-evenly mt-10 text-3xl text-black">
-                          <div className="-ml-14">
-                            <h1>Avatar</h1>
-                          </div>
-                          <div className="mt-10 ">
-                            <img
-                              src={
-                                data.link_avatar == "1"
-                                  ? "https://i.ibb.co/WHmrzPt/106287976-917734608745320-4594528301123064306-n.jpg"
-                                  : data.link_avatar
-                              }
-                              className="lg:w-[130px] lg:h-[130px] w-[100px] h-[100px] border border-white rounded-full"
-                            ></img>
-                          </div>
-                          <div>
-                            <button
-                              onClick={() => openModals()}
-                              className=" bg-white shadow-gray-500 rounded-full w-[50px] h-[30px] -mr-11"
-                            >
-                              edit
-                            </button>
-                            {showModals ? (
-                              <>
-                                <div className="justify-center md:items-center flex overflow-auto fixed inset-0 z-50 outline-none focus:outline-none">
-                                  <div className="">
-                                    <div className="max-lg:ml-0 max-lg:w-full lg:-ml-16 ml-6 lg:w-[700px] w-[400px] border-0 rounded-lg shadow-lg relative flex flex-col bg-white outline-none focus:outline-none">
-                                      <div className="relative p-6 flex-auto lg:h-[800px] h-[700px]">
-                                        <p className=" text-center text-black-500 slab text-3xl leading-relaxed text-black">
-                                          Update Avatar
-                                        </p>
-                                        <div className="mt-10 text-3xl text-black">
-                                          <div>
-                                            <h1 className="py-3">Suggestion</h1>
-                                          </div>
-                                          <div className="grid lg:grid-cols-6 gap-x-8 gap-y-4 grid-cols-3 h-[120px] overflow-x-hidden">
-                                            {imgdata.map((item, index) => (
-                                              <div
-                                                key={index}
-                                                className="w-[100px] h-[100px] border-2 flex justify-center items-center"
-                                                onClick={() =>
-                                                  handlePickAvatar(item)
-                                                }
-                                              >
-                                                <img
-                                                  src={item}
-                                                  className="w-[90px] h-[90px] hover:scale-105 transition-all cursor-pointer"
-                                                  type="file"
-                                                  alt=""
-                                                />
-                                              </div>
-                                            ))}
-                                          </div>
-                                          <div className="border-t bg-slate-700 min-w-full my-4"></div>
-                                        </div>
-                                        <div className="md:mt-10 md:my-10">
-                                          <div className="flex md:justify-between flex-col text-3xl text-black">
-                                            <div>
-                                              <h1 className="my-1">
-                                                Uploaded Avatar
-                                              </h1>
-                                            </div>
-
-                                            <div className="max-sm:py-2">
-                                              <input
-                                                type="file"
-                                                accept="image/*"
-                                                onChange={handleImageChange}
-                                              />
-                                            </div>
-                                          </div>
-                                          <div className="grid lg:grid-cols-6 gap-x-8 gap-y-4 grid-cols-3 overflow-x-hidden h-[120px]">
-                                            <div
-                                              className="w-[100px] h-[100px] border-2"
-                                              id="imgUploadedAvatar"
-                                            >
-                                              {selectedImage && (
-                                                <img
-                                                  src={URL.createObjectURL(
-                                                    selectedImage
-                                                  )}
-                                                  className="w-[100px] h-[100px]"
-                                                  alt="Selected"
-                                                />
-                                              )}
-                                            </div>
-                                          </div>
-                                          <div className="border-t bg-slate-700 min-w-full my-4"></div>
-                                        </div>
-                                        <div className="md:mt-10">
-                                          <div className="flex justify-between text-3xl text-black">
-                                            <div>
-                                              <h1 className="py-3">
-                                                Your Gallery
-                                              </h1>
-                                            </div>
-                                          </div>
-                                          <div className="grid lg:grid-cols-6 gap-x-8 gap-y-4 grid-cols-3 overflow-x-hidden h-[120px]">
-                                            {imgdata.map((item, index) => (
-                                              <div
-                                                key={index}
-                                                className="w-[100px] h-[100px] border-2 flex justify-center items-center"
-                                                onClick={() =>
-                                                  handlePickAvatar(item)
-                                                }
-                                              >
-                                                <img
-                                                  src={item}
-                                                  className="w-[90px] h-[90px] hover:scale-105 transition-all cursor-pointer"
-                                                  type="file"
-                                                />
-                                              </div>
-                                            ))}
-                                          </div>
-                                        </div>
-                                        <div className="mt-10">
-                                          <h1 className="text-center">
-                                            Access Your Gallery
-                                          </h1>
-                                          <div className="flex justify-between mt-10 text-3xl text-black">
-                                            <button
-                                              onClick={() =>
-                                                handleUploadAvatar()
-                                              }
-                                              className="hover:scale-105 hover:bg-gray-700 hover:transition-all lg:ml-80 ml-20 text-white bg-gray-500 shadow-white rounded-full w-[250px] h-[30px]"
-                                            >
-                                              Update Avatar
-                                            </button>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div className="relative lg:left-[640px] lg:-top-[800px] left-[340px] -top-[700px] w-[50px] flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
-                                        <button
-                                          className="text-[#FF2C61] slab hover:bg-[#ED709D] hover:text-white font-bold uppercase px-6 py-3 rounded-xl text-2xl outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                                          type="button"
-                                          onClick={() => closeModals()}
-                                        >
-                                          X
-                                        </button>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
-                              </>
-                            ) : null}
-                          </div>
-                        </div>
-                        <div className="flex lg:justify-around justify-evenly mt-10 text-3xl text-black">
-                          <div>
-                            <h1>Cover Pic</h1>
-                          </div>
-                          <div className="mt-16">
-                            <img
-                              src={data.link_avatar}
-                              className="lg:w-[280px] lg:h-[130px] w-[200px] h-[100px] border border-white"
-                            ></img>
-                          </div>
-                          <div>
-                            <button className=" bg-white shadow-gray-500 rounded-full w-[50px] h-[30px]">
-                              edit
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="relative lg:left-[420px] lg:-top-[400px] left-[250px] -top-[400px] w-[50px] flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
-                        <button
-                          className="text-[#FF2C61] slab hover:bg-[#ED709D] hover:text-white font-bold uppercase px-6 py-3 rounded-xl text-2xl outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                          type="button"
-                          onClick={() => closeModal()}
-                        >
-                          X
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
-              </>
+            {showEvent && nic.length > 0 ? (
+              <EventListProfile
+                data={nic}
+                closeTab={() => setShowEvent(false)}
+              />
             ) : null}
+            <div className="w-full text-left py-5 ">
+              <h1 className="text-xl text-white lg:text-4xl">
+                You don't have any event yet
+              </h1>
+            </div>
+          </div>
+          <div className="flex-1 comment">
+            <button
+              className=" text-white shadow-gray-500 rounded-full py-2 px-5 text-[24px] uppercase "
+              onClick={() => setShowEvent(true)}
+            >
+              Comments
+            </button>
+            <button
+              onClick={() => openModal()}
+              className="md:hidden bg-white shadow-gray-500 rounded-full py-2 px-5 text-[14px]"
+            >
+              <div className="flex justify-center items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width={16}
+                  height={16}
+                  viewBox="0 0 24 24"
+                  style={{
+                    fill: "rgba(0, 0, 0, 1)",
+                    transform: "",
+                    msfilter: "",
+                  }}
+                >
+                  <path d="M11.587 6.999H7.702a2 2 0 0 0-1.88 1.316l-3.76 10.342c-.133.365-.042.774.232 1.049l.293.293 6.422-6.422c-.001-.026-.008-.052-.008-.078a1.5 1.5 0 1 1 1.5 1.5c-.026 0-.052-.007-.078-.008l-6.422 6.422.293.293a.997.997 0 0 0 1.049.232l10.342-3.761a2 2 0 0 0 1.316-1.88v-3.885L19 10.414 13.586 5l-1.999 1.999zm8.353 2.062-5-5 2.12-2.121 5 5z" />
+                </svg>
+                <span> Edit </span>
+              </div>
+            </button>
+            <button
+              className="lg:hidden py-2 px-2 rounded-lg hover:bg-gray-100 transition-all"
+              onClick={() => setShowManagerAccount(true)}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width={16}
+                height={16}
+                viewBox="0 0 24 24"
+                style={{
+                  fill: "rgba(0, 0, 0, 1)",
+                  transform: "",
+                  msfilter: "",
+                }}
+              >
+                <path d="M12 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+              </svg>
+            </button>
+            {datas.length > 0 && <HistoryCommentList datas={datas} />}
+            {datas.length === 0 && (
+              <div className="w-full text-left py-5 ">
+                <h1 className="text-xl text-white lg:text-4xl">
+                  You don't have any comments yet
+                </h1>
+              </div>
+            )}
           </div>
         </div>
         {imgdata.length === 0 && (
@@ -938,25 +993,6 @@ export default function Profile() {
             </div>
             <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
           </>
-        ) : null}
-        {datas.length > 0 && <HistoryCommentList datas={datas} />}
-        {datas.length === 0 && (
-          <div className="w-full text-center py-5 ">
-            <h1 className="text-xl lg:text-4xl">
-              You don't have any comments yet
-            </h1>
-          </div>
-        )}
-
-        {showEvent && nic.length > 0 ? (
-          <EventListProfile data={nic} closeTab={() => setShowEvent(false)} />
-        ) : null}
-        {showEvent && nic.length == 0 ? (
-          <div className="w-full text-center py-5 ">
-            <h1 className="text-xl lg:text-4xl">
-              You don't have any event yet
-            </h1>
-          </div>
         ) : null}
       </div>
     </div>

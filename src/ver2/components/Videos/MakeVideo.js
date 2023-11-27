@@ -13,6 +13,7 @@ import '../../css/AddEvent.css'
 import AddIcon from '@mui/icons-material/Add'
 import pen from '../../components/image/edit-2.png'
 import './MakeVideo.css'
+import avatar from '../image/loi-1.jpeg'
 
 function MakeVideo() {
   const [showModal, setShowModal] = React.useState(false)
@@ -28,20 +29,17 @@ function MakeVideo() {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    showImg.img1 && loadModels()
+    showImg.img1 &&
+      Promise.all([
+        faceapi.nets.tinyFaceDetector.loadFromUri('/models'),
+        faceapi.nets.faceLandmark68Net.loadFromUri('/models'),
+        faceapi.nets.faceRecognitionNet.loadFromUri('/models'),
+        faceapi.nets.faceExpressionNet.loadFromUri('/models'),
+        faceapi.nets.ssdMobilenetv1.loadFromUri('./models'),
+      ]).then(() => {
+        validImage(showImg.img1)
+      })
   }, [showImg.img1])
-
-  const loadModels = () => {
-    Promise.all([
-      faceapi.nets.tinyFaceDetector.loadFromUri('/models'),
-      faceapi.nets.faceLandmark68Net.loadFromUri('/models'),
-      faceapi.nets.faceRecognitionNet.loadFromUri('/models'),
-      faceapi.nets.faceExpressionNet.loadFromUri('/models'),
-      faceapi.nets.ssdMobilenetv1.loadFromUri('./models'),
-    ]).then(() => {
-      validImage(showImg.img1)
-    })
-  }
 
   const idUser = userInfo && userInfo.id_user
 
@@ -80,72 +78,61 @@ function MakeVideo() {
       .detectAllFaces(imageElement, new faceapi.TinyFaceDetectorOptions())
       .withFaceLandmarks()
       .withFaceExpressions()
-    // const detections2 = await faceapi
-    //   .detectAllFaces(netInput, new faceapi.SsdMobilenetv1Options())
-    //   .withFaceLandmarks()
-    //   .withFaceExpressions()
 
-    console.log(detections)
-    try {
-      console.log(detections)
+    const detections2 = await faceapi
+      .detectAllFaces(imageElement, new faceapi.SsdMobilenetv1Options())
+      .withFaceLandmarks()
+      .withFaceExpressions()
 
-      // if (detections.length > 1) return detections
-      // if (detections2.length == 0) return detections2
-      // if (detections2.length == 1) return detections2
+    if (detections.length == 0) {
+      setIsLoading(false)
+      closeUploadImg()
+      // setModelAlert({
+      //   status: true,
+      //   message: 'No faces can be recognized in the photo',
+      // })
 
-      // return detections
-    } catch (error) {
-      console.log(error)
+      window.alert('No faces can be recognized in the photo')
+
+      setShowModal(true)
+      return
     }
+
+    if (detections.length > 1) {
+      setIsLoading(false)
+      closeUploadImg()
+      // setModelAlert({
+      //   status: true,
+      //   message: 'Photos must contain only one face',
+      // })
+
+      window.alert('Photos must contain only one face')
+
+      setShowModal(true)
+      return
+    }
+
+    setIsLoading(false)
   }
 
   const [imageVid, setImageVid] = useState('')
   const handleChangeImage = async (event, setImage, atImg) => {
     const file = event.target.files[0]
-
-    setIsLoading(true)
-
     const imgElement = await faceapi.bufferToImage(file)
     setShowImg({ img1: imgElement.src })
 
-    try {
-      if (!URL.createObjectURL(file)) return setShowModal(true)
+    if (!URL.createObjectURL(file)) return setShowModal(true)
 
-      // const res = await validImage(URL.createObjectURL(file))
-
-      // if (res.length == 0) {
-      //   setIsLoading(false)
-      //   closeUploadImg()
-      //   return setModelAlert({
-      //     status: true,
-      //     message: 'No faces can be recognized in the photo',
-      //   })
-      // }
-
-      // if (res.length > 1) {
-      //   setIsLoading(false)
-      //   closeUploadImg()
-      //   return setModelAlert({
-      //     status: true,
-      //     message: 'Photos must contain only one face',
-      //   })
-      // }
-
-      setIsLoading(false)
-      if (atImg == 'img1') {
-        let send = showImg
-        send.img1 = URL.createObjectURL(file)
-        setShowImg(send)
-        setImage(file)
-        const imagevid = await uploadImage(file)
-        setImageVid(imagevid)
-      }
-    } catch (error) {
-      console.log(error)
-      setShowModal(true)
-      setIsLoading(false)
-      closeUploadImg()
+    if (atImg == 'img1') {
+      let send = showImg
+      send.img1 = URL.createObjectURL(file)
+      setShowImg(send)
+      setImage(file)
+      const imagevid = await uploadImage(file)
+      setImageVid(imagevid)
     }
+
+    setIsLoading(true)
   }
 
   const [tenVideo, setTenVideo] = useState()
@@ -222,8 +209,6 @@ function MakeVideo() {
       setIsLoading(false)
     }
   }
-
-  useEffect(() => {}, [image1])
 
   const renderLoading = () => {
     if (isLoading) {
