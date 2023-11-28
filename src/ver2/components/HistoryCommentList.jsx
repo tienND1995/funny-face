@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
+
 const HistoryCommentList = (props) => {
   // console.log(datas);
   const [datas, setDatas] = useState([]);
@@ -12,8 +13,12 @@ const HistoryCommentList = (props) => {
   const [actionCMT, setActionCMT] = useState({ status: false, value: 0 });
   const [count, setCount] = useState(1);
   const resultsPerPage = 10;
-  const [nameUser, setNameUser] = useState();
+  // const [nameUser, setNameUser] = useState();
 
+  const handlePageClick = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    setCount(pageNumber);
+  };
   useEffect(() => {
     setDatas(props.datas);
   }, [props.datas]);
@@ -48,8 +53,12 @@ const HistoryCommentList = (props) => {
         </h2>
       </>
     );
-  if (datas.length == 0) {
-    return <div className="text-center text-3xl py-3">No comments yet</div>;
+  if (datas.length === 0) {
+    return (
+      <div className="text-center text-3xl text-white h-[150px] w-full py-3">
+        No comments yet
+      </div>
+    );
   }
   const dataSort = datas;
   console.log(dataSort);
@@ -129,10 +138,10 @@ const HistoryCommentList = (props) => {
   return (
     <>
       <div className="flex justify-center">
-        <div className="lg:py-7 shadow-[rgba(0,0,0,0.05)_0px_6px_24px_0px,rgba(0,0,0,0.08)_0px_0px_0px_1px] my-16 lg:w-[1200px] w-[350px] mt-8 lg:mt-0 h-fit bg-white lg:rounded-[36px] max-lg:py-4 rounded-[10px] text-center font-[Montserrat] items-center content-center">
+        <div className="lg:py-7 pr-9  my-16 lg:w-[1200px] w-[350px] mt-8 lg:mt-0 h-fit text-white lg:rounded-[36px] max-lg:py-4 rounded-[10px] text-center font-[Quicksand] items-center content-center">
           {currentResults.map((item, index) => (
             <aside key={index} className="px-4">
-              <div className="flex justify-between border-b border-[#ff000000] hover:border-gray-300 transition-all">
+              <div className="flex  justify-between border-b border-[#ff000000] hover:border-gray-300 transition-all">
                 <div className="max-lg: lg:max-w-[85%]">
                   <Link
                     to={`/detail/${item.id_toan_bo_su_kien}/${item.so_thu_tu_su_kien}`}
@@ -151,18 +160,16 @@ const HistoryCommentList = (props) => {
                         <img
                           src={item.avatar_user}
                           alt=""
-                          className="w-full h-full object-contain"
+                          className="w-full h-full object-cover"
                         />
                       </div>
                       <div className="max-lg:pl-2 max-lg:pr-2 lg:w-[85%] lg:ml-4 flex flex-col justify-center lg:gap-3 text-left">
                         <h2 className="line-clamp-1 max-lg:text-xl lg:text-2xl font-medium">
                           {checkId !== undefined ? "His" : "You"} commented on
                           the event of{" "}
-                          <span className="underline">{item.user_taosk}</span>
+                          <span className="underline">{item.user_taosk}</span> :
                         </h2>
-                        <h5 className="line-clamp-1 max-lg:text-sm text-base">
-                          {item.noi_dung_cmt}
-                        </h5>
+                        <h5 className="text-3xl ">{item.noi_dung_cmt}</h5>
                         {item.imageattach ? (
                           <img
                             className="w-[60px] h-[50px]"
@@ -176,13 +183,13 @@ const HistoryCommentList = (props) => {
                     </div>
                   </Link>
                 </div>
-                <div className="flex justify-center items-center max-lg:gap-2 lg:gap-3 lg:max-w-[15%]">
-                  <span className="font-medium max-lg:text-base text-2xl text-gray-700">
+                <div className="time_btn max-lg:gap-2 lg:gap-3 lg:max-w-[15%]">
+                  <span className="font-medium max-lg:text-base text-2xl text-white">
                     {getTime(item.thoi_gian_release)}
                   </span>
-                  <div className="relative">
+                  <div className="btn_dot">
                     <button
-                      className="lg:text-[5px] max-lg:text-[3px] flex gap-1 py-3"
+                      className="lg:text-[5px] max-lg:text-[3px]"
                       onClick={() =>
                         setActionCMT({
                           status: !actionCMT.status,
@@ -191,40 +198,59 @@ const HistoryCommentList = (props) => {
                       }
                     >
                       <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
                         xmlns="http://www.w3.org/2000/svg"
-                        height="1em"
-                        viewBox="0 0 512 512"
                       >
-                        <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z" />
-                      </svg>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        height="1em"
-                        viewBox="0 0 512 512"
-                      >
-                        <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z" />
-                      </svg>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        height="1em"
-                        viewBox="0 0 512 512"
-                      >
-                        <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z" />
+                        <g clip-path="url(#clip0_263_36)">
+                          <rect
+                            x="10.5"
+                            y="4.5"
+                            width="3"
+                            height="3"
+                            rx="1.5"
+                            fill="white"
+                          />
+                          <rect
+                            x="10.5"
+                            y="10.5"
+                            width="3"
+                            height="3"
+                            rx="1.5"
+                            fill="white"
+                          />
+                          <rect
+                            x="10.5"
+                            y="16.5"
+                            width="3"
+                            height="3"
+                            rx="1.5"
+                            fill="white"
+                          />
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_263_36">
+                            <rect width="24" height="24" fill="white" />
+                          </clipPath>
+                        </defs>
                       </svg>
                     </button>
-                    {actionCMT.status && actionCMT.value == item.id_comment && (
-                      <div className="shadow-[rgba(0,0,0,0.1)_0px_1px_3px_0px,rgba(0,0,0,0.06)_0px_1px_2px_0px] absolute mt-[140%] top-0 right-0 z-10 py-2 px-2 rounded-sm bg-slate-100 text-lg text-black">
-                        <button className="py-1 px-3 hover:bg-blue-400 hover:text-white w-full">
-                          Edit
-                        </button>
-                        <button
-                          className="py-1 px-3 hover:bg-red-400 hover:text-white"
-                          onClick={() => deleteComment(item.id_comment)}
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    )}
+                    {actionCMT.status &&
+                      actionCMT.value === item.id_comment && (
+                        <div className="flex text-lg">
+                          <button className="py-1 mr-1 px-3 rounded-lg bg-blue-400 text-white w-full">
+                            Edit
+                          </button>
+                          <button
+                            className="py-1 px-3 rounded-lg text-white bg-red-400 "
+                            onClick={() => deleteComment(item.id_comment)}
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      )}
                   </div>
                 </div>
               </div>
@@ -235,40 +261,53 @@ const HistoryCommentList = (props) => {
       <div className="pagination text-4xl flex justify-center my-6">
         <button
           type="button"
-          className="py-2 px-3 bg-[#ff9f9f] rounded hover:bg-[#ff9f9f8c]"
+          className="py-2 px-3  rounded-full hover:bg-[#ff9f9f8c]"
           onClick={() => changePageDown()}
         >
           <svg
-            fill="white"
+            width="40"
+            height="40"
+            viewBox="0 0 40 40"
+            fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
           >
-            <path d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8.009 8.009 0 0 1-8 8z" />
-            <path d="M13.293 7.293 8.586 12l4.707 4.707 1.414-1.414L11.414 12l3.293-3.293-1.414-1.414z" />
+            <path
+              d="M19.9997 3.3335C10.8163 3.3335 3.33301 10.8168 3.33301 20.0002C3.33301 29.1835 10.8163 36.6668 19.9997 36.6668C29.183 36.6668 36.6663 29.1835 36.6663 20.0002C36.6663 10.8168 29.183 3.3335 19.9997 3.3335ZM22.983 25.0002C23.4663 25.4835 23.4663 26.2835 22.983 26.7668C22.733 27.0168 22.4163 27.1335 22.0997 27.1335C21.783 27.1335 21.4663 27.0168 21.2163 26.7668L15.333 20.8835C14.8497 20.4002 14.8497 19.6002 15.333 19.1168L21.2163 13.2335C21.6997 12.7502 22.4997 12.7502 22.983 13.2335C23.4663 13.7168 23.4663 14.5168 22.983 15.0002L17.983 20.0002L22.983 25.0002Z"
+              fill="white"
+              fill-opacity="0.2"
+            />
           </svg>
         </button>
+        {Array.from({ length: totalPages }, (_, index) => (
+          <button
+            key={index + 1}
+            type="button"
+            className={`mx-3 text-white font-medium py-2 px-4 rounded-full ${
+              count === index + 1 ? "bg-[#1DB954]" : "hover:bg-[#ff9f9f8c]"
+            }`}
+            onClick={() => handlePageClick(index + 1)}
+          >
+            {index + 1}
+          </button>
+        ))}
+        
         <button
           type="button"
-          className="mx-3 text-white font-medium py-2 px-4 rounded bg-red-700"
-        >
-          {count}
-          <span className="text-2xl font-bold px-2">/</span>
-          {totalPages}
-        </button>
-        <button
-          type="button"
-          className="py-2 px-3 bg-[#ff9f9f] rounded hover:bg-[#ff9f9f8c]"
+          className="py-2 px-3 rounded-full hover:bg-[#ff9f9f8c]"
           onClick={() => changePageUp()}
         >
           <svg
-            fill="white"
+            width="40"
+            height="40"
+            viewBox="0 0 40 40"
+            fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
           >
-            <path d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8.009 8.009 0 0 1-8 8z" />
-            <path d="M9.293 8.707 12.586 12l-3.293 3.293 1.414 1.414L15.414 12l-4.707-4.707-1.414 1.414z" />
+            <path
+              d="M19.9997 3.3335C10.8163 3.3335 3.33301 10.8168 3.33301 20.0002C3.33301 29.1835 10.8163 36.6668 19.9997 36.6668C29.183 36.6668 36.6663 29.1835 36.6663 20.0002C36.6663 10.8168 29.183 3.3335 19.9997 3.3335ZM24.6497 20.8835L18.7663 26.7668C18.5163 27.0168 18.1997 27.1335 17.883 27.1335C17.5663 27.1335 17.2497 27.0168 16.9997 26.7668C16.5163 26.2835 16.5163 25.4835 16.9997 25.0002L21.9997 20.0002L16.9997 15.0002C16.5163 14.5168 16.5163 13.7168 16.9997 13.2335C17.483 12.7502 18.283 12.7502 18.7663 13.2335L24.6497 19.1168C25.1497 19.6002 25.1497 20.4002 24.6497 20.8835Z"
+              fill="white"
+              fill-opacity="0.5"
+            />
           </svg>
         </button>
       </div>

@@ -30,3 +30,9 @@
     right: 0;
     transform: translateY(-50%);
 }
+
+.time_btn {
+    display: flex;
+    flex-direction: column-reverse;
+    padding-bottom: 20px;
+}
