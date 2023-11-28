@@ -13,7 +13,7 @@
 html {
   font-size: 62.5%;
   line-height: 1.5rem;
-  font-family: "Pacifico", cursive !important;
+  font-family: 'Pacifico', cursive !important;
   box-sizing: border-box;
 }
 .form-control-flush {
@@ -28,7 +28,7 @@ html {
   color: #ffffff;
 }
 body {
-  font-family: "Quicksand", cursive !important;
+  font-family: 'Quicksand', cursive !important;
   overflow: hidden;
   overflow-y: scroll;
   height: 100%;
@@ -50,69 +50,25 @@ html *::-webkit-scrollbar-track {
 }
 /* About page */
 .about_policy {
-  font-family: 'Inter',sans-serif;
-  background-color: #FDF8EE;
+  font-family: 'Inter', sans-serif;
+  background-color: #fdf8ee;
   color: #000000;
 }
 /* End */
 
-/* wave */
-.ocean {
-  height: 5%;
-  width: 100%;
-  z-index: 0;
-}
-
-.wave {
-  background: url("../../../public/wavepink.png");
-  width: 6400px;
-  height: 300px;
-  animation: wave 1s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
-}
-
-
-
-.wave2 {
-  background: url("../../../public/wavewhite.png");
-  width: 6400px;
-  height: 300px;
-  animation: wave  1s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
-}
-
-@keyframes wave {
-  0% {
-    transform: translateX(0);
-  }
-
-  100% {
-    transform: translateX(calc(-100% + 100vw));
-  }
-}
-
-@keyframes wave2 {
-  0% {
-    transform: translateX(0);
-  }
-
-  100% {
-    transform: translateX(calc(-100% + 100vw));
-  }
-}
-
-
 /* font import */
-@import url("https://fonts.googleapis.com/css2?family=Share+Tech&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech&display=swap');
 @font-face {
   font-family: starborn;
-  src: url("../../../public/fonts/Starborn.ttf");
+  src: url('../../../public/fonts/Starborn.ttf');
 }
 @font-face {
   font-family: slab;
-  src: url("../../../public/fonts/RobotoSlab-Regular.ttf");
+  src: url('../../../public/fonts/RobotoSlab-Regular.ttf');
 }
 @font-face {
   font-family: sharetech;
-  src: url("../../../public/fonts/ShareTech-Regular.ttf");
+  src: url('../../../public/fonts/ShareTech-Regular.ttf');
 }
 
 /* font */
@@ -128,7 +84,7 @@ html *::-webkit-scrollbar-track {
 }
 
 /* search */
-.i-search input[type="search"] {
+.i-search input[type='search'] {
   text-align: left;
   font-family: slab;
   cursor: pointer;
@@ -139,7 +95,7 @@ html *::-webkit-scrollbar-track {
   word-spacing: 20px;
   padding-left: 50px;
 }
-.im-search input[type="search"] {
+.im-search input[type='search'] {
   text-align: left;
   font-family: slab;
   cursor: pointer;
@@ -166,20 +122,11 @@ html *::-webkit-scrollbar-track {
   background-color: #d9d9d9;
 }
 
-@media screen and (max-width: 600px) {
-  .wave, .wave2 {
-    width: 100% !important; 
-  }
-}
-@media screen and (max-width: 1024px) {
-  .wave, .wave2 {
-    width: 100% !important; 
-  }
-}
-@media screen and (max-width: 2048px) {
-  .wave, .wave2 {
-    width: 100%  
-  }
-}
+/* sidebar scroll */
 
-
+.sidebar-fixed {
+  position: fixed;
+  left: 0;
+  top: 0;
+  transition: all 0.3s;
+}

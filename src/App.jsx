@@ -1,31 +1,32 @@
-import axios from 'axios';
-import React, { useEffect } from 'react';
-import { Route, Routes } from 'react-router-dom';
-import 'slick-carousel/slick/slick-theme.css';
-import 'slick-carousel/slick/slick.css';
-import "./App.scss";
-import "./container/tailwincss.css";
-import YoutubeScandal from './ver2/YoutubeScandal';
-import DetailVideo from './ver2/components/DetailVideo';
-import EventResults from './ver2/components/EventResults';
-import NewHistory from './ver2/components/NewHistory';
-import NewHome from './ver2/components/NewHome';
-import NotFound from './ver2/components/NotFound';
-import OnBoard from './ver2/components/OnBoard';
-import Policy from './ver2/components/Policy';
-import Profile from './ver2/components/Profile';
-import ProfileGuest from './ver2/components/ProfileGuest';
-import ListVideo from './ver2/components/Videos/ListVideo';
-import MakeVideo from './ver2/components/Videos/MakeVideo';
-import Video from './ver2/components/Videos/Video';
-import './ver2/css/index.css';
-import LayoutGuest from './ver2/layouts/LayoutGuest';
-import LayoutUser from './ver2/layouts/LayoutUser';
-import Historyv2 from './ver2/page/Historyv2';
-import Home from './ver2/page/Home';
-import Login from './ver2/page/Login';
-import Register from './ver2/page/Register';
-import TiktokScandal from './ver2/tiktok-scandal';
+import axios from 'axios'
+import React, { useEffect } from 'react'
+import { Route, Routes } from 'react-router-dom'
+import 'slick-carousel/slick/slick-theme.css'
+import 'slick-carousel/slick/slick.css'
+import './App.scss'
+import './container/tailwincss.css'
+import YoutubeScandal from './ver2/YoutubeScandal'
+import DetailVideo from './ver2/components/Videos/DetailVideo/DetailVideo'
+import EventResults from './ver2/components/EventResults'
+import NewHistory from './ver2/components/NewHistory'
+import NewHome from './ver2/components/NewHome'
+import NotFound from './ver2/components/NotFound'
+import OnBoard from './ver2/components/OnBoard'
+import Policy from './ver2/components/Policy'
+import Profile from './ver2/components/Profile'
+import ProfileGuest from './ver2/components/ProfileGuest'
+import MakeVideo from './ver2/components/Videos/MakeVideo/MakeVideo'
+import Video from './ver2/components/Videos/Video/Video'
+import './ver2/css/index.css'
+import LayoutGuest from './ver2/layouts/LayoutGuest'
+import LayoutUser from './ver2/layouts/LayoutUser'
+import Historyv2 from './ver2/page/Historyv2'
+import Home from './ver2/page/Home'
+import Login from './ver2/page/Login'
+import Register from './ver2/page/Register'
+import TiktokScandal from './ver2/tiktok-scandal'
+import MyVideos from './ver2/components/Videos/MyVideos/MyVideos'
+import Love from './ver2/components/Loves/Love'
 
 function App() {
   const user = window.localStorage.getItem('user-info')
@@ -63,12 +64,12 @@ function App() {
         <Route path="detailVideo/:id" element={<DetailVideo />} />
         <Route path="home" element={<NewHome />} />
         <Route path="event/:id" element={<Historyv2 />} />
-        <Route path="love" element={<Home />} />
+        <Route path="love" element={<Love />} />
         <Route path="detail/:id/:stt" element={<NewHistory />}></Route>
         <Route path="viewEvent" element={<EventResults />} />
         <Route path="video" element={<Video />} />
-        <Route path="listvideo" element={<ListVideo />} />
         <Route path="make-video" element={<MakeVideo />} />
+        <Route path="my-video" element={<MyVideos />} />
         <Route path="login" element={<Login />} />
         <Route path="profile" element={<Profile />} />
         <Route path="policy" element={<Policy />} />

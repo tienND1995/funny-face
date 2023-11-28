@@ -1,16 +1,43 @@
-import React from "react";
-import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
-import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
-import DownloadIcon from "@mui/icons-material/Download";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft'
+import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight'
+import DownloadIcon from '@mui/icons-material/Download'
+import NotificationsIcon from '@mui/icons-material/Notifications'
+import React, { useEffect, useState } from 'react'
 const SectionHeader = () => {
+  const [isSticky, setSticky] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        setSticky(true)
+      } else {
+        setSticky(false)
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll)
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+
+    
+
+  }, [])
+
   return (
-    <div className="h-[200px] bg-gradient-to-r from-[#1A542F] to-[#355B42] w-full rounded-tl-lg rounded-tr-lg p-6 text-white font-sans  flex">
-      <div className="flex flex-col justify-center gap-8">
+    <div
+      className={` bg-gradient-to-r from-[#1A542F] w-full to-[#355B42] rounded-tl-lg rounded-tr-lg p-6 text-white font-sans flex ${
+        isSticky ? 'sticky' : 'h-[200px]'
+      }`}
+    >
+      <div
+        className={`flex justify-center gap-8 ${isSticky ? '' : 'flex-col'}`}
+      >
         <div>
-          <ArrowCircleLeftIcon sx={{ fontSize: 40, color: "#FFFFFF33" }} />
-          <ArrowCircleRightIcon sx={{ fontSize: 40, color: "#FFFFFF33" }} />
+          <ArrowCircleLeftIcon sx={{ fontSize: 40, color: '#FFFFFF33' }} />
+          <ArrowCircleRightIcon sx={{ fontSize: 40, color: '#FFFFFF33' }} />
         </div>
         <h2 className="font-bold font-sans text-[36px]">
           First step up load your photo
@@ -25,7 +52,7 @@ const SectionHeader = () => {
         <AccountCircleIcon sx={{ fontSize: 32 }} />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default SectionHeader;
+export default SectionHeader

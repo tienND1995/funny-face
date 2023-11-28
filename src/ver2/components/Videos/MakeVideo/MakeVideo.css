@@ -61,3 +61,14 @@
   left: 0;
   object-fit: cover;
 }
+
+.make-video__video {
+  border: 8px solid #fff;
+  border-radius: 30px;
+  overflow: hidden;
+  text-align: center;
+}
+
+.make-video {
+  
+}

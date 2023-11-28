@@ -4,13 +4,11 @@ import ReactLoading from 'react-loading'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import RenderRandomWaitImage from '../../components/randomImages'
-import '../../css/AddEvent.css'
-import './Video.css'
+import '../../../css/AddEvent.css'
+import RenderRandomWaitImage from '../../randomImages'
+import './MyVideos.css'
 
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
-import FilterAltIcon from '@mui/icons-material/FilterAlt'
-function Video() {
+function MyVideos() {
   const [isLoading, setIsLoading] = useState(false)
   const [randomImages, setRandomImages] = useState(null)
   const userInfo = JSON.parse(window.localStorage.getItem('user-info'))
@@ -101,28 +99,21 @@ function Video() {
   }
 
   return (
-    <div className="section-video">
-      {/* <Header/> */}
+    <div className="my-video">
       {randomImages !== null && (
         <RenderRandomWaitImage images1={randomImages} />
       )}
       {isLoading ? renderLoading() : ''}
 
-      <div className="video-category">
-        <FilterAltIcon />
-        <h3>Category</h3>
-        <ArrowDropDownIcon />
-      </div>
-
-      <div className="video-container">
+      <div className="my-video-container">
         {videos &&
           videos.map((v) => (
             <li
-              className="text-center w-full sm:w-1/2 md:w-1/3 lg:w-1/4 video-item"
+              className="text-center w-full sm:w-1/2 md:w-1/3 lg:w-1/4 my-video-item"
               key={v.sukien_video[0].id_video}
             >
-              <div className="video-wrap overflow-hidden border border-gray-300 rounded-lg shadow-lg">
-                <video className="" controls>
+              <div className="overflow-hidden border border-gray-300 rounded-lg shadow-lg">
+                <video controls>
                   <source
                     src={v.sukien_video[0].link_vid_swap}
                     type="video/mp4"
@@ -223,4 +214,4 @@ function Video() {
   )
 }
 
-export default Video
+export default MyVideos

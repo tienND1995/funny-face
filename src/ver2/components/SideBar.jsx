@@ -1,30 +1,39 @@
-import React from "react";
-import toggleMenuIcon from "../../ver2/components/image/toggleMenuIcon.png";
-import searchIcon from "../../ver2/components/image/searchIcon/vuesax/bold/search-normal.png";
-import HomeIcon from "@mui/icons-material/Home";
+import HomeIcon from '@mui/icons-material/Home'
+import React, { useEffect, useRef } from 'react'
+import searchIcon from '../../ver2/components/image/searchIcon/vuesax/bold/search-normal.png'
+import toggleMenuIcon from '../../ver2/components/image/toggleMenuIcon.png'
 
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import EventIcon from "@mui/icons-material/Event";
-import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
-import ImageIcon from "@mui/icons-material/Image";
-import messagaIcon from "../../ver2/components/image/messageIcon/vuesax/bold/message-question.png";
-import { useState } from "react";
-import { NavLink } from "react-router-dom";
-import DoubleHeartIcon from "../../ver2/components/image/heart-icon-madefuture.png";
+import EventIcon from '@mui/icons-material/Event'
+import FavoriteIcon from '@mui/icons-material/Favorite'
+import ImageIcon from '@mui/icons-material/Image'
+import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
+import { useState } from 'react'
+import { NavLink } from 'react-router-dom'
+import DoubleHeartIcon from '../../ver2/components/image/heart-icon-madefuture.png'
+import messagaIcon from '../../ver2/components/image/messageIcon/vuesax/bold/message-question.png'
 
-const SideBar = () => {
-  const [showSideBar, setShowSideBar] = useState(true);
+const SideBar = (props) => {
+  const [showSideBar, setShowSideBar] = useState(true)
 
   const toggleSideBar = () => {
-    setShowSideBar(!showSideBar);
-  };
+    setShowSideBar(!showSideBar)
+  }
+
+  const sidebarRef = useRef()
+
+  useEffect(() => {
+    const widthSideBar = sidebarRef.current.offsetWidth
+    const pushWidth = props.onRecive
+    pushWidth(widthSideBar)
+
+  }, [showSideBar, sidebarRef.current])
 
   return (
-    <div className="max-w-[376px]">
+    <div ref={sidebarRef} className="max-w-[376px] sidebar-fixed">
       <div
         className={`flex flex-col w-[${
-          showSideBar ? "full" : "100px"
-        }] h-[600px] bg-[#32323280] p-6 rounded-lg mx-8 transition-all duration-300`}
+          showSideBar ? 'full' : '100px'
+        }] h-[600px] bg-[#32323280] rounded-lg mx-8 p-6 transition-all duration-300`}
       >
         <div className="main-nav flex flex-col">
           {!showSideBar && (
@@ -36,12 +45,12 @@ const SideBar = () => {
           )}
           <div
             className={`header-main-nav flex items-center w-full mb-4 ${
-              showSideBar ? "justify-center" : ""
+              showSideBar ? 'justify-center' : ''
             }`}
           >
             <h2
               className={`font-normal text-[28px] text-white starborn ${
-                showSideBar ? "" : "hidden"
+                showSideBar ? '' : 'hidden'
               }`}
             >
               Future Love
@@ -50,8 +59,8 @@ const SideBar = () => {
               onClick={toggleSideBar}
               src={toggleMenuIcon}
               className={`h-[32px] w-[32px] fill-blue-500 ${
-                showSideBar ? "ml-auto" : "mx-auto my-8"
-              }  transform ${showSideBar ? "" : "rotate-180"}`}
+                showSideBar ? 'ml-auto' : 'mx-auto my-8'
+              }  transform ${showSideBar ? '' : 'rotate-180'}`}
               alt="Toggle Menu Icon"
             />
           </div>
@@ -74,7 +83,7 @@ const SideBar = () => {
 
             <div
               className={`mainLink flex flex-col items-${
-                showSideBar ? "start" : "center"
+                showSideBar ? 'start' : 'center'
               } text-2xl text-white gap-8 font-sans`}
             >
               <NavLink
@@ -84,12 +93,12 @@ const SideBar = () => {
                 {({ isActive }) => (
                   <>
                     <HomeIcon
-                      color={isActive ? "success" : ""}
+                      color={isActive ? 'success' : ''}
                       fontSize="large"
                       className="h-[36px] w-[36px]"
                     />
                     {showSideBar && (
-                      <span className={isActive ? "text-[#1DB954]" : ""}>
+                      <span className={isActive ? 'text-[#1DB954]' : ''}>
                         Home
                       </span>
                     )}
@@ -103,12 +112,12 @@ const SideBar = () => {
                 {({ isActive }) => (
                   <>
                     <FavoriteIcon
-                      color={isActive ? "success" : ""}
+                      color={isActive ? 'success' : ''}
                       fontSize="large"
                       className="h-[36px] w-[36px]"
                     />
                     {showSideBar && (
-                      <span className={isActive ? "text-[#1DB954]" : ""}>
+                      <span className={isActive ? 'text-[#1DB954]' : ''}>
                         Love
                       </span>
                     )}
@@ -122,13 +131,13 @@ const SideBar = () => {
                 {({ isActive }) => (
                   <>
                     <EventIcon
-                      color={isActive ? "success" : ""}
+                      color={isActive ? 'success' : ''}
                       fontSize="large"
                       className="h-[36px] w-[36px]"
                     />
 
                     {showSideBar && (
-                      <span className={isActive ? "text-[#1DB954]" : ""}>
+                      <span className={isActive ? 'text-[#1DB954]' : ''}>
                         Events
                       </span>
                     )}
@@ -142,12 +151,12 @@ const SideBar = () => {
                 {({ isActive }) => (
                   <>
                     <PlayCircleOutlineIcon
-                      color={isActive ? "success" : ""}
+                      color={isActive ? 'success' : ''}
                       fontSize="large"
                       className="h-[36px] w-[36px]"
                     />
                     {showSideBar && (
-                      <span className={isActive ? "text-[#1DB954]" : ""}>
+                      <span className={isActive ? 'text-[#1DB954]' : ''}>
                         Video
                       </span>
                     )}
@@ -161,12 +170,12 @@ const SideBar = () => {
                 {({ isActive }) => (
                   <>
                     <ImageIcon
-                      color={isActive ? "success" : ""}
+                      color={isActive ? 'success' : ''}
                       fontSize="large"
                       className="h-[36px] w-[36px]"
                     />
                     {showSideBar && (
-                      <span className={isActive ? "text-[#1DB954]" : ""}>
+                      <span className={isActive ? 'text-[#1DB954]' : ''}>
                         Image
                       </span>
                     )}
@@ -180,14 +189,14 @@ const SideBar = () => {
       <div className="h-6 bg-black"></div>
       <div
         className={`flex flex-col justify-center  w-[${
-          showSideBar ? "full" : "100px"
+          showSideBar ? 'full' : '100px'
         }] h-[100px] bg-[#32323280] items-${
-          showSideBar ? "start" : "center"
+          showSideBar ? 'start' : 'center'
         } p-6 rounded-lg mx-8 transition-all duration-300`}
       >
         <NavLink
           className={`flex items-center justify-between gap-4 font-sans text-3xl text-white ${
-            showSideBar ? "" : "justify-center"
+            showSideBar ? '' : 'justify-center'
           }`}
         >
           <img
@@ -199,7 +208,7 @@ const SideBar = () => {
         </NavLink>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default SideBar;
+export default SideBar
