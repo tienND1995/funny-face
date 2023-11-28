@@ -10,10 +10,12 @@ import "../components/Profile.css";
 import HistoryCommentList from "./HistoryCommentList";
 import EventListProfile from "./EventListProfile";
 import ManagerAcount from "./ManagerAcount";
+import { IoCloseCircle } from "react-icons/io5";
 
 
 export default function Profile() {
   const [data, setData] = useState([]);
+  // const [userName, setUserName] = useState([]);
   const [showModal, setShowModal] = React.useState(false);
   const [showModals, setShowModals] = React.useState(false);
   const [showModals22, setShowModals22] = React.useState(false);
@@ -22,7 +24,12 @@ export default function Profile() {
 
   const [showManagerAccount, setShowManagerAccount] = React.useState(false);
 
-  const [showEvent, setShowEvent] = React.useState(false);
+
+  const setUserName = (value) => {
+    setData({ ...data, user_name: value });
+  };
+
+  // const [showEvent, setShowEvent] = React.useState(false);
   const [listEvent, setListEvent] = useState([]);
 
   const api_key = "ba35005b6d728bd9197bfd95d64e4e39";
@@ -44,14 +51,20 @@ export default function Profile() {
   console.log(token);
 
   const [selectedImage, setSelectedImage] = useState(null);
+  const img_url = {
+    // "1": "https://mega.com.vn/media/news/0106_hinh-nen-4k-may-tinh59.jpg",
+    // "2": "https://mega.com.vn/media/news/0106_hinh-nen-4k-may-tinh4.jpg"
+  }
   const fetchDataIMG = async () => {
     try {
-      const { data } = await axios.get(`${server}/saveimage/${user.id_user}`, {
+      const { data } = await axios.post(`${server}/saveimage/${user.id_user}`,
+      JSON.stringify(img_url), {
         headers: {
           Authorization: `Bearer ${token}`, // Thêm token vào header
         },
       });
       setImgData(data.list_img);
+      console.log(imgdata);
     } catch (error) {
       console.error("Error fetching data:", error);
       // alert("Server error getList 8-12 images");
@@ -69,7 +82,7 @@ export default function Profile() {
         throw new Error("Failed to fetch data");
       }
       const jsonData = await response.json();
-      if (jsonData.ketqua == "khong co user nay") {
+      if (jsonData.ketqua === "khong co user nay") {
         window.localStorage.clear();
         return (window.location.href = "/login");
       }
@@ -85,7 +98,7 @@ export default function Profile() {
 
   const closeModals = () => {
     setShowModals(false);
-    closeModal();
+    // closeModal();
   };
 
   const openModal = () => {
@@ -105,6 +118,7 @@ export default function Profile() {
   const fetchDatas = async () => {
     try {
       const user = JSON.parse(window.localStorage.getItem("user-info"));
+      console.log(user.id_user);
       const res = await axios.get(
         `${server}/lovehistory/comment/user/${user.id_user}`
       );
@@ -142,6 +156,7 @@ export default function Profile() {
       );
       setIsLoading(false);
       resetImgShow();
+      console.log(res);
       await toast.success("Upload and save data completed successfully");
       setShowModals(false);
       setShowModals22(false);
@@ -190,7 +205,7 @@ export default function Profile() {
     for (const file of files) {
       try {
         const res = await validImage(URL.createObjectURL(file));
-        if (!res || res == null || res.length == 0) {
+        if (!res || res == null || res.length === 0) {
           imgError.push(URL.createObjectURL(file));
         } else {
           imgSuccess.push(URL.createObjectURL(file));
@@ -208,7 +223,7 @@ export default function Profile() {
     return;
   };
   const validateImgage = (res) => {
-    if (!res || res == null || res.length > 1 || res.length == 0)
+    if (!res || res == null || res.length > 1 || res.length === 0)
       return setNotiImage({
         status: true,
         value: "Photos can only contain 1 face",
@@ -231,7 +246,7 @@ export default function Profile() {
         .detectAllFaces(netInput, new faceapi.SsdMobilenetv1Options())
         .withFaceLandmarks()
         .withFaceExpressions();
-      if (detections2.length == 0) return detections2;
+      if (detections2.length === 0) return detections2;
       return detections;
     } catch (error) {
       console.log(error);
@@ -332,15 +347,22 @@ export default function Profile() {
       data.append("check_img ", "upload");
       const res = await axios.post(
         `${server}/changeavatar/${user.id_user}`,
-        data
+        JSON.stringify(data), 
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Thêm token vào header
+          },
+        }
       );
-      if (!res) {
+      if (res.status !== 200) {
         setIsLoading(false);
         return alert("API errors");
       }
       setIsLoading(false);
       await toast.success("Upload and save avatar completed successfully");
-      window.location.reload();
+      window.document.querySelector('.change_img_profile').src = res.link_img;
+      // window.location.reload();
+      closeModals();
     } catch (error) {
       console.log(error);
       setIsLoading(false);
@@ -356,15 +378,21 @@ export default function Profile() {
       data.append("check_img ", "upload");
       const res = await axios.post(
         `${server}/changeavatar/${user.id_user}`,
-        data
+        JSON.stringify( data), {
+          headers: {
+            Authorization: `Bearer ${token}`, // Thêm token vào header
+          },
+        }
       );
-      if (!res) {
+      if (res.status !== 200) {
         setIsLoading(false);
         return alert("API errors");
       }
       setIsLoading(false);
       await toast.success("Upload and save avatar completed successfully");
-      window.location.reload();
+      // window.location.reload();
+      window.document.querySelector('.change_img_profile').src = res.link_img;
+      closeModals();
     } catch (error) {
       console.log(error);
       setIsLoading(false);
@@ -376,14 +404,19 @@ export default function Profile() {
   // --- EVENT
   const getAllEventUser = async (idUser) => {
     try {
-      const { data } = await axios.get(`${server}/lovehistory/user/${idUser}`);
-      // console.log(data);
+      const { data } = await axios.get(`${server}/lovehistory/user/${idUser}`, {
+               headers: {
+                 Authorization: `Bearer ${token}`, // Thêm token vào header
+              },
+            });
+      console.log(data);
       setListEvent(data.list_sukien);
     } catch (error) {
       console.log(error);
     }
   };
   const nic = listEvent;
+  console.log(nic);
   // --- END
 
   useEffect(() => {
@@ -431,7 +464,7 @@ export default function Profile() {
           ></div>
           <img
             src={
-              data.link_avatar == "1"
+              data.link_avatar === "1"
                 ? "https://i.ibb.co/WHmrzPt/106287976-917734608745320-4594528301123064306-n.jpg"
                 : data.link_avatar
             }
@@ -490,7 +523,7 @@ export default function Profile() {
                               <button
                                 className="text-[#FF2C61] "
                                 type="button"
-                                onClick={() => closeModals()}
+                                onClick={() => closeModal()}
                               >
                                 <svg
                                   width="32"
@@ -516,7 +549,7 @@ export default function Profile() {
                                     ? "https://i.ibb.co/WHmrzPt/106287976-917734608745320-4594528301123064306-n.jpg"
                                     : data.link_avatar
                                 }
-                                className="lg:w-[130px] lg:h-[130px] w-{160px} h-{160px} mt-5 rounded-full object-cover m-auto"
+                                className="lg:w-[130px] lg:h-[130px] w-{160px} h-{160px} mt-5 rounded-full object-cover m-auto change_img_profile"
                               ></img>
                             </div>
                             <div className="w-2/3 mt-10 ">
@@ -526,7 +559,8 @@ export default function Profile() {
                                   id="name"
                                   value={data.user_name}
                                   className="w-full rounded-xl "
-                                ></input>
+                                  onChange={(e) => setUserName(e.target.value)}
+                                />
                               </div>
                               <div className="flex ">
                                 <button
@@ -536,7 +570,7 @@ export default function Profile() {
                                   Upload image
                                 </button>
                                 <button
-                                  onClick={() => openModals()}
+                                  // onClick={() => openModals()}
                                   className=" bg-lime-500 btn text-white shadow-gray-500 rounded-lg w-1/2 ml-2"
                                 >
                                   Save
@@ -653,6 +687,9 @@ export default function Profile() {
                                               </button>
                                             </div>
                                           </div>
+                                          <div className="absolute top-0 right-0 cursor-pointer pr-2 pt-2">
+                                            <IoCloseCircle onClick={() => closeModals()} className="text-5xl"/>
+                                          </div>
                                         </div>
                                       </div>
                                     </div>
@@ -688,15 +725,15 @@ export default function Profile() {
             </div>
           </div>
         </div>
-        <div className="flex items-center py-4 gap-3 md:my-8 pl-4">
-          <div className=" event">
+        <div className="flex  pr-1">
+          <div className="w-2/3 event">
             <button
               className=" text-white shadow-gray-500 rounded-full py-2 px-5 text-[24px] uppercase "
-              onClick={() => setShowEvent(true)}
+              
             >
               Events
             </button>
-            <button
+            {/* <button
               onClick={() => openModal()}
               className="md:hidden bg-white shadow-gray-500 rounded-full py-2 px-5 text-[14px]"
             >
@@ -716,8 +753,8 @@ export default function Profile() {
                 </svg>
                 <span> Edit </span>
               </div>
-            </button>
-            <button
+            </button> */}
+            {/* <button
               className="lg:hidden py-2 px-2 rounded-lg hover:bg-gray-100 transition-all"
               onClick={() => setShowManagerAccount(true)}
             >
@@ -734,27 +771,30 @@ export default function Profile() {
               >
                 <path d="M12 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
               </svg>
-            </button>
-            {showEvent && nic.length > 0 ? (
+            </button> */}
+            <div>
+            { nic.length > 0 ? (
+              
               <EventListProfile
                 data={nic}
-                closeTab={() => setShowEvent(false)}
+                // closeTab={() => setShowEvent(false)}
               />
             ) : null}
-            <div className="w-full text-left py-5 ">
+            </div>
+            {/* <div className="w-full text-left py-5 ">
               <h1 className="text-xl text-white lg:text-4xl">
                 You don't have any event yet
               </h1>
-            </div>
+            </div> */}
           </div>
-          <div className="flex-1 comment">
+          <div className="w-1/3 comment">
             <button
               className=" text-white shadow-gray-500 rounded-full py-2 px-5 text-[24px] uppercase "
-              onClick={() => setShowEvent(true)}
+              
             >
               Comments
             </button>
-            <button
+            {/* <button
               onClick={() => openModal()}
               className="md:hidden bg-white shadow-gray-500 rounded-full py-2 px-5 text-[14px]"
             >
@@ -792,15 +832,17 @@ export default function Profile() {
               >
                 <path d="M12 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
               </svg>
-            </button>
-            {datas.length > 0 && <HistoryCommentList datas={datas} />}
-            {datas.length === 0 && (
+            </button> */}
+            <div>
+              <HistoryCommentList datas={datas} />
+            </div>
+            {/* {datas.length === 0 && (
               <div className="w-full text-left py-5 ">
                 <h1 className="text-xl text-white lg:text-4xl">
-                  You don't have any comments yet
+                  You don't have any coment yet
                 </h1>
               </div>
-            )}
+            )} */}
           </div>
         </div>
         {imgdata.length === 0 && (
