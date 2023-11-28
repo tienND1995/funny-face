@@ -23,6 +23,7 @@
   border-radius: 50%;
   object-fit: cover;
 }
+
 @media (max-width: 768px) {
   .image-container img {
     width: 50px;

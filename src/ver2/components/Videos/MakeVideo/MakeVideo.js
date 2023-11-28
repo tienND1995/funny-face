@@ -1,28 +1,24 @@
 import axios from 'axios'
 import * as faceapi from 'face-api.js'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ReactLoading from 'react-loading'
 import { useDispatch } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import boy from '../../components/image/nam.png'
-import RenderRandomWaitImage from '../../components/randomImages'
-import '../../css/AddEvent.css'
+import '../../../css/AddEvent.css'
+import RenderRandomWaitImage from '../../randomImages'
 
 import AddIcon from '@mui/icons-material/Add'
-import pen from '../../components/image/edit-2.png'
+import pen from '../../../components/image/edit-2.png'
 import './MakeVideo.css'
-import avatar from '../image/loi-1.jpeg'
+import Swal from 'sweetalert2'
 
 function MakeVideo() {
-  const [showModal, setShowModal] = React.useState(false)
-  const [nam1, setBoy] = useState(boy)
   const [image1, setImage1] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const [showImg, setShowImg] = useState({ img1: null })
   const [randomImages, setRandomImages] = useState(null)
-  const [modelAlert, setModelAlert] = useState({ status: false, message: '' })
   const userInfo = JSON.parse(window.localStorage.getItem('user-info'))
   const token = userInfo && userInfo.token
   const navigate = useNavigate()
@@ -63,7 +59,6 @@ function MakeVideo() {
 
   const closeUploadImg = async () => {
     setImage1(null)
-    setShowModal(false)
     setIsLoading(false)
     setShowImg({ img1: null })
     document.querySelector('#img1').value = ''
@@ -87,28 +82,22 @@ function MakeVideo() {
     if (detections.length == 0) {
       setIsLoading(false)
       closeUploadImg()
-      // setModelAlert({
-      //   status: true,
-      //   message: 'No faces can be recognized in the photo',
-      // })
 
-      window.alert('No faces can be recognized in the photo')
+      Swal.fire(
+        'Oops...',
+        'No faces can be recognized in the photo!',
+        'warning'
+      )
 
-      setShowModal(true)
       return
     }
 
     if (detections.length > 1) {
       setIsLoading(false)
       closeUploadImg()
-      // setModelAlert({
-      //   status: true,
-      //   message: 'Photos must contain only one face',
-      // })
 
-      window.alert('Photos must contain only one face')
+      Swal.fire('Oops...', 'Photos must contain only one face!', 'warning')
 
-      setShowModal(true)
       return
     }
 
@@ -120,8 +109,6 @@ function MakeVideo() {
     const file = event.target.files[0]
     const imgElement = await faceapi.bufferToImage(file)
     setShowImg({ img1: imgElement.src })
-
-    if (!URL.createObjectURL(file)) return setShowModal(true)
 
     if (atImg == 'img1') {
       let send = showImg
@@ -202,7 +189,9 @@ function MakeVideo() {
         payload: response.data,
       })
 
-      history(`/detailVideo/${response.data.id_sukien_video}`)
+      const idEvent = response.data.sukien_video.id_sukien_video
+      history(`/detailVideo/${idEvent}`)
+
       // toast.success("Successful");
     } catch (error) {
       toast.warning(error.message)
@@ -243,7 +232,7 @@ function MakeVideo() {
             <img src={pen} alt="edit" />
             <input
               type="text"
-              placeholder="Video name"
+              placeholder="Video title"
               value={tenVideo}
               onChange={(e) => setTenVideo(e.target.value)}
             />
@@ -271,8 +260,8 @@ function MakeVideo() {
                 id="img1"
                 className={
                   image1
-                    ? ' opacity-0 responsiveImg cursor-pointer w-[160px] h-[160px] rounded-[50%] mt-110 ml-6 bg-center bg-no-repeat bg-cover'
-                    : ' opacity-0 cursor-pointer w-[160px] h-[160px] rounded-[50%] absolute mt-110 ml-6 bg-center bg-no-repeat bg-black'
+                    ? ' opacity-0 responsiveImg cursor-pointer w-full h-full rounded-[50%]  bg-center bg-no-repeat bg-cover'
+                    : ' opacity-0 cursor-pointer w-full h-full rounded-[50%] absolute bg-center bg-no-repeat bg-black'
                 }
               />
             </div>
@@ -289,7 +278,7 @@ function MakeVideo() {
         <div className="lg:w-1/2 p-4">
           <div className="flex flex-col">
             <div className="flex justify-center items-center">
-              <div className="p-2 inline-block border border-gray-300 rounded-lg shadow-lg text-center">
+              <div className="inline-block make-video__video">
                 <video className="w-full h-auto" controls>
                   <source src={link} type="video/mp4" />
                   Trình duyệt của bạn không hỗ trợ thẻ video.
