@@ -1,46 +1,48 @@
-import "./App.scss";
-import "./container/tailwincss.css";
-import { Route, Routes, useNavigate } from "react-router-dom";
-import React, { useEffect } from "react";
-import Historyv2 from "./ver2/page/Historyv2";
-import Home from "./ver2/page/Home";
-import NewHistory from "./ver2/components/NewHistory";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import Register from "./ver2/page/Register";
-import Login from "./ver2/page/Login";
-import Profile from "./ver2/components/Profile";
-import "./ver2/css/index.css";
-import LayoutGuest from "./ver2/layouts/LayoutGuest";
-import LayoutUser from "./ver2/layouts/LayoutUser";
-import NotFound from "./ver2/components/NotFound";
-import ProfileGuest from "./ver2/components/ProfileGuest";
-import axios from "axios";
-import EventResults from "./ver2/components/EventResults";
-import TiktokScandal from "./ver2/tiktok-scandal";
-import YoutubeScandal from "./ver2/YoutubeScandal";
-import Policy from "./ver2/components/Policy";
-import Video from "./ver2/components/Video";
-import ListVideo from "./ver2/components/ListVideo";
-import MakeVideo from "./ver2/components/MakeVideo";
-import DetailVideo from "./ver2/components/DetailVideo";
-import NewHome from "./ver2/components/NewHome";
-import OnBoard from "./ver2/components/OnBoard";
+import './App.scss'
+import './container/tailwincss.css'
+import { Route, Routes, useNavigate } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import Historyv2 from './ver2/page/Historyv2'
+import Home from './ver2/page/Home'
+import NewHistory from './ver2/components/NewHistory'
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
+import Register from './ver2/page/Register'
+import Login from './ver2/page/Login'
+import Profile from './ver2/components/Profile'
+import './ver2/css/index.css'
+import LayoutGuest from './ver2/layouts/LayoutGuest'
+import LayoutUser from './ver2/layouts/LayoutUser'
+import NotFound from './ver2/components/NotFound'
+import ProfileGuest from './ver2/components/ProfileGuest'
+import axios from 'axios'
+import EventResults from './ver2/components/EventResults'
+import TiktokScandal from './ver2/tiktok-scandal'
+import YoutubeScandal from './ver2/YoutubeScandal'
+import Policy from './ver2/components/Policy'
+import Video from './ver2/components/Videos/Video'
+import ListVideo from './ver2/components/Videos/ListVideo'
+import MakeVideo from './ver2/components/Videos/MakeVideo'
+import DetailVideo from './ver2/components/DetailVideo'
+import NewHome from './ver2/components/NewHome'
+import OnBoard from './ver2/components/OnBoard'
 
 function App() {
-  const user = window.localStorage.getItem("user-info");
+  const user = window.localStorage.getItem('user-info')
   useEffect(() => {
     async function getIPAddress() {
       try {
-        const response = await axios.get("https://api.ipify.org?format=json");
-        localStorage.setItem("ip", response.data.ip);
+        const response = await axios.get('https://api.ipify.org?format=json')
+        localStorage.setItem('ip', response.data.ip)
       } catch (error) {
-        console.error("Error getting IP address:", error);
-        return null;
+        console.error('Error getting IP address:', error)
+        return null
       }
     }
-    getIPAddress();
-  }, []);
+
+    getIPAddress()
+  }, [])
+
   if (!user)
     return (
       <Routes>
@@ -54,7 +56,7 @@ function App() {
         <Route path="tiktok/:idVideo" element={<TiktokScandal />} />
         <Route path="*" exact={true} element={<NotFound />} />
       </Routes>
-    );
+    )
 
   return (
     <Routes>
@@ -78,7 +80,7 @@ function App() {
       <Route path="youtube/:idVideo" element={<YoutubeScandal />} />
       <Route path="*" exact={true} element={<NotFound />} />
     </Routes>
-  );
+  )
 }
 
-export default App;
+export default App

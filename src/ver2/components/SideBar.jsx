@@ -11,16 +11,26 @@ import messagaIcon from "../../ver2/components/image/messageIcon/vuesax/bold/mes
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import DoubleHeartIcon from "../../ver2/components/image/heart-icon-madefuture.png";
+import { useEffect } from "react";
+import { useRef } from "react";
 
-const SideBar = () => {
+const SideBar = (props) => {
   const [showSideBar, setShowSideBar] = useState(true);
 
   const toggleSideBar = () => {
     setShowSideBar(!showSideBar);
   };
+  const sidebarRef = useRef()
+
+  useEffect(() => {
+    const widthSideBar = sidebarRef.current.offsetWidth
+    const pushWidth = props.onRecive
+    pushWidth(widthSideBar)
+  }, [showSideBar, sidebarRef.current])
+
 
   return (
-    <div className="max-w-[376px]">
+    <div ref={sidebarRef} className="max-w-[376px] fixed top-0 left-0">
       <div
         className={`flex flex-col w-[${
           showSideBar ? "full" : "100px"
@@ -44,7 +54,7 @@ const SideBar = () => {
                 showSideBar ? "" : "hidden"
               }`}
             >
-              Future Love
+              Funny Face
             </h2>
             <img
               onClick={toggleSideBar}
