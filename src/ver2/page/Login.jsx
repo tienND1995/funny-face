@@ -1,12 +1,10 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-template-curly-in-string */
 import React, { useEffect, useState } from "react";
-import img2 from "../../ver2/components/image/Onboarding.png";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import "../css/Header.css";
 import axios from "axios";
-import baner from "../../ver2/components/image/Frame 48097722.jpg";
 import anh1 from "../../ver2/components/image/anhlogin1.png";
 import anh2 from "../../ver2/components/image/anhlogin2.png";
 import anh3 from "../../ver2/components/image/anhlogin3.png";
@@ -16,19 +14,18 @@ import anh5 from "../../ver2/components/image/anhlogin5.png";
 import "./Login.css";
 import { FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
-import firebase from "firebase/app";
-import { auth } from "./firebase";
+// import firebase from "firebase/app";
+// import { auth } from "./firebase";
 
 export default function Login() {
   const [email_or_username, usernameupdate] = useState("");
   const [password, passwordupdate] = useState("");
   const [loading, isLoading] = useState(false);
-  const [reset, setReset] = useState(false);
-  const [emailReset, setEmailReset] = useState("");
+  
   const [rememberMe, setRememberMe] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const handleClick = () => {
-    // 👇 toggle isActive state on click
+    //  toggle isActive state on click
     setIsActive((prevState) => !prevState);
   };
 
@@ -43,23 +40,18 @@ export default function Login() {
   //   await auth.signInWithPopup(provider);
   // };
 
-  const Images = [anh1, anh2, anh3, anh4];
+  // const Images = [anh1, anh2, anh3, anh4];
   const navigate = useNavigate();
 
   const redirect = () => {
     navigate("/register");
   };
-
-  useEffect(() => {
-    const storedRememberMe = localStorage.getItem("rememberMe") === "true";
-    setRememberMe(storedRememberMe);
-  }, []);
-  useEffect(() => {
-    localStorage.setItem("rememberMe", rememberMe.toString());
-  }, [rememberMe]);
-  const handleRememberMeChange = () => {
-    setRememberMe(!rememberMe);
+  const forgot = () => {
+    navigate("/forgot");
   };
+  
+
+  
 
   const ProceedLogin = async (e) => {
     e.preventDefault();
@@ -71,7 +63,7 @@ export default function Login() {
       try {
         const response = await axios.post(
           "https://metatechvn.store/login",
-          formData
+          formData,
         );
         if (response.data.message) {
           toast.error(response.data.message);
@@ -83,6 +75,7 @@ export default function Login() {
           localStorage.setItem("user-info", response.data);
         }
       } catch (error) {
+        // setValidateError("You did something wrong!")
         return toast.error("Account or password is incorrect !!!");
       } finally {
         isLoading(false);
@@ -90,40 +83,21 @@ export default function Login() {
     }
   };
 
-  const sendReset = async (e) => {
-    e.preventDefault();
-    // const param = {
-    //     email: emailReset
-    // }
-    const formData = new FormData();
-    formData.append("email", emailReset);
+  
 
-    try {
-      isLoading(true);
-      const response = await axios.post(
-        "https://metatechvn.store/reset",
-        formData
-      );
-      console.log("okoko", response);
-      if (
-        response.data.message === "Đã reset mật khẩu thành công và gửi email!"
-      ) {
-        toast.success(response.data.message);
-        isLoading(false);
-      } else {
-        toast.error(response.data.message);
-      }
-    } catch (error) {
-      console.log("sda", error);
-    } finally {
-      isLoading(false);
-    }
+  // const showReset = () => {
+  //   setReset(true);
+  // };
+  useEffect(() => {
+    const storedRememberMe = localStorage.getItem("rememberMe") === "true";
+    setRememberMe(storedRememberMe);
+  }, []);
+  useEffect(() => {
+    localStorage.setItem("rememberMe", rememberMe.toString());
+  }, [rememberMe]);
+  const handleRememberMeChange = () => {
+    setRememberMe(!rememberMe);
   };
-
-  const showReset = () => {
-    setReset(true);
-  };
-
   useEffect(() => {
     sessionStorage.clear();
   }, []);
@@ -132,11 +106,14 @@ export default function Login() {
     let result = true;
     if (email_or_username === "" || email_or_username === null) {
       result = false;
-      toast.warning("Please Enter Username");
+      // toast.warning("Please Enter Username");
+      window.document.querySelector(".err_message").innerHTML = "You did some thing wrong!"
+      window.document.querySelector(".border_input").style.border = "1px solid #F03E3E"
     }
     if (password === "" || password === null) {
       result = false;
-      toast.warning("Please Enter Password");
+      window.document.querySelector(".err_pass_message").innerHTML = "You did some thing wrong!"
+      window.document.querySelector(".border_pass").style.border = "1px solid #F03E3E"
     }
     return result;
   };
@@ -219,7 +196,7 @@ export default function Login() {
                   </div>
                   <div className="mt-24">
                     <div className="input_group">
-                      <div className="border_input ">
+                      <div className="border_input border_err">
                         <div className="input_login flex justify-items-center items-center">
                           <MdEmail className="text-white text-2xl items-start mr-2" />
                           <input
@@ -229,15 +206,16 @@ export default function Login() {
                             className="lg:w-[400px] lg:h-[35px] w-[300px] h-[35px] text-white text-2xl"
                             onChange={(e) => usernameupdate(e.target.value)}
                           />
-                        </div>
+                        </div>                       
                       </div>
-                      <div className="border_input">
+                      <div className="text-[#F03E3E] mt-2 ml-6 text-xl err_message"></div>
+                      <div className="border_pass">
                         <div className="input_login flex justify-items-center items-center">
                           <FaLock className="text-white text-2xl mr-2" />
                           <input
                             type={isActive ? "text" : "password"}
                             value={password}
-                            placeholder="Mật khẩu"
+                            placeholder="Password"
                             className="lg:w-[400px] lg:h-[35px] w-[300px] h-[35px] text-white text-2xl"
                             onChange={(e) => passwordupdate(e.target.value)}
                           />
@@ -250,6 +228,7 @@ export default function Login() {
                           </span>
                         </div>
                       </div>
+                      <div className="text-[#F03E3E] mt-1 ml-6 text-xl err_pass_message"></div>
                       {/* <input
                           value={email_or_username}
                           onChange={(e) => usernameupdate(e.target.value)}
@@ -274,7 +253,7 @@ export default function Login() {
                           className="text-3xl text-white mr-4 cursor-pointer"
                         />
                         <span className="text-3xl text-white">Remember me</span>
-                        <b className="text-xl text-green-400 mb-3 ml-auto cursor-pointer">
+                        <b className="text-xl text-green-400 mb-3 ml-auto cursor-pointer" onClick={forgot}>
                           Forgot password?
                         </b>
                       </div>
@@ -399,8 +378,8 @@ export default function Login() {
               </div>
             </form>
             <div className="flex mt-5 w-full m-auto mx-auto justify-center">
-              <div className="text-[#6F767E] text-2xl">Don’t have an account?</div>
-              <div className="text-[#1DB954] text-2xl">Sign up</div>
+              <div className="text-[#6F767E] text-2xl mr-2">Don’t have an account?</div>
+              <div className="text-[#1DB954] text-2xl cursor-pointer" onClick={redirect}>Sign up</div>
             </div>
           </div>
         </div>

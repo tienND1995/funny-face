@@ -24,9 +24,11 @@ import Historyv2 from './ver2/page/Historyv2'
 import Home from './ver2/page/Home'
 import Login from './ver2/page/Login'
 import Register from './ver2/page/Register'
+import ForgotPassword from './ver2/page/Forgotpassword'
 import TiktokScandal from './ver2/tiktok-scandal'
 import MyVideos from './ver2/components/Videos/MyVideos/MyVideos'
 import Love from './ver2/components/Loves/Love'
+import ChangePassword from './ver2/components/ChangePassword'
 
 function App() {
   const user = window.localStorage.getItem('user-info')
@@ -49,6 +51,8 @@ function App() {
           <Route index element={<OnBoard />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
+          <Route path="forgot" element={<ForgotPassword />} />
+          <Route path="reset" element={<ChangePassword />} />
           <Route path="policy" element={<Policy />} />
         </Route>
         <Route path="youtube/:idVideo" element={<YoutubeScandal />} />
