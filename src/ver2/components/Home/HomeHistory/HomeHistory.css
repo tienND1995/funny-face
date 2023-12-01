@@ -1,0 +1,107 @@
+.homehistory-container {
+  background: #32323280;
+  padding: 0 24px;
+}
+
+.homehistory-title {
+  font-size: 36px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.episodes-head {
+  color: white;
+  display: flex;
+  justify-content: space-between;
+
+  padding: 16px 0 24px;
+}
+
+.episodes-head > button {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.episodes-main {
+  display: flex;
+  gap: 12px;
+}
+
+.episodes-item {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* homehistory-events */
+.homehistory-recent {
+  margin-top: 48px;
+}
+
+.homehistory-recent-main {
+  display: flex;
+}
+
+.event-user {
+  padding: 16px 0;
+}
+
+.event-marry {
+  background: linear-gradient(153.43deg, #ffebee 16.67%, #ffc5c8 100%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 50px;
+  border-radius: 16px;
+  color: black;
+  cursor: pointer;
+}
+
+.marry-info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.marry-info > h3 {
+  font-size: 24px;
+  font-family: 'starborn';
+}
+
+.marry-info > p {
+  font-size: 16px;
+  max-width: 243px;
+  line-height: 1.5;
+}
+
+.marry-view {
+  display: flex;
+  gap: 28px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.marry-view > div {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.marry-view > time {
+  font-size: 12px;
+}
+
+.event-interact > div {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.event-interact {
+  display: flex;
+  color: white;
+  gap: 24px;
+  padding: 16px 0;
+  font-size: 16px;
+}
