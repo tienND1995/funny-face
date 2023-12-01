@@ -14,13 +14,14 @@
   overflow: hidden;
 }
 
-.make-video .create-video > svg {
+.make-video .create-video-add {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 60px;
-  color: #fff;
+  
+  width: 60px;
+  height: 60px;
 }
 
 .make-video .name-video,
@@ -70,5 +71,4 @@
 }
 
 .make-video {
-  
 }

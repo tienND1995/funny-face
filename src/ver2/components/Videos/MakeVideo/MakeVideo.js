@@ -9,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import '../../../css/AddEvent.css'
 import RenderRandomWaitImage from '../../randomImages'
 
-import AddIcon from '@mui/icons-material/Add'
+import add from '../../../components/image/add.png'
 import pen from '../../../components/image/edit-2.png'
 import './MakeVideo.css'
 import Swal from 'sweetalert2'
@@ -25,17 +25,14 @@ function MakeVideo() {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    showImg.img1 &&
-      Promise.all([
-        faceapi.nets.tinyFaceDetector.loadFromUri('/models'),
-        faceapi.nets.faceLandmark68Net.loadFromUri('/models'),
-        faceapi.nets.faceRecognitionNet.loadFromUri('/models'),
-        faceapi.nets.faceExpressionNet.loadFromUri('/models'),
-        faceapi.nets.ssdMobilenetv1.loadFromUri('./models'),
-      ]).then(() => {
-        validImage(showImg.img1)
-      })
-  }, [showImg.img1])
+    Promise.all([
+      faceapi.nets.tinyFaceDetector.loadFromUri('/models'),
+      faceapi.nets.faceLandmark68Net.loadFromUri('/models'),
+      faceapi.nets.faceRecognitionNet.loadFromUri('/models'),
+      faceapi.nets.faceExpressionNet.loadFromUri('/models'),
+      faceapi.nets.ssdMobilenetv1.loadFromUri('./models'),
+    ]).then(() => {})
+  }, [])
 
   const idUser = userInfo && userInfo.id_user
 
@@ -66,60 +63,72 @@ function MakeVideo() {
   }
 
   const validImage = async (image) => {
-    const imageElement = document.createElement('img')
-    imageElement.src = image
+    try {
+      const imageElement = document.createElement('img')
+      imageElement.src = image
+      const netInput = imageElement
 
-    let detections = await faceapi
-      .detectAllFaces(imageElement, new faceapi.TinyFaceDetectorOptions())
-      .withFaceLandmarks()
-      .withFaceExpressions()
+      let detections = await faceapi
+        .detectAllFaces(netInput, new faceapi.TinyFaceDetectorOptions())
+        .withFaceLandmarks()
+        .withFaceExpressions()
+      const detections2 = await faceapi
+        .detectAllFaces(netInput, new faceapi.SsdMobilenetv1Options())
+        .withFaceLandmarks()
+        .withFaceExpressions()
 
-    const detections2 = await faceapi
-      .detectAllFaces(imageElement, new faceapi.SsdMobilenetv1Options())
-      .withFaceLandmarks()
-      .withFaceExpressions()
-
-    if (detections.length == 0) {
-      setIsLoading(false)
-      closeUploadImg()
-
-      Swal.fire(
-        'Oops...',
-        'No faces can be recognized in the photo!',
-        'warning'
-      )
-
-      return
+      if (detections.length > 1) return detections
+      if (detections2.length == 0) return detections2
+      if (detections2.length == 1) return detections2
+      return detections
+    } catch (error) {
+      console.log(error)
     }
-
-    if (detections.length > 1) {
-      setIsLoading(false)
-      closeUploadImg()
-
-      Swal.fire('Oops...', 'Photos must contain only one face!', 'warning')
-
-      return
-    }
-
-    setIsLoading(false)
   }
 
   const [imageVid, setImageVid] = useState('')
+
   const handleChangeImage = async (event, setImage, atImg) => {
-    const file = event.target.files[0]
-    const imgElement = await faceapi.bufferToImage(file)
-    setShowImg({ img1: imgElement.src })
-
-    if (atImg == 'img1') {
-      let send = showImg
-      send.img1 = URL.createObjectURL(file)
-      setShowImg(send)
-      setImage(file)
-      const imagevid = await uploadImage(file)
-      setImageVid(imagevid)
+    let file = event.target.files[0]
+    if (!file) {
+      return
     }
-
     setIsLoading(true)
+    try {
+      const res = await validImage(URL.createObjectURL(file))
+      if (res.length == 0) {
+        setIsLoading(false)
+        closeUploadImg()
+        return Swal.fire(
+          'Oops...',
+          'No faces can be recognized in the photo!',
+          'warning'
+        )
+      }
+      if (res.length > 1) {
+        setIsLoading(false)
+        closeUploadImg()
+        return Swal.fire(
+          'Oops...',
+          'Photos must contain only one face!',
+          'warning'
+        )
+      }
+
+      setIsLoading(false)
+      if (atImg == 'img1') {
+        let send = showImg
+        send.img1 = URL.createObjectURL(file)
+        setShowImg(send)
+        setImage(file)
+        const imagevid = await uploadImage(file)
+        setImageVid(imagevid)
+      }
+    } catch (error) {
+      console.log(error)
+      setIsLoading(false)
+      closeUploadImg()
+    }
   }
 
   const [tenVideo, setTenVideo] = useState()
@@ -239,8 +248,8 @@ function MakeVideo() {
           </div>
 
           <div className="flex justify-center items-center">
-            <div alt="" className="responsiveImg relative create-video">
-              <AddIcon />
+            <div className="responsiveImg relative create-video">
+              <img className="create-video-add" src={add} alt="" />
 
               <div
                 className="responsiveImg absolute cursor-pointer w-full h-full rounded-[50%] bg-center bg-no-repeat bg-cover bottom-0 "
