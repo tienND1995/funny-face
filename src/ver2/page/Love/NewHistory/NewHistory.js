@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from "react";
-import Header from "../../Header";
-import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
+import Header from "../../../components/Header";
 
 import axios from "axios";
-import CommonEvent from "../../../page/app/CommonEvent";
-import nam1 from "../../image/nam1.png";
-import nu1 from "../../image/nu1.png";
-import { useParams } from "react-router";
-import ReactLoading from "react-loading";
-import noAvatar from "../../image/no-avatar.png";
 import { createBrowserHistory } from "history";
-import no_avatar from "../../image/no-avatar.png";
-import ImagePopup from "../../../page/app/ImagePopup";
+import ReactLoading from "react-loading";
+import { useParams } from "react-router";
 import { Link } from "react-router-dom";
-import EmptyTemplate from "../../../page/app/template/EmptyTemplate";
+import CommonEvent from "../../app/CommonEvent";
+import EmptyTemplate from "../../app/template/EmptyTemplate";
+import nam1 from "../../../components/image/nam1.png";
+import no_avatar from "../../../components/image/no-avatar.png";
+import nu1 from "../../../components/image/nu1.png";
 
 export default function NewHistory() {
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
