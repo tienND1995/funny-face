@@ -12,6 +12,10 @@ import { NavLink } from 'react-router-dom'
 import DoubleHeartIcon from '../../ver2/components/image/heart-icon-madefuture.png'
 import messagaIcon from '../../ver2/components/image/messageIcon/vuesax/bold/message-question.png'
 
+import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
+import VideoSettingsIcon from '@mui/icons-material/VideoSettings';
+import CollectionsIcon from '@mui/icons-material/Collections';
+
 const SideBar = (props) => {
   const [showSideBar, setShowSideBar] = useState(true)
 
@@ -87,7 +91,7 @@ const SideBar = (props) => {
               } text-2xl text-white gap-8 font-sans`}
             >
               <NavLink
-                to="/home"
+                to="/"
                 className="flex items-center justify-between gap-4"
               >
                 {({ isActive }) => (
@@ -145,38 +149,58 @@ const SideBar = (props) => {
                 )}
               </NavLink>
               <NavLink
-                to="/video"
+                to="/videos"
                 className="flex items-center justify-between gap-4"
               >
                 {({ isActive }) => (
                   <>
-                    <PlayCircleOutlineIcon
+                    <VideoLibraryIcon
                       color={isActive ? 'success' : ''}
                       fontSize="large"
                       className="h-[36px] w-[36px]"
                     />
                     {showSideBar && (
                       <span className={isActive ? 'text-[#1DB954]' : ''}>
-                        Video
+                        Video playlist
                       </span>
                     )}
                   </>
                 )}
               </NavLink>
               <NavLink
-                to=""
+                to="/images"
                 className="flex items-center justify-between gap-4"
               >
                 {({ isActive }) => (
                   <>
-                    <ImageIcon
+                    <CollectionsIcon
                       color={isActive ? 'success' : ''}
                       fontSize="large"
                       className="h-[36px] w-[36px]"
                     />
                     {showSideBar && (
                       <span className={isActive ? 'text-[#1DB954]' : ''}>
-                        Image
+                        Image playlist
+                      </span>
+                    )}
+                  </>
+                )}
+              </NavLink>
+
+              <NavLink
+                to="/make-video"
+                className="flex items-center justify-between gap-4"
+              >
+                {({ isActive }) => (
+                  <>
+                    <VideoSettingsIcon
+                      color={isActive ? 'success' : ''}
+                      fontSize="large"
+                      className="h-[36px] w-[36px]"
+                    />
+                    {showSideBar && (
+                      <span className={isActive ? 'text-[#1DB954]' : ''}>
+                        Make your video
                       </span>
                     )}
                   </>

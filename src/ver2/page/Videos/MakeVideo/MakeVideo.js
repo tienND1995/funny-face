@@ -7,7 +7,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import '../../../css/AddEvent.css'
-import RenderRandomWaitImage from '../../randomImages'
+import RenderRandomWaitImage from '../../../components/randomImages'
 
 import add from '../../../components/image/add.png'
 import pen from '../../../components/image/edit-2.png'
