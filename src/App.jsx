@@ -31,6 +31,7 @@ import Login from './ver2/page/Login'
 import Register from './ver2/page/Register'
 import ForgotPassword from './ver2/page/Forgotpassword'
 import TiktokScandal from './ver2/tiktok-scandal'
+import ChangePassword from './ver2/components/ChangePassword'
 
 
 function App() {
