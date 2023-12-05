@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import './Video.css'
+import './Videos.css'
 
 import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'

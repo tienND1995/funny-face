@@ -1,19 +1,22 @@
-import React from 'react'
-import { useEffect, useState } from 'react'
 import axios from 'axios'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import boy from '../../components/image/nam.png'
-import boyM from '../../components/image/Component131.png'
-import girlM from '../../components/image/Component130.png'
+
+import { default as girl, default as girlM } from '../../components/image/Component130.png'
+import { default as boy, default as boyM } from '../../components/image/Component131.png'
+import heart from '../../components/image/heart-double.png'
+import imgBg from '../../components/image/love-bg.png'
 import uilPlus from '../../components/image/uil_plus.png'
-import girl from '../../components/image/nu.png'
-import heart from '../../components/image/heart.png'
+
+import boysmall from '../../components/image/boy-small.png'
+import girlsmall from '../../components/image/girl-small.png'
+
 import g1 from '../../components/image/howto-1.jpeg'
 import g2 from '../../components/image/howto-2.jpg'
-import g6 from '../../components/image/howto-6.png'
 import g3 from '../../components/image/howto-3.jpg'
 import g4 from '../../components/image/howto-4.png'
 import g5 from '../../components/image/howto-5.png'
+import g6 from '../../components/image/howto-6.png'
 import l1 from '../../components/image/loi-1.jpeg'
 import l2 from '../../components/image/loi-2.jpeg'
 import l3 from '../../components/image/loi-3.png'
@@ -21,17 +24,17 @@ import l4 from '../../components/image/loi-4.png'
 import l5 from '../../components/image/loi-5.png'
 import l6 from '../../components/image/loi-6.jpg'
 
-import imgBg from '../../components/image/love-bg.png'
-
 import ReactLoading from 'react-loading'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import Clock from '../../components/clock'
 
 import * as faceapi from 'face-api.js'
-import '../../css/AddEvent.css'
 import RenderRandomWaitImage from '../../components/randomImages'
-import { useId } from 'react'
+import '../../css/AddEvent.css'
+
+import Swal from 'sweetalert2'
+import add from '../../components/image/add.png'
+import './Love.css'
 
 function Love() {
   const Api_key = 'ba35005b6d728bd9197bfd95d64e4e39'
@@ -51,23 +54,27 @@ function Love() {
   const [showImg, setShowImg] = useState({ img1: null, img2: null })
   const [randomImages, setRandomImages] = useState(null)
   const [isModelWarning, setIsModelWarning] = useState(false)
-  const [modelAlert, setModelAlert] = useState({ status: false, message: '' })
+
   const userInfo = JSON.parse(window.localStorage.getItem('user-info'))
   const token = userInfo && userInfo.token
   const [filled, setFilled] = useState(0)
   const [isRunning, setIsRunning] = useState(false)
   const [hi, setHi] = useState(false)
+
   useEffect(() => {
     if (filled < 100 && isRunning) {
       setTimeout(() => setFilled((prev) => (prev += 2)), 1900)
     }
   }, [filled, isRunning])
+
   const [sameFace, setSameFace] = useState({
     img1: null,
     img2: null,
   })
+
   const [imgSucess] = React.useState([g1, g2, g6, g3, g4, g5])
   const [imgError] = React.useState([l1, l2, l3, l4, l5, l6])
+
   const images = [
     {
       url: l1,
@@ -100,16 +107,20 @@ function Love() {
         'You must not grimace or cover your face with your hands, You must choose a photo with a clear face, only one face, no mask, no glasses, no backlight, no makeup',
     },
   ]
+
   const [showModals22, setShowModals22] = React.useState(true)
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [selectedImage, setSelectedImage] = useState(null)
+
   const handleImageClick = (item) => {
     setSelectedImage(item)
     setIsModalVisible(true)
   }
+
   const handleCloseModal = () => {
     setIsModalVisible(false)
   }
+
   const [isModalVisible1, setModalVisible1] = useState(false)
 
   const handleOpenModal = async () => {
@@ -145,6 +156,7 @@ function Love() {
   useEffect(() => {
     loadModels()
   }, [])
+
   const loadModels = () => {
     Promise.all([
       faceapi.nets.tinyFaceDetector.loadFromUri('/models'),
@@ -161,6 +173,11 @@ function Love() {
     setShowModal(false)
     setIsLoading(false)
     setShowImg({ img1: null, img2: null })
+    setSameFace({
+      img1: null,
+      img2: null,
+    })
+
     document.querySelector('#img1').value = ''
     document.querySelector('#img2').value = ''
     return
@@ -201,22 +218,27 @@ function Love() {
     try {
       if (!URL.createObjectURL(file)) return setShowModal(true)
       const res = await validImage(URL.createObjectURL(file))
+
       if (res.length == 0) {
         setIsLoading(false)
         closeUploadImg()
-        return setModelAlert({
-          status: true,
-          message: 'No faces can be recognized in the photo',
-        })
+        return Swal.fire(
+          'Oops...',
+          'No faces can be recognized in the photo!',
+          'warning'
+        )
       }
+
       if (res.length > 1) {
         setIsLoading(false)
         closeUploadImg()
-        return setModelAlert({
-          status: true,
-          message: 'Photos must contain only one face',
-        })
+        return Swal.fire(
+          'Oops...',
+          'Photos must contain only one face!',
+          'warning'
+        )
       }
+
       atImg === 'img1'
         ? setSameFace({
             img1: res[0]?.detection?._score,
@@ -232,11 +254,10 @@ function Love() {
       ) {
         setIsLoading(false)
         closeUploadImg()
-        return setModelAlert({
-          status: true,
-          message: 'Photos cannot be the same',
-        })
+
+        return Swal.fire('Oops...', 'Photos cannot be the same', 'warning')
       }
+
       setIsLoading(false)
       // if (validateImgage(res) == undefined) return;
 
@@ -270,6 +291,7 @@ function Love() {
       closeUploadImg()
     }
   }
+
   const getMyDetailUser = async () => {
     try {
       const { data } = await axios.get('https://api.ipify.org/?format=json')
@@ -319,6 +341,7 @@ function Love() {
       return null
     }
   }
+
   const uploadImageNu = async (image) => {
     if (idUser === null) {
       toast.warning('Login is required')
@@ -346,16 +369,25 @@ function Love() {
       return null
     }
   }
+
+  const [name, setName] = useState({ male: '', female: '' })
+
+  const handleChangeName = (e) => {
+    setName({ ...name, [`${e.target.name}`]: e.target.value })
+  }
+
   const fetchData = async () => {
+    const { male, female } = name
     try {
       if (image1 == null || image2 == null) {
-        toast.warning(' Please choose the image!!')
-        return
+        return Swal.fire('Oops..., Please choose the image!!')
       }
-      // if (nameFemale == "" || nameMale == "") {
-      //   toast.warning("Please enter a male name and a female name!!!")
-      //   return;
-      // }
+
+      if (male == '' || female == '') {
+        return Swal.fire(
+          'Oops..., Please enter a male name and a female name!!!'
+        )
+      }
 
       setIsLoading(true)
       setHi(true)
@@ -376,11 +408,14 @@ function Love() {
         toast.error(res3.error)
         return
       }
+
       setIsLoading(false)
       toast.success('Upload and save data completed successfully')
       const eventId = res3.success.sukien[0].id_toan_bo_su_kien
       const folder = res3.success.sukien[0].folder
       navigate(`/detail/${eventId}/1`)
+
+      console.log(eventId)
 
       await createAnotherEvent(
         eventId,
@@ -410,6 +445,7 @@ function Love() {
           ten_nam: male,
           ten_nu: female,
         },
+
         headers: {
           linknam: srcnam,
           linknu: srcnu,
@@ -490,46 +526,15 @@ function Love() {
     return null
   }
 
-  const funcModelAlert = () => {
-    if (modelAlert.status) {
-      return (
-        <>
-          <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-            <div className="relative w-96 my-6 mx-auto max-w-3xl">
-              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-                <div className="relative p-6 flex-auto">
-                  <p className="my-4 text-slate-500 slab text-3xl leading-relaxed">
-                    {modelAlert.message}
-                  </p>
-                </div>
-                <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
-                  <button
-                    className="text-[#FF2C61] slab hover:bg-[#ED709D] hover:text-white font-bold uppercase px-6 py-3 rounded-xl text-2xl outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                    type="button"
-                    onClick={() => {
-                      setModelAlert({ status: false, message: '' })
-                    }}
-                  >
-                    Close
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
-        </>
-      )
-    }
-  }
-
   return (
     <div
       style={{ backgroundImage: `url(${imgBg})`, minHeight: '100vh' }}
       className="bg-no-repeat bg-cover"
     >
-      <div className="flex justify-center max-lg:mt-11 mb-24">
+      {/* <div className="flex justify-center max-lg:mt-11 mb-24">
         <Clock check={randomImages} />
-      </div>
+      </div> */}
+
       {hi ? (
         <div className="flex justify-center items-center ">
           <div className="progressbar z-50 ">
@@ -547,221 +552,111 @@ function Love() {
       ) : (
         ''
       )}
+
       {randomImages !== null && (
         <RenderRandomWaitImage images1={randomImages} />
       )}
-      {isLoading ? renderLoading() : ''}
-      {modelAlert.status ? funcModelAlert() : ''}
-      <div className="lg:block hidden">
-        <div className="flex justify-between lg:mx-52 pb-32">
-          <div>
-            <div
-              style={{
-                backgroundImage: `url(${nam1})`,
-                height: `411px`,
-                width: `410px`,
-              }}
-              alt=""
-              className="responsiveImg relative"
-            >
-              <div
-                className="responsiveImg absolute cursor-pointer w-[331px] h-[331px] rounded-[50%] mt-110 ml-6 bg-center bg-no-repeat bg-cover bottom-0 mb-[14px]"
-                style={
-                  showImg.img1
-                    ? { backgroundImage: `url(${showImg.img1})` }
-                    : null
-                }
-              ></div>
-              <input
-                onChange={(e) => {
-                  handleChangeImage(e, setImage1, 'img1')
-                }}
-                style={
-                  showImg.img1
-                    ? { backgroundImage: `url(${showImg.img1})` }
-                    : null
-                }
-                type="file"
-                accept="image/*"
-                id="img1"
-                className={
-                  image1
-                    ? ' opacity-0 responsiveImg cursor-pointer w-[331px] h-[331px] rounded-[50%] mt-110 ml-6 bg-center bg-no-repeat bg-cover'
-                    : ' opacity-0 cursor-pointer w-[331px] h-[331px] rounded-[50%] absolute mt-110 ml-6 bg-center bg-no-repeat bg-black'
-                }
-              />
-            </div>
-            <div className="text-center lg:mt-16 text-3xl slab text-[#7A1E3E] font-semibold">
-              <div>
-                <button
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                  onClick={handleOpenModal}
-                >
-                  Click Image
-                </button>
-              </div>
-              {isModalVisible1 && (
-                <div className="relative" style={{ zIndex: 60 }}>
-                  <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center">
-                    <div className="bg-white p-6 rounded-md">
-                      <button
-                        className="absolute top-2 right-2 text-red-500 hover:text-gray-700"
-                        onClick={handleCloseModalne}
-                      >
-                        Close
-                      </button>
-                      {image &&
-                        image.map((i, index) => (
-                          <div key={index} className="">
-                            <img
-                              src={i}
-                              alt={`Image ${index}`}
-                              style={{ maxWidth: '200px', maxHeight: '200px' }}
-                            />
-                          </div>
-                        ))}
-                    </div>
-                  </div>
-                </div>
-              )}
 
-              {/* MALE */}
-              {/* <div className="my-2 border mx-auto w-10/12 justify-center flex items-center rounded-md shadow-md">
-                <div>
-                  <button
-                    type=" submit"
-                    className="flex items-center bg-gray-100 rounded-l-md border border-white justify-center w-[36px] h-[36px] text-white "
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width={26}
-                      height={26}
-                      viewBox="0 0 24 24"
-                      style={{
-                        fill: "rgba(0, 0, 0, 1)",
-                        transform: "",
-                        msfilter: "",
-                      }}
-                    >
-                      <circle cx={12} cy={4} r={2} />
-                      <path d="M15 7H9a1 1 0 0 0-1 1v7h2v7h4v-7h2V8a1 1 0 0 0-1-1z" />
-                    </svg>
-                  </button>
-                </div>
-                <div className="w-full">
-                  <input
-                    type="search"
-                    x-model="input1"
-                    className="w-full h-[36px] px-4 py-4 rounded-r-md border border-gray-100 text-gray-800 focus:outline-none"
-                    placeholder="Name Male"
-                    onChange={(e) => setNameMale(e.target.value)}
-                  />
-                </div>
-                    </div> */}
+      {isLoading ? renderLoading() : ''}
+
+      <div className="love">
+        <div className="love-content flex justify-between">
+          <div className="love-item">
+            <div className="love-small">
+              <img src={boysmall} alt="" />
+            </div>
+
+            <div className="love-main">
+              <div className="love-upload-image love-boy">
+                <img className="love-icon-add" src={add} alt="" />
+
+                <div
+                  className="love-img"
+                  style={
+                    showImg.img1
+                      ? { backgroundImage: `url(${showImg.img1})` }
+                      : null
+                  }
+                ></div>
+
+                <input
+                  onChange={(e) => {
+                    handleChangeImage(e, setImage1, 'img1')
+                  }}
+                  type="file"
+                  accept="image/*"
+                  id="img1"
+                />
+              </div>
+
+              <div className="love-name love-boy">
+                <input
+                  name="male"
+                  onChange={handleChangeName}
+                  type="text"
+                  placeholder="His name"
+                />
+              </div>
             </div>
           </div>
 
           <div
             onClick={() => fetchData()}
-            className="flex justify-center items-center transition-transform duration-300 hover:scale-125 mx-auto"
+            className="transition-transform duration-300 hover:scale-125"
           >
-            <img
-              src={bsHeart}
-              alt=""
-              className="cursor-pointer lg:w-48 lg:h-44 bg-center bg-no-repeat"
-            />
+            <img src={bsHeart} alt="" className="cursor-pointer love-heart" />
           </div>
 
-          {/*  */}
-          {/* <div className="flex justify-center items-center transition-transform duration-300 hover:scale-125 ">
-          <BsFillHeartFill className="w-48 h-48 text-[#FF9F9F] " />
-          <span
-            onClick={fetchData}
-            className="text-4xl font-bold mt-14 absolute text-[#7A1E3E]"
-          >
-            Bắt đầu
-          </span>
-        </div> */}
-
-          {/*  */}
-
-          <div className="">
-            <div
-              style={{
-                backgroundImage: `url(${nu1})`,
-                height: `419px`,
-                width: `407px`,
-              }}
-              alt=""
-              className=""
-            >
-              <div
-                className="responsiveImg absolute cursor-pointer w-[331px] h-[331px] rounded-[50%] mt-4 ml-24 bg-center bg-no-repeat bg-cover"
-                style={
-                  showImg.img2
-                    ? { backgroundImage: `url(${showImg.img2})` }
-                    : null
-                }
-              ></div>
-              <input
-                onChange={(e) => handleChangeImage(e, setImage2, 'img2')}
-                id="img2"
-                style={
-                  image2
-                    ? { backgroundImage: `url(${image2})` }
-                    : { backgroundImage: `url(${uil})` }
-                }
-                type="file"
-                accept="image/*"
-                className={
-                  image2
-                    ? ' opacity-0 cursor-pointer w-[331px] h-[331px] rounded-[50%] absolute mt-4 ml-24 bg-center bg-no-repeat bg-cover'
-                    : 'opacity-0 cursor-pointer w-[331px] h-[331px] rounded-[50%] ml-24 mt-4 absolute bg-center bg-no-repeat'
-                }
-              />
+          <div className="love-item">
+            <div className="love-small">
+              <img src={girlsmall} alt="" />
             </div>
 
-            <div className="text-center lg:mt-16 text-3xl slab text-[#7A1E3E] font-semibold">
-              {/* FEMALE */}
-              {/* <div className="my-2 border mx-auto w-10/12 justify-center flex items-center rounded-md shadow-md">
-                <div>
-                  <button
-                    type=" submit"
-                    className="flex items-center bg-gray-100 rounded-l-md border border-white justify-center w-[36px] h-[36px] text-white "
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width={26}
-                      height={26}
-                      viewBox="0 0 24 24"
-                      style={{
-                        fill: "rgba(0, 0, 0, 1)",
-                        transform: "",
-                        msfilter: "",
-                      }}
-                    >
-                      <circle cx={12} cy={4} r={2} />
-                      <path d="M14.948 7.684A.997.997 0 0 0 14 7h-4a.998.998 0 0 0-.948.684l-2 6 1.775.593L8 18h2v4h4v-4h2l-.827-3.724 1.775-.593-2-5.999z" />
-                    </svg>
-                  </button>
-                </div>
-                <div className="  w-full">
-                  <input
-                    type="search"
-                    x-model="input1"
-                    className="w-full h-[36px] px-4 py-4 rounded-r-md border border-gray-100 text-gray-800 focus:outline-none"
-                    placeholder="Name Female"
-                    onChange={(e) => setNameFemale(e.target.value)}
-                  />
-                </div>
-              </div> */}
+            <div className="love-main">
+              <div className="love-upload-image love-girl">
+                <img className="love-icon-add" src={add} alt="" />
+
+                <div
+                  className="love-img"
+                  style={
+                    showImg.img2
+                      ? { backgroundImage: `url(${showImg.img2})` }
+                      : null
+                  }
+                ></div>
+
+                <input
+                  onChange={(e) => {
+                    handleChangeImage(e, setImage2, 'img2')
+                  }}
+                  type="file"
+                  accept="image/*"
+                  id="img2"
+                />
+              </div>
+
+              <div className="love-name love-girl">
+                <input
+                  name="female"
+                  onChange={handleChangeName}
+                  type="text"
+                  placeholder="Her name"
+                />
+              </div>
             </div>
           </div>
         </div>
+
+        <div className="love-start transition-transform duration-300 hover:scale-125 ">
+          <button onClick={fetchData} className="text-4xl">
+            Bắt đầu
+          </button>
+        </div>
       </div>
+
       {/* MOBILE */}
 
-      <div className="flex justify-between mx-9 pb-32 lg:hidden">
+      <div className="flex justify-between mx-9 pb-32 hidden">
         <div>
           <div
             style={{
@@ -906,6 +801,7 @@ function Love() {
           <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
         </>
       ) : null}
+
       <div className="relative" style={{ zIndex: 60 }}>
         {/* Nội dung khác của bạn */}
         {isModalVisible && (
@@ -1066,7 +962,6 @@ function Love() {
       ) : null}
 
       {/* footer */}
-
     </div>
   )
 }

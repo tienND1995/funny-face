@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import img from "../components/image/Screenshot_1.png";
+import img from "../components/image/heart-double.png";
 import { BsFillHeartFill } from "react-icons/bs";
 import { SlMenu } from "react-icons/sl";
 import useEvenStore from "../../utils/store";

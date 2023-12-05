@@ -51,6 +51,7 @@ function Comments() {
     }
     return result;
   }
+
   function wrapText(text, maxLineLength) {
     const words = text.split(" ");
     const lines = [];
@@ -131,6 +132,7 @@ function Comments() {
 
     return dateB - dateA;
   });
+  
   const visitProfile = (idsk, so_thu_tu_su_kien) => {
     navigate(`/detail/${idsk}/${so_thu_tu_su_kien}`);
   };
@@ -156,7 +158,7 @@ function Comments() {
     );
   }
   return (
-    <div className="h-max bg-white rounded-[36px] mx-3 slab">
+    <div className="component-comments h-max bg-white rounded-[36px] mx-3 slab">
       <ul className="px-4 py-6">
         {dataSort.map((data, i) => {
           const isShowingFullText = showMoreStates[data.id_comment];
@@ -244,7 +246,8 @@ function Comments() {
           );
         })}
       </ul>
-      <div className="overflow-x-auto">
+      
+      <div className="overflow-x-auto d-none">
         <div className="pagination text-4xl flex justify-start items-center my-6">
           <button
             onClick={() => handlePageChange(countCM - 1)}

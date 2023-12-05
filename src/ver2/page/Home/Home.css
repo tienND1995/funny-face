@@ -1,0 +1,48 @@
+.homehistory-container {
+  background: #32323280;
+  padding: 0 24px;
+}
+
+.homehistory-title {
+  font-size: 36px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.episodes-head {
+  color: white;
+  display: flex;
+  justify-content: space-between;
+
+  padding: 16px 0 24px;
+}
+
+.episodes-head > button {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.episodes-main {
+  display: flex;
+  gap: 12px;
+}
+
+.episodes-item {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* homehistory-events */
+.homehistory-recent {
+  margin-top: 48px;
+}
+
+.homehistory-recent-main {
+  display: flex;
+  gap: 30px;
+}
+
+.homehistory-comment {
+  color: white;
+}

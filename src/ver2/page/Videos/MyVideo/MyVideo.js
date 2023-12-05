@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import '../../../css/AddEvent.css'
-import RenderRandomWaitImage from '../../randomImages'
-import './MyVideos.css'
+import RenderRandomWaitImage from '../../../components/randomImages'
+import './MyVideo.css'
 
 function MyVideos() {
   const [isLoading, setIsLoading] = useState(false)
@@ -76,6 +76,8 @@ function MyVideos() {
   useEffect(() => {
     getVideos()
   }, [count, token])
+
+  console.log(videos)
 
   const renderLoading = () => {
     if (isLoading) {
