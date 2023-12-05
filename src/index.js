@@ -8,6 +8,8 @@ import Test from './test'
 import { Provider } from 'react-redux'
 import store from './ver2/components/store'
 
+
+
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <Router>

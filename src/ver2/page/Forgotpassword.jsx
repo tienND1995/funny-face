@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import "../css/Header.css";
@@ -6,7 +6,7 @@ import axios from "axios";
 import { MdEmail } from "react-icons/md";
 
 export default function ForgotPassword() {
-  const [reset, setReset] = useState(false);
+  // const [reset, setReset] = useState(false);
   const [emailReset, setEmailReset] = useState("");
   const [loading, isLoading] = useState(false);
 
@@ -19,9 +19,9 @@ export default function ForgotPassword() {
 
   const sendReset = async (e) => {
     e.preventDefault();
-    const param = {
-        email: emailReset
-    }
+    // const param = {
+    //     email: emailReset
+    // }
     const formData = new FormData();
     formData.append("email", emailReset);
 
@@ -86,9 +86,10 @@ export default function ForgotPassword() {
                     <button
                       type="submit"
                       className=" rounded-lg mr-[16px] w-[450px] h-[35px] text-white text-4xl bg-[#1DB954]"
+                      disabled={loading}
                       // onClick={resetPassword}
                     >
-                      Continue
+                      {loading ? 'Loading...' : 'Continue'}
                     </button>
                     {/* <p className="text-3xl text-white mt-12">
                       Do you want to{" "}
@@ -113,18 +114,18 @@ export default function ForgotPassword() {
                 <path
                   d="M10.07 6.42993L4 12.4999L10.07 18.5699"
                   stroke="white"
-                  stroke-width="1.5"
-                  stroke-miterlimit="10"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="1.5"
+                  strokeMiterlimit="10"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
                 <path
                   d="M21 12.5H4.17004"
                   stroke="white"
-                  stroke-width="1.5"
-                  stroke-miterlimit="10"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="1.5"
+                  strokeMiterlimit="10"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
               </svg>
             </div>

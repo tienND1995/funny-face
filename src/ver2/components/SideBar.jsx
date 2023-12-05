@@ -53,7 +53,7 @@ const SideBar = (props) => {
                 showSideBar ? '' : 'hidden'
               }`}
             >
-              Future Love
+              Funny Face
             </h2>
             <img
               onClick={toggleSideBar}

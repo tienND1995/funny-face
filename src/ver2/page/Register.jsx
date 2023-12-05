@@ -20,6 +20,7 @@ export default function Register() {
   const [imageSrc, setImageSrc] = useState(null);
   const [imageName, setImageName] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+  const [showmodal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
   const [isActive1, setIsActive1] = useState(false);
@@ -32,10 +33,16 @@ export default function Register() {
     //  toggle isActive state on click
     setIsActive2((prevState) => !prevState);
   };
+  const openModals = () => {
+    setShowModal(true);
+  };
 
   const server = "https://metatechvn.store";
   const redirect = () => {
     navigate("/login");
+  };
+  const forgot = () => {
+    navigate("/forgot");
   };
 
   const IsValidate = () => {
@@ -164,6 +171,7 @@ export default function Register() {
                           <div
                             alt=""
                             className="flex flex-col justify-center items-center cursor-pointer"
+                            onClick={openModals}
                           >
                             <svg
                               width="36"
@@ -189,6 +197,22 @@ export default function Register() {
                             >Upload image</div>                   
                           </div>
                         </div>
+                        {showmodal ? (
+                          <>
+                          <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+                            <div className="relative lg:w-[1000px] h-[600px] mt-60 max-w-3xl">
+                              <div className="border-0 w-[672px] h-[303px] rounded-lg shadow-lg relative bg-[#323232] outline-none focus:outline-none">
+                                <div className="relative p-6 flex-auto">
+                                  <div className="flex flex-auto relative ">
+                                    <p></p>
+                                    <div></div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          </>
+                        ) : null}
                         <div className="border_input ">
                           <div className="input_login flex justify-items-center items-center">
                             <FaUser className="text-white text-2xl items-start mr-2" />
@@ -251,22 +275,6 @@ export default function Register() {
                             </span>
                           </div>
                         </div>
-                        {/* <input
-                          value={email_or_username}
-                          onChange={(e) => usernameupdate(e.target.value)}
-                          className="form_login lg:w-[400px] lg:h-[35px] w-[300px] h-[35px] font-extrabold"
-                          placeholder="Email"
-                        ></input>
-                      </div>
-                      <div className="mt-12">
-                        <input
-                          type="password"
-                          value={password}
-                          onChange={(e) => passwordupdate(e.target.value)}
-                          className="form-control lg:w-[400px] lg:h-[35px] w-[300px] h-[35px] font-extrabold"
-                          placeholder="Password"
-                        ></input>
-                      </div> */}
                         <div className="ml-4 flex w-full">
                           <input
                             type="checkbox"
@@ -277,7 +285,7 @@ export default function Register() {
                           <span className="text-3xl text-white">
                             Remember me
                           </span>
-                          <b className="text-xl text-green-400 mb-3 ml-auto cursor-pointer">
+                          <b className="text-xl text-green-400 mb-3 ml-auto cursor-pointer" onClick={forgot}>
                             Forgot password?
                           </b>
                         </div>
@@ -319,8 +327,8 @@ export default function Register() {
                             xmlns="http://www.w3.org/2000/svg"
                             className="mr-9"
                           >
-                            <g clip-path="url(#clip0_343_3151)">
-                              <g clip-path="url(#clip1_343_3151)">
+                            <g clipPath="url(#clip0_343_3151)">
+                              <g clipPath="url(#clip1_343_3151)">
                                 <path
                                   d="M24.245 12.77C24.245 11.98 24.175 11.23 24.055 10.5H12.755V15.01H19.225C18.935 16.49 18.085 17.74 16.825 18.59V21.59H20.685C22.945 19.5 24.245 16.42 24.245 12.77Z"
                                   fill="#4285F4"
