@@ -11,6 +11,13 @@
     margin: 12px 16px;
     padding: 8px 12px;
 }
+.border_pass {
+    width: 90%;
+    border: 1px solid lightgray;
+    border-radius: 8px;
+    margin: 12px 16px;
+    padding: 8px 12px;
+}
 .input__group {
     display: flex;
     flex-direction: column;

@@ -3,10 +3,27 @@ import { useForm, Controller } from "react-hook-form";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import { FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 const ChangePassword = () => {
+  const [isActive1, setIsActive1] = useState(false);
+  const [isActive2, setIsActive2] = useState(false);
+  const [isActive3, setIsActive3] = useState(false);
   const userInfo = JSON.parse(window.localStorage.getItem("user-info"));
   const token = userInfo && userInfo.token;
   const navigate = useNavigate();
+
+  const handleClick1 = () => {
+    //  toggle isActive state on click
+    setIsActive1((prevState) => !prevState);
+  };
+  const handleClick2 = () => {
+    //  toggle isActive state on click
+    setIsActive2((prevState) => !prevState);
+  };
+  const handleClick3 = () => {
+    //  toggle isActive state on click
+    setIsActive3((prevState) => !prevState);
+  };
   const {
     handleSubmit,
     control,
@@ -16,7 +33,7 @@ const ChangePassword = () => {
   const user = JSON.parse(window.localStorage.getItem("user-info"));
   const server = "https://metatechvn.store";
   const onSubmit = async (data) => {
-    if (data.newpassword == data.oldpassword)
+    if (data.newpassword === data.oldpassword)
       return toast.error(
         "The new password cannot be the same as the old password"
       );
@@ -33,6 +50,7 @@ const ChangePassword = () => {
       await toast.success("Change password was successful");
       // window.location.reload();
       reset();
+      navigate("/")
     } catch (error) {
       console.log(error);
     }
@@ -57,8 +75,8 @@ const ChangePassword = () => {
           data,
           {
             headers: {
-              Authorization: `Bearer ${token}`
-            }
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
         return res;
@@ -75,221 +93,173 @@ const ChangePassword = () => {
       console.error(error);
       // Xử lý lỗi ở đây
     }
-  }
-    
+  };
 
   return (
-    <div>
-      <h1 className="text-4xl text-center py-4">Change Password</h1>
-      <div className="flex items-center justify-center p-12 max-lg:py-4">
-        <div className="mx-auto w-full max-w-[550px]">
+    <div className="h-screen   slab lg:flex lg:items-center">
+      <div className="w-[60%] h-[100%] lg:block hidden bg-[#D9D9D9]"></div>
+      <div className="w-[40%] h-[100%] absolute right-0 top-0">
+        <div className="bg-black flex flex-col w-[100%] h-[100%] z-30 opacity-75 ">
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="mb-5">
-              <label
-                htmlFor="name"
-                className="mb-3 block text-3xl font-medium text-[#07074D]"
+            <div className="flex flex-col">
+              <div
+                className="text-8xl text-white text-center items-center mt-56"
+                style={{ fontFamily: "Starborn" }}
               >
-                New Password
-              </label>
-              <Controller
-                name="newpassword"
-                control={control}
-                defaultValue=""
-                rules={{
-                  required: "New password is required",
-                  minLength: {
-                    value: 8,
-                    message: "New password must be at least 8 characters long",
-                  },
-                  pattern: {
-                    value: /^(?!\s*$).+/,
-                    message: "New password cannot contain whitespace",
-                  },
-                }}
-                render={({ field }) => (
-                  <div>
-                    <input
-                      type="password"
-                      {...field}
-                      placeholder="New Password"
-                      className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-3xl font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                    />
-                    {errors.newpassword && (
-                      <span className="text-red-600 text-2xl">
-                        {errors.newpassword.message}
+                Funny Face
+              </div>
+              <div className="flex flex-col items-center text-left  mx-16">
+                <div className="text-white mt-20 lg:w-[400px] lg:h-[35px] w-[300px] h-[35px]">
+                  <div className="text-4xl text-left">Reset Password</div>
+                </div>
+                <div className="mt-24">
+                  <div className="border_input">
+                    <div className="input_login flex justify-items-center items-center">
+                      <FaLock className="text-white text-2xl mr-2" />
+                      <Controller
+                        name="oldpassword"
+                        control={control}
+                        defaultValue=""
+                        rules={{
+                          required: "Old password is required",
+                          minLength: {
+                            value: 8,
+                            message:
+                              "Old password must be at least 8 characters long",
+                          },
+                        }}
+                        render={({ field }) => (
+                          <div>
+                            <input
+                              type={isActive1 ? "text" : "password"}
+                              {...field}
+                              placeholder="Old Password"
+                              className="lg:w-[400px] lg:h-[35px] w-[300px] h-[35px] text-white text-2xl"
+                            />
+                            {errors.oldpassword && (
+                              <span className="text-red-600 text-2xl">
+                                {errors.oldpassword.message}
+                              </span>
+                            )}
+                          </div>
+                        )}
+                      />
+                      <span onClick={handleClick1}>
+                        {isActive1 ? (
+                          <FaEye className="text-white text-3xl" />
+                        ) : (
+                          <FaEyeSlash className="text-white text-3xl" />
+                        )}
                       </span>
-                    )}
+                    </div>
                   </div>
-                )}
-              />
-            </div>
-            <div className="mb-5">
-              <label
-                htmlFor="name"
-                className="mb-3 block text-3xl font-medium text-[#07074D]"
-              >
-                Confirm New Password
-              </label>
-              <Controller
-                name="confirmnewpassword"
-                control={control}
-                defaultValue=""
-                rules={{
-                  required: "Confirm new password is required",
-                  minLength: {
-                    value: 8,
-                    message:
-                      "Confirm new password must be at least 8 characters long",
-                  },
-                  pattern: {
-                    value: /^(?!\s*$).+/,
-                    message: "Confirm new password cannot contain whitespace",
-                  },
-                  validate: (value) => {
-                    const newpassword = control._formValues.newpassword;
-                    return value === newpassword || "Passwords do not match";
-                  },
-                }}
-                render={({ field }) => (
-                  <div>
-                    <input
-                      type="password"
-                      {...field}
-                      placeholder="Confirm New Password"
-                      className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-3xl font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                    />
-                    {errors.confirmnewpassword && (
-                      <span className="text-red-600 text-2xl">
-                        {errors.confirmnewpassword.message}
+                  <div className="border_input">
+                    <div className="input_login flex justify-items-center items-center">
+                      <FaLock className="text-white text-2xl mr-2" />
+                      <Controller
+                        name="newpassword"
+                        control={control}
+                        defaultValue=""
+                        rules={{
+                          required: "New password is required",
+                          minLength: {
+                            value: 8,
+                            message:
+                              "New password must be at least 8 characters long",
+                          },
+                          pattern: {
+                            value: /^(?!\s*$).+/,
+                            message: "New password cannot contain whitespace",
+                          },
+                        }}
+                        render={({ field }) => (
+                          <div>
+                            <input
+                              type={isActive2 ? "text" : "password"}
+                              {...field}
+                              placeholder="New Password"
+                              className="lg:w-[400px] lg:h-[35px] w-[300px] h-[35px] text-white text-2xl"
+                            />
+                            {errors.newpassword && (
+                              <span className="text-red-600 text-2xl">
+                                {errors.newpassword.message}
+                              </span>
+                            )}
+                          </div>
+                        )}
+                      />
+                      <span onClick={handleClick2}>
+                        {isActive2 ? (
+                          <FaEye className="text-white text-3xl" />
+                        ) : (
+                          <FaEyeSlash className="text-white text-3xl" />
+                        )}
                       </span>
-                    )}
+                    </div>
                   </div>
-                )}
-              />
-            </div>
-            <div className="mb-5">
-              <label
-                htmlFor="name"
-                className="mb-3 block text-3xl font-medium text-[#07074D]"
-              >
-                Old Password
-              </label>
-              <Controller
-                name="oldpassword"
-                control={control}
-                defaultValue=""
-                rules={{
-                  required: "Old password is required",
-                  minLength: {
-                    value: 8,
-                    message: "Old password must be at least 8 characters long",
-                  },
-                }}
-                render={({ field }) => (
-                  <div>
-                    <input
-                      type="password"
-                      {...field}
-                      placeholder="Old Password"
-                      className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-3xl font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                    />
-                    {errors.oldpassword && (
-                      <span className="text-red-600 text-2xl">
-                        {errors.oldpassword.message}
+                  <div className="border_input">
+                    <div className="input_login flex justify-items-center items-center">
+                      <FaLock className="text-white text-2xl mr-2" />
+                      <Controller
+                        name="confirmnewpassword"
+                        control={control}
+                        defaultValue=""
+                        rules={{
+                          required: "Confirm new password is required",
+                          minLength: {
+                            value: 8,
+                            message:
+                              "Confirm new password must be at least 8 characters long",
+                          },
+                          pattern: {
+                            value: /^(?!\s*$).+/,
+                            message:
+                              "Confirm new password cannot contain whitespace",
+                          },
+                          validate: (value) => {
+                            const newpassword = control._formValues.newpassword;
+                            return (
+                              value === newpassword || "Passwords do not match"
+                            );
+                          },
+                        }}
+                        render={({ field }) => (
+                          <div>
+                            <input
+                              type={isActive3 ? "text" : "password"}
+                              {...field}
+                              placeholder="Confirm New Password"
+                              className="lg:w-[400px] lg:h-[35px] w-[300px] h-[35px] text-white text-2xl"
+                            />
+                            {errors.confirmnewpassword && (
+                              <span className="text-red-600 text-2xl">
+                                {errors.confirmnewpassword.message}
+                              </span>
+                            )}
+                          </div>
+                        )}
+                      />
+                      <span onClick={handleClick3}>
+                        {isActive3 ? (
+                          <FaEye className="text-white text-3xl" />
+                        ) : (
+                          <FaEyeSlash className="text-white text-3xl" />
+                        )}
                       </span>
-                    )}
+                    </div>
                   </div>
-                )}
-              />
-            </div>
-            <div>
-              <button className="hover:shadow-form rounded-md hover:bg-pink-600 bg-pink-500 py-3 px-8 text-3xl font-medium text-white outline-none">
-                Change Password
-              </button>
+                </div>
+                <div className="mt-10 ml-4 ">
+                  <button
+                    type="submit"
+                    className=" rounded-lg mr-[16px] w-[450px] h-[35px] text-white text-4xl bg-[#1DB954] text-center"
+                  >
+                    Login
+                  </button>
+                </div>
+              </div>
             </div>
           </form>
-          {/* <form onSubmit={handleSubmit(onSubmit)}>
-            <div>
-              <label>Old Password</label>
-              <Controller
-                name="oldpassword"
-                control={control}
-                rules={{
-                  required: "Old password is required",
-                  minLength: {
-                    value: 8,
-                    message: "Old password must be at least 8 characters long",
-                  },
-                }}
-                render={({ field }) => (
-                  <div>
-                    <input type="password" {...field} />
-                    {errors.oldpassword && (
-                      <span>{errors.oldpassword.message}</span>
-                    )}
-                  </div>
-                )}
-              />
-            </div>
-            <div>
-              <label>New Password</label>
-              <Controller
-                name="newpassword"
-                control={control}
-                rules={{
-                  required: "New password is required",
-                  minLength: {
-                    value: 8,
-                    message: "New password must be at least 8 characters long",
-                  },
-                  pattern: {
-                    value: /^(?!\s*$).+/,
-                    message: "New password cannot contain whitespace",
-                  },
-                }}
-                render={({ field }) => (
-                  <div>
-                    <input type="password" {...field} />
-                    {errors.newpassword && (
-                      <span>{errors.newpassword.message}</span>
-                    )}
-                  </div>
-                )}
-              />
-            </div>
-            <div>
-              <label>Confirm New Password</label>
-              <Controller
-                name="confirmnewpassword"
-                control={control}
-                rules={{
-                  required: "Confirm new password is required",
-                  minLength: {
-                    value: 8,
-                    message:
-                      "Confirm new password must be at least 8 characters long",
-                  },
-                  pattern: {
-                    value: /^(?!\s*$).+/,
-                    message: "Confirm new password cannot contain whitespace",
-                  },
-                  validate: (value) => {
-                    const newpassword = control.getValues("newpassword");
-                    return value === newpassword || "Passwords do not match";
-                  },
-                }}
-                render={({ field }) => (
-                  <div>
-                    <input type="password" {...field} />
-                    {errors.confirmnewpassword && (
-                      <span>{errors.confirmnewpassword.message}</span>
-                    )}
-                  </div>
-                )}
-              />
-            </div>
-            <button type="submit">Submit</button>
-          </form> */}
         </div>
       </div>
     </div>

@@ -39,12 +39,12 @@ const SectionHeader = () => {
           <ArrowCircleLeftIcon sx={{ fontSize: 40, color: '#FFFFFF33' }} />
           <ArrowCircleRightIcon sx={{ fontSize: 40, color: '#FFFFFF33' }} />
         </div>
-        <h2 className="font-bold font-sans text-[36px]">
+        <h2 className={isSticky ? 'font-bold font-sans text-[30px]' : 'font-bold font-sans text-[36px]'}>
           First step up load your photo
         </h2>
       </div>
-      <div className=" ml-auto items-start  flex gap-2">
-        <button className="px-[12px] py-[8px] text-md font-normal bg-[#FFFFFF33] rounded-xl">
+      <div className={isSticky ? 'ml-auto items-start flex gap-2 ' : 'ml-auto items-start  flex gap-2'} >
+        <button className="{px-[12px] py-[8px] text-md font-normal bg-[#FFFFFF33] rounded-xl">
           <DownloadIcon />
           Download app
         </button>

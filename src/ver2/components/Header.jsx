@@ -84,7 +84,7 @@ function Header({ onSearchChange, onSearch, onClick }) {
             className="lg:text-6xl text-3xl text-white flex items-center starborn"
             onClick={BackHome}
           >
-            <Link>FUTURE LOVE</Link>
+            <Link>Funny Face</Link>
           </p>
           <img src={img} alt="" className="lg:w-28 w-24 lg:h-24 h-20" />
         </div>
