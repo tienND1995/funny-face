@@ -51,6 +51,7 @@ function Comments() {
     }
     return result;
   }
+
   function wrapText(text, maxLineLength) {
     const words = text.split(" ");
     const lines = [];
@@ -131,6 +132,7 @@ function Comments() {
 
     return dateB - dateA;
   });
+  
   const visitProfile = (idsk, so_thu_tu_su_kien) => {
     navigate(`/detail/${idsk}/${so_thu_tu_su_kien}`);
   };

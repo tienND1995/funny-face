@@ -12,6 +12,7 @@ import vec2 from '../components/image/Vector2.png'
 import vec3 from '../components/image/hoa.png'
 import vec4 from '../components/image/tron2.png'
 import moment from 'moment'
+
 import { useParams, useNavigate, useLocation } from 'react-router-dom'
 
 function EventHistory(props) {
@@ -145,6 +146,7 @@ function EventHistory(props) {
     history.push({
       pathname: `/detail/${idsk}/1`,
     })
+    
     window.location.reload()
   }
 
