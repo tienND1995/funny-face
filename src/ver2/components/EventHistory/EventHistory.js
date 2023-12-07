@@ -146,7 +146,7 @@ function EventHistory(props) {
 
   const handleEventHistory = (idsk) => {
     history.push({
-      pathname: `/detail/${idsk}/1`,
+      pathname: `/events/${idsk}/1`,
     })
 
     window.location.reload()
@@ -173,27 +173,26 @@ function EventHistory(props) {
       </div>
     </div>
   ) : (
-    <div className="events">
-      <div className="events-main">
+    <div className="events-history">
+      <div className="events-history-main">
         {currentResults.map((array, index) => (
-          <div
-            className="events-item"
-            onClick={() =>
-              handleEventHistory(
-                array.sukien[array.sukien.length - 1].id_toan_bo_su_kien,
-                array.sukien[array.sukien.length - 1].id_template
-              )
-            }
-            key={index}
-          >
-            <div className="event-user">
+          <div className="event-history-item" key={index}>
+            <div className="event-history-user">
               <div className="event-user__avatar">
                 <img src={user.link_avatar} alt="avatar" />
               </div>
               <h4 className="event-user__name">{user.user_name}</h4>
             </div>
 
-            <div className="event-marry">
+            <div
+              className="event-history-marry"
+              onClick={() =>
+                handleEventHistory(
+                  array.sukien[array.sukien.length - 1].id_toan_bo_su_kien,
+                  array.sukien[array.sukien.length - 1].id_template
+                )
+              }
+            >
               <div className="event-marry__info">
                 <h3>{array.sukien[array.sukien.length - 1].ten_su_kien}</h3>
                 <p>{array.sukien[array.sukien.length - 1].noi_dung_su_kien}</p>
@@ -227,7 +226,7 @@ function EventHistory(props) {
               </div>
             </div>
 
-            <div className="event-interact">
+            <div className="event-history-interact">
               <div>
                 <img src={commentwhite} alt="" />
                 <a href="#">Comment</a>
@@ -249,7 +248,7 @@ function EventHistory(props) {
         ))}
       </div>
 
-      <ul className="event-pagination">
+      <ul className="event-history-pagination">
         <li className="pagination-item  arrow-link">
           <a
             className="pagination-link"

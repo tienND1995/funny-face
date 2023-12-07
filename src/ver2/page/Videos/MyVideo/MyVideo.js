@@ -8,7 +8,7 @@ import '../../../css/AddEvent.css'
 import RenderRandomWaitImage from '../../../components/randomImages'
 import './MyVideo.css'
 
-function MyVideos() {
+function MyVideo() {
   const [isLoading, setIsLoading] = useState(false)
   const [randomImages, setRandomImages] = useState(null)
   const userInfo = JSON.parse(window.localStorage.getItem('user-info'))
@@ -53,7 +53,7 @@ function MyVideos() {
   const [count, setCount] = useState(1)
 
   const getVideos = async () => {
-    const { data, statusText } = await axios.get(
+    const {data, status} = await axios.get(
       `https://metatechvn.store/lovehistory/video/${count}`,
       {
         headers: {
@@ -68,7 +68,8 @@ function MyVideos() {
       toast.error(errorMessage)
     }
 
-    if (statusText === 'OK') {
+
+    if (status === 200) {
       setVideos(data.list_sukien_video)
     }
   }
@@ -77,7 +78,6 @@ function MyVideos() {
     getVideos()
   }, [count, token])
 
-  console.log(videos)
 
   const renderLoading = () => {
     if (isLoading) {
@@ -216,4 +216,4 @@ function MyVideos() {
   )
 }
 
-export default MyVideos
+export default MyVideo

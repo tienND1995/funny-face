@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import React from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import copyRight from "../../ver2/components/image/copyRight.png";
 import firstDateImg from "../../ver2/components/image/firstDateImg.png";
 import heartImage from "../../ver2/components/image/heart-icon-madefuture.png";
-import copyRight from "../../ver2/components/image/copyRight.png";
-import SideBar from "./SideBar";
-import SectionHeader from "./SectionHeader";
 
 function OnBoard() {
   const navigate = useNavigate();

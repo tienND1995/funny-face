@@ -1,77 +1,73 @@
-import React, { useEffect, useState } from "react";
-import img1 from "../../../components/image/finish.png";
-import img2 from "../img/phaitren1.png";
-import img3 from "../img/phaiduoi1.png";
-import img4 from "../img/traitren1.png";
-import img5 from "../img/traiduoi1.png";
-import CmtPopup from "../CmtPopup";
-import Clock from "../../../components/CLockEvent";
-import moment from "moment";
-import { useParams } from "react-router";
-import axios from "axios";
-import nam1 from "../img/nam1.png";
-import nu1 from "../img/nu1.png";
+import React, { useEffect, useState } from 'react'
+import img1 from '../../../components/image/finish.png'
+import img2 from '../img/phaitren1.png'
+import img3 from '../img/phaiduoi1.png'
+import img4 from '../img/traitren1.png'
+import img5 from '../img/traiduoi1.png'
+import CmtPopup from '../CmtPopup'
+import Clock from '../../../components/ClockEvent/CLockEvent'
+import moment from 'moment'
+import { useParams } from 'react-router'
+import axios from 'axios'
+import nam1 from '../img/nam1.png'
+import nu1 from '../img/nu1.png'
 
 function Template1(props) {
-  const { id } = useParams();
+  const { id } = useParams()
 
-  const [isOpenPopup, setIsOpenPopup] = useState(false);
-  const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState("");
-  const data = props.data;
-  const stt = data.so_thu_tu_su_kien;
-  const tolll = data.real_time;
+  const [isOpenPopup, setIsOpenPopup] = useState(false)
+  const [isImagePopupOpen, setIsImagePopupOpen] = useState(false)
+  const [selectedImage, setSelectedImage] = useState('')
+  const data = props.data
+  const stt = data.so_thu_tu_su_kien
+  const tolll = data.real_time
   const handleOpenImagePopup = (imageUrl) => {
-    setSelectedImage(imageUrl);
-    setIsImagePopupOpen(true);
-  };
+    setSelectedImage(imageUrl)
+    setIsImagePopupOpen(true)
+  }
   console.log(tolll)
   useEffect(() => {
     if (isOpenPopup) {
-      const formData = new FormData();
-      formData.append("id_toan_bo_su_kien", id);
-      formData.append("so_thu_tu_su_kien", stt);
+      const formData = new FormData()
+      formData.append('id_toan_bo_su_kien', id)
+      formData.append('so_thu_tu_su_kien', stt)
 
       axios
-        .post("https://sakaivn.online/countview", formData)
+        .post('https://sakaivn.online/countview', formData)
         .then((response) => {
-          console.log("API response:", response.data.count_view);
+          console.log('API response:', response.data.count_view)
         })
         .catch((error) => {
-          console.error("Lỗi khi gửi request API:", error);
-        });
+          console.error('Lỗi khi gửi request API:', error)
+        })
     }
-  }, [isOpenPopup, id, stt]);
-  document.addEventListener('DOMContentLoaded', function() {
-    const ogImageMeta = document.querySelector('meta[property="og:image"]');
-    ogImageMeta.setAttribute('content', data.link_da_swap);
-  });
-   
-  
+  }, [isOpenPopup, id, stt])
+  document.addEventListener('DOMContentLoaded', function () {
+    const ogImageMeta = document.querySelector('meta[property="og:image"]')
+    ogImageMeta.setAttribute('content', data.link_da_swap)
+  })
+
   const cmt =
-    "https://generation-sessions.s3.amazonaws.com/a6c87cf4275ca96f7141a113f2447e31/img/group-48096950-1@2x.png";
+    'https://generation-sessions.s3.amazonaws.com/a6c87cf4275ca96f7141a113f2447e31/img/group-48096950-1@2x.png'
   const view =
-    "https://generation-sessions.s3.amazonaws.com/a6c87cf4275ca96f7141a113f2447e31/img/group-48096951-1@2x.png";
-  if (tolll === undefined) return <div></div>;
+    'https://generation-sessions.s3.amazonaws.com/a6c87cf4275ca96f7141a113f2447e31/img/group-48096951-1@2x.png'
+  if (tolll === undefined) return <div></div>
   return (
-    
-
-
     <div className="h-full flex flex-col items-center justify-center overflow-hidden">
-      <div className="mb-10 mt-20">
+      {/* <div className="mb-10 mt-20">
         <Clock
           data={String(tolll)
             }
         />
-      </div>
+      </div> */}
       <div className="lg:hidden scroll-container lg:h-[30%] lg:w-[100%] flex items-center justify-center mt-4">
         <div
           style={{
             backgroundImage: `url(${nam1})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center center",
-            backgroundRepeat: "no-repeat",
-            overflow: "hidden",
+            backgroundSize: 'cover',
+            backgroundPosition: 'center center',
+            backgroundRepeat: 'no-repeat',
+            overflow: 'hidden',
           }}
           className="lg:w-[150px] lg:h-[150px] w-[90px] h-[90px] object-cover"
         >
@@ -86,10 +82,10 @@ function Template1(props) {
         <div
           style={{
             backgroundImage: `url(${nu1})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center center",
-            backgroundRepeat: "no-repeat",
-            overflow: "hidden",
+            backgroundSize: 'cover',
+            backgroundPosition: 'center center',
+            backgroundRepeat: 'no-repeat',
+            overflow: 'hidden',
           }}
           className="lg:w-[150px] lg:h-[150px] w-[90px] h-[90px]"
         >
@@ -102,7 +98,7 @@ function Template1(props) {
         </div>
       </div>
       <div
-        className={`border-8 border-pink-300 w-full lg:h-[550px] bg-white rounded-[36px] flex lg:flex-row flex-col-reverse mt-[50px] items-center justify-center relative gap-x-20 overflow-hidden`}
+        className={`border-8 border-pink-300 w-full lg:h-[550px] bg-white rounded-[36px] flex lg:flex-row flex-col-reverse items-center justify-center relative gap-x-20 overflow-hidden`}
       >
         <div className="-ml-2 bg-no-repeat bg-cover lg:w-[55%] w-full flex flex-col justify-between mt-8">
           <div>
@@ -136,11 +132,10 @@ function Template1(props) {
             </div>
             <div className="lg:my-4 my-10">
               <span
-                style={{ fontStyle: "normal" }}
+                style={{ fontStyle: 'normal' }}
                 className="text-time text-3xl mb-4 block"
               >
-                {(data.real_time)
-                  }
+                {data.real_time}
               </span>
             </div>
           </div>
@@ -195,15 +190,14 @@ function Template1(props) {
                 src={selectedImage}
                 alt="Ảnh lớn"
                 className="w-100 h-auto mx-auto z-99999"
-                style={{ maxHeight: "80vh" }}
+                style={{ maxHeight: '80vh' }}
               />
             </div>
           </div>
         )}
       </div>
     </div>
-  
-  );
+  )
 }
 
-export default Template1;
+export default Template1

@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { Outlet } from 'react-router'
-import SectionHeader from '../components/SectionHeader'
 import SideBar from '../components/SideBar'
 const LayoutUser = () => {
   const [width, setWidth] = useState(0)
@@ -8,6 +7,7 @@ const LayoutUser = () => {
   const getWidthSideBar = (data) => {
     setWidth(data)
   }
+
 
   return (
     <>
@@ -17,7 +17,6 @@ const LayoutUser = () => {
           style={{ marginLeft: width }}
           className="future-main flex flex-col w-full mr-8 "
         >
-          <SectionHeader />
           <Outlet />
         </div>
       </div>

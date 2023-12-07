@@ -113,11 +113,7 @@ function CommentsHistory() {
                     <Link
                       to={data.id_user === 0 ? '' : `/user/${data.id_user}`}
                     >
-                      <img
-                        src={data.avatar_user}
-                        alt=""
-                        className="w-full h-full border border-3 rounded-[50%] object-cover"
-                      />
+                      <img src={data.avatar_user} alt="This is a avatar!" />
                     </Link>
                   ) : (
                     <Link
@@ -164,7 +160,7 @@ function CommentsHistory() {
           })}
         </ul>
       </div>
-      
+
       <div className="comment-pagination overflow-auto d-none">
         <div className="pagination text-4xl flex justify-start items-center my-6">
           <button

@@ -19,7 +19,7 @@ import NewHistory from './ver2/page/Love/NewHistory/NewHistory'
 
 import DetailVideo from './ver2/page/Videos/DetailVideo/DetailVideo'
 import MakeVideo from './ver2/page/Videos/MakeVideo/MakeVideo'
-import MyVideos from './ver2/page/Videos/MyVideo/MyVideo'
+import MyVideo from './ver2/page/Videos/MyVideo/MyVideo'
 import Video from './ver2/page/Videos/Videos'
 
 import './ver2/css/index.css'
@@ -32,7 +32,9 @@ import Register from './ver2/page/Register'
 import ForgotPassword from './ver2/page/Forgotpassword'
 import TiktokScandal from './ver2/tiktok-scandal'
 import ChangePassword from './ver2/components/ChangePassword'
-
+import Events from './ver2/page/Events/Events'
+import MakeVideoUpload from './ver2/page/Videos/MakeVideoUpload/MakeVideoUpload'
+import Download from './ver2/page/Download/Download'
 
 function App() {
   const user = window.localStorage.getItem('user-info')
@@ -72,19 +74,25 @@ function App() {
 
         <Route path="event/:id" element={<Home />} />
 
+        <Route path="events" element={<Events />} />
+        <Route path="events/:id/:stt" element={<Events />} />
+
         <Route path="love" element={<Love />} />
-        <Route path="detail/:id/:stt" element={<NewHistory />}></Route>
+        <Route path="detail/:id/:stt" element={<Events />}></Route>
         <Route path="viewEvent" element={<EventResults />} />
 
         <Route path="videos" element={<Video />} />
         <Route path="make-video" element={<MakeVideo />} />
-        <Route path="my-video" element={<MyVideos />} />
+        <Route path="make-video-upload" element={<MakeVideoUpload />} />
+        <Route path="my-video" element={<MyVideo />} />
         <Route path="detailVideo/:id" element={<DetailVideo />} />
 
         <Route path="login" element={<Login />} />
         <Route path="profile" element={<Profile />} />
         <Route path="policy" element={<Policy />} />
         <Route path="user/:id" element={<ProfileGuest />} />
+
+        <Route path="/download" element={<Download />} />
       </Route>
 
       <Route path="tiktok/:idVideo" element={<TiktokScandal />} />

@@ -1,8 +1,7 @@
 .video-detail {
   background: #32323280;
   text-align: center;
-  border-radius: 0 0 16px 16px;
-  padding: 100px 24px;
+  padding: 80px 24px;
 }
 
 /* info */
@@ -13,6 +12,7 @@
   align-items: center;
 
   gap: 64px;
+  font-weight: 600;
 }
 
 .detail-result {
@@ -57,7 +57,6 @@
   color: #000;
   background-color: #fff;
   font-size: 20px;
-  font-weight: 600;
   margin-bottom: 16px;
 }
 
@@ -65,7 +64,6 @@
   color: #fff;
   background: #1db954;
   font-size: 24px;
-  font-weight: 600;
 }
 
 /* main*/
@@ -80,4 +78,10 @@
   border-radius: 30px;
   overflow: hidden;
   text-align: center;
+}
+
+.detail-video-item > video {
+  height: 650px;
+  width: 100%;
+  object-fit: cover;
 }

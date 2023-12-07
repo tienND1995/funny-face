@@ -3,8 +3,6 @@ import React, { useEffect, useRef } from 'react'
 import searchIcon from '../../ver2/components/image/searchIcon/vuesax/bold/search-normal.png'
 import toggleMenuIcon from '../../ver2/components/image/toggleMenuIcon.png'
 
-import EventIcon from '@mui/icons-material/Event'
-import FavoriteIcon from '@mui/icons-material/Favorite'
 import ImageIcon from '@mui/icons-material/Image'
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
 import { useState } from 'react'
@@ -12,9 +10,15 @@ import { NavLink } from 'react-router-dom'
 import DoubleHeartIcon from '../../ver2/components/image/heart-icon-madefuture.png'
 import messagaIcon from '../../ver2/components/image/messageIcon/vuesax/bold/message-question.png'
 
-import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
-import VideoSettingsIcon from '@mui/icons-material/VideoSettings';
-import CollectionsIcon from '@mui/icons-material/Collections';
+import EventIcon from '@mui/icons-material/Event'
+import FavoriteIcon from '@mui/icons-material/Favorite'
+import VideoLibraryIcon from '@mui/icons-material/VideoLibrary'
+import VideoSettingsIcon from '@mui/icons-material/VideoSettings'
+import CollectionsIcon from '@mui/icons-material/Collections'
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate'
+import ChildCareIcon from '@mui/icons-material/ChildCare'
+
+import '../css/Sidebar.css'
 
 const SideBar = (props) => {
   const [showSideBar, setShowSideBar] = useState(true)
@@ -29,8 +33,65 @@ const SideBar = (props) => {
     const widthSideBar = sidebarRef.current.offsetWidth
     const pushWidth = props.onRecive
     pushWidth(widthSideBar)
-
   }, [showSideBar, sidebarRef.current])
+
+  const menuDefault = [
+    {
+      id: 1,
+      name: 'Home',
+      icon: <HomeIcon />,
+      path: '/',
+    },
+
+    {
+      id: 2,
+      name: 'Love',
+      icon: <FavoriteIcon />,
+      path: '/love',
+    },
+
+    {
+      id: 3,
+      name: 'Events',
+      icon: <EventIcon />,
+      path: '/events',
+    },
+
+    {
+      id: 4,
+      name: 'Videos playlist',
+      icon: <VideoLibraryIcon />,
+      path: '/videos',
+    },
+
+    {
+      id: 5,
+      name: 'Images playlist',
+      icon: <CollectionsIcon />,
+      path: '/images',
+    },
+
+    {
+      id: 6,
+      name: 'Create your video',
+      icon: <VideoSettingsIcon />,
+      path: '/make-video',
+    },
+
+    {
+      id: 7,
+      name: 'Create your image',
+      icon: <AddPhotoAlternateIcon />,
+      path: '/make-image',
+    },
+
+    {
+      id: 8,
+      name: 'Baby generator',
+      icon: <ChildCareIcon />,
+      path: '/baby',
+    },
+  ]
 
   return (
     <div ref={sidebarRef} className="max-w-[376px] sidebar-fixed">
@@ -90,122 +151,17 @@ const SideBar = (props) => {
                 showSideBar ? 'start' : 'center'
               } text-2xl text-white gap-8 font-sans`}
             >
-              <NavLink
-                to="/"
-                className="flex items-center justify-between gap-4"
-              >
-                {({ isActive }) => (
-                  <>
-                    <HomeIcon
-                      color={isActive ? 'success' : ''}
-                      fontSize="large"
-                      className="h-[36px] w-[36px]"
-                    />
-                    {showSideBar && (
-                      <span className={isActive ? 'text-[#1DB954]' : ''}>
-                        Home
-                      </span>
-                    )}
-                  </>
-                )}
-              </NavLink>
-              <NavLink
-                to="/love"
-                className="flex items-center justify-between gap-4"
-              >
-                {({ isActive }) => (
-                  <>
-                    <FavoriteIcon
-                      color={isActive ? 'success' : ''}
-                      fontSize="large"
-                      className="h-[36px] w-[36px]"
-                    />
-                    {showSideBar && (
-                      <span className={isActive ? 'text-[#1DB954]' : ''}>
-                        Love
-                      </span>
-                    )}
-                  </>
-                )}
-              </NavLink>
-              <NavLink
-                to="/events"
-                className="flex items-center justify-between gap-4"
-              >
-                {({ isActive }) => (
-                  <>
-                    <EventIcon
-                      color={isActive ? 'success' : ''}
-                      fontSize="large"
-                      className="h-[36px] w-[36px]"
-                    />
-
-                    {showSideBar && (
-                      <span className={isActive ? 'text-[#1DB954]' : ''}>
-                        Events
-                      </span>
-                    )}
-                  </>
-                )}
-              </NavLink>
-              <NavLink
-                to="/videos"
-                className="flex items-center justify-between gap-4"
-              >
-                {({ isActive }) => (
-                  <>
-                    <VideoLibraryIcon
-                      color={isActive ? 'success' : ''}
-                      fontSize="large"
-                      className="h-[36px] w-[36px]"
-                    />
-                    {showSideBar && (
-                      <span className={isActive ? 'text-[#1DB954]' : ''}>
-                        Video playlist
-                      </span>
-                    )}
-                  </>
-                )}
-              </NavLink>
-              <NavLink
-                to="/images"
-                className="flex items-center justify-between gap-4"
-              >
-                {({ isActive }) => (
-                  <>
-                    <CollectionsIcon
-                      color={isActive ? 'success' : ''}
-                      fontSize="large"
-                      className="h-[36px] w-[36px]"
-                    />
-                    {showSideBar && (
-                      <span className={isActive ? 'text-[#1DB954]' : ''}>
-                        Image playlist
-                      </span>
-                    )}
-                  </>
-                )}
-              </NavLink>
-
-              <NavLink
-                to="/make-video"
-                className="flex items-center justify-between gap-4"
-              >
-                {({ isActive }) => (
-                  <>
-                    <VideoSettingsIcon
-                      color={isActive ? 'success' : ''}
-                      fontSize="large"
-                      className="h-[36px] w-[36px]"
-                    />
-                    {showSideBar && (
-                      <span className={isActive ? 'text-[#1DB954]' : ''}>
-                        Make your video
-                      </span>
-                    )}
-                  </>
-                )}
-              </NavLink>
+              {menuDefault.map(({ id, name, icon, path }) => (
+                <NavLink
+                  to={path}
+                  className="flex items-center justify-between gap-4 menu-link"
+                  key={id}
+                >
+                  {icon}
+                  {showSideBar && <span>{name}</span>}
+                </NavLink>
+              ))}
+             
             </div>
           </>
         </div>

@@ -7,6 +7,7 @@ function Clock({ check }) {
     minutes: 0,
     seconds: 0,
   });
+  
   useEffect(() => {
     if (check !== null) {
       const countInterval = setInterval(() => {

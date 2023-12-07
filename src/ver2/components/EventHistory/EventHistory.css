@@ -1,4 +1,4 @@
-.event-user {
+.event-history-user {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -22,7 +22,7 @@
   text-transform: capitalize;
 }
 
-.event-marry {
+.event-history-marry {
   background: linear-gradient(153.43deg, #ffebee 16.67%, #ffc5c8 100%);
   display: flex;
   align-items: center;
@@ -95,12 +95,12 @@
   font-size: 12px;
 }
 
-.event-interact > div {
+.event-history-interact > div {
   display: flex;
   gap: 8px;
   align-items: center;
 }
-.event-interact {
+.event-history-interact {
   display: flex;
   color: white;
   gap: 24px;
@@ -108,13 +108,14 @@
   font-size: 16px;
 }
 
-.events-item hr {
+
+.event-history-item hr {
   color: #c6c6c6;
 }
 
 /* pagination */
 
-.event-pagination {
+.event-history-pagination {
   display: flex;
   justify-content: center;
   gap: 10px;

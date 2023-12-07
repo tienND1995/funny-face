@@ -13,6 +13,7 @@ import add from '../../../components/image/add.png'
 import pen from '../../../components/image/edit-2.png'
 import './MakeVideo.css'
 import Swal from 'sweetalert2'
+import Header from '../../../components/Header/Header'
 
 function MakeVideo() {
   const [image1, setImage1] = useState(null)
@@ -23,6 +24,10 @@ function MakeVideo() {
   const token = userInfo && userInfo.token
   const navigate = useNavigate()
   const dispatch = useDispatch()
+
+  const ID_DEFAULT = 2
+  const VIDEO_DEFAULT =
+    'https://github.com/sonnh7289/funnyvideo_faceFunny/raw/main/catbanh2.mp4'
 
   useEffect(() => {
     Promise.all([
@@ -134,8 +139,8 @@ function MakeVideo() {
   const location = useLocation()
 
   const queryParams = new URLSearchParams(location.search)
-  const id = queryParams.get('id')
-  const link = queryParams.get('link')
+  const id = queryParams.get('id') || ID_DEFAULT
+  const link = queryParams.get('link') || VIDEO_DEFAULT
   const history = useNavigate()
 
   const uploadImage = async (image1) => {
@@ -190,8 +195,6 @@ function MakeVideo() {
         }
       )
 
-      console.log(response.data)
-
       dispatch({
         type: 'SET_RESPONSE_DATA',
         payload: response.data,
@@ -229,74 +232,84 @@ function MakeVideo() {
   }
 
   return (
-    <div className="make-video">
-      {randomImages !== null && (
-        <RenderRandomWaitImage images1={randomImages} />
-      )}
-      {isLoading ? renderLoading() : ''}
-      <div className="flex flex-col lg:flex-row lg:items-center">
-        <div className="lg:w-1/2 p-4">
-          <div className="flex justify-center items-center name-video">
-            <img src={pen} alt="edit" />
-            <input
-              type="text"
-              placeholder="Video title"
-              value={tenVideo}
-              onChange={(e) => setTenVideo(e.target.value)}
-            />
-          </div>
+    <>
+      <Header
+        data={{
+          title: 'create a video',
+          myCollection: true,
+          download: true,
+        }}
+      />
 
-          <div className="flex justify-center items-center">
-            <div className="responsiveImg relative create-video">
-              <img className="create-video-add" src={add} alt="" />
-
-              <div
-                className="responsiveImg absolute cursor-pointer w-full h-full rounded-[50%] bg-center bg-no-repeat bg-cover bottom-0 "
-                style={
-                  showImg.img1
-                    ? { backgroundImage: `url(${showImg.img1})` }
-                    : null
-                }
-              ></div>
-
+      <div className="make-video">
+        {randomImages !== null && (
+          <RenderRandomWaitImage images1={randomImages} />
+        )}
+        {isLoading ? renderLoading() : ''}
+        <div className="flex flex-col lg:flex-row lg:items-center">
+          <div className="lg:w-1/2 p-4">
+            <div className="flex justify-center items-center name-video">
+              <img src={pen} alt="edit" />
               <input
-                onChange={(e) => {
-                  handleChangeImage(e, setImage1, 'img1')
-                }}
-                type="file"
-                accept="image/*"
-                id="img1"
-                className={
-                  image1
-                    ? ' opacity-0 responsiveImg cursor-pointer w-full h-full rounded-[50%]  bg-center bg-no-repeat bg-cover'
-                    : ' opacity-0 cursor-pointer w-full h-full rounded-[50%] absolute bg-center bg-no-repeat bg-black'
-                }
+                type="text"
+                placeholder="Video title"
+                value={tenVideo}
+                onChange={(e) => setTenVideo(e.target.value)}
               />
             </div>
+
+            <div className="flex justify-center items-center">
+              <div className="responsiveImg relative create-video">
+                <img className="create-video-add" src={add} alt="" />
+
+                <div
+                  className="responsiveImg absolute cursor-pointer w-full h-full rounded-[50%] bg-center bg-no-repeat bg-cover bottom-0 "
+                  style={
+                    showImg.img1
+                      ? { backgroundImage: `url(${showImg.img1})` }
+                      : null
+                  }
+                ></div>
+
+                <input
+                  onChange={(e) => {
+                    handleChangeImage(e, setImage1, 'img1')
+                  }}
+                  type="file"
+                  accept="image/*"
+                  id="img1"
+                  className={
+                    image1
+                      ? ' opacity-0 responsiveImg cursor-pointer w-full h-full rounded-[50%]  bg-center bg-no-repeat bg-cover'
+                      : ' opacity-0 cursor-pointer w-full h-full rounded-[50%] absolute bg-center bg-no-repeat bg-black'
+                  }
+                />
+              </div>
+            </div>
+
+            <button
+              onClick={() => fetchData()}
+              className="flex justify-center items-center transition-transform duration-300 start-video "
+            >
+              Start
+            </button>
           </div>
 
-          <button
-            onClick={() => fetchData()}
-            className="flex justify-center items-center transition-transform duration-300 start-video "
-          >
-            Start
-          </button>
-        </div>
-
-        <div className="lg:w-1/2 p-4">
-          <div className="flex flex-col">
-            <div className="flex justify-center items-center">
-              <div className="inline-block make-video__video">
-                <video className="w-full h-auto" controls>
-                  <source src={link} type="video/mp4" />
-                  Trình duyệt của bạn không hỗ trợ thẻ video.
-                </video>
+          <div className="lg:w-1/2 p-4">
+            <div className="flex flex-col">
+              <div className="flex justify-center items-center">
+                <div className="make-video__video">
+                  <video controls>
+                    <source src={link} type="video/mp4" />
+                    Trình duyệt của bạn không hỗ trợ thẻ video.
+                  </video>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 
