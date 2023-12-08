@@ -8,6 +8,9 @@ import '../../../css/AddEvent.css'
 import RenderRandomWaitImage from '../../../components/randomImages'
 import './MyVideo.css'
 
+import { VideoItem } from '../../../components/VideoItem/VideoItem'
+import Header from '../../../components/Header/Header'
+
 function MyVideo() {
   const [isLoading, setIsLoading] = useState(false)
   const [randomImages, setRandomImages] = useState(null)
@@ -53,7 +56,7 @@ function MyVideo() {
   const [count, setCount] = useState(1)
 
   const getVideos = async () => {
-    const {data, status} = await axios.get(
+    const { data, status } = await axios.get(
       `https://metatechvn.store/lovehistory/video/${count}`,
       {
         headers: {
@@ -68,7 +71,6 @@ function MyVideo() {
       toast.error(errorMessage)
     }
 
-
     if (status === 200) {
       setVideos(data.list_sukien_video)
     }
@@ -77,7 +79,6 @@ function MyVideo() {
   useEffect(() => {
     getVideos()
   }, [count, token])
-
 
   const renderLoading = () => {
     if (isLoading) {
@@ -101,87 +102,79 @@ function MyVideo() {
   }
 
   return (
-    <div className="my-video">
-      {randomImages !== null && (
-        <RenderRandomWaitImage images1={randomImages} />
-      )}
-      {isLoading ? renderLoading() : ''}
+    <>
+      <Header
+        data={{
+          title: 'my collection',
+          download: true,
+        }}
+      />
 
-      <div className="my-video-container">
-        {videos &&
-          videos.map((v) => (
-            <li
-              className="text-center w-full sm:w-1/2 md:w-1/3 lg:w-1/4 my-video-item"
-              key={v.sukien_video[0].id_video}
-            >
-              <div className="overflow-hidden border border-gray-300 rounded-lg shadow-lg">
-                <video controls>
-                  <source
-                    src={v.sukien_video[0].link_vid_swap}
-                    type="video/mp4"
-                  />
-                </video>
-                <Link to={`/detailVideo/${v.sukien_video[0].id_video}`}>
-                  <div className="uppercase text-white tracking-wide text-sm font-sans">
-                    {v.sukien_video[0].ten_su_kien}
-                  </div>
-                  <p className="mt-2 text-white font-sans">
-                    {v.sukien_video[0].thoigian_taosk}
-                  </p>
-                </Link>
-              </div>
-            </li>
-          ))}
-      </div>
+      <div className="my-video">
+        {randomImages !== null && (
+          <RenderRandomWaitImage images1={randomImages} />
+        )}
+        {isLoading ? renderLoading() : ''}
 
-      <div className="overflow-x-auto d-none">
-        <div className="pagination text-4xl flex justify-start items-center my-6">
-          <button
-            onClick={() => handlePageChange(count - 1)}
-            disabled={count === 1}
-            className="py-2 px-3 bg-[#ff9f9f] rounded hover:bg-[#ff9f9f8c]"
-          >
-            <svg
-              fill="white"
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-            >
-              <path d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8.009 8.009 0 0 1-8 8z" />
-              <path d="M13.293 7.293 8.586 12l4.707 4.707 1.414-1.414L11.414 12l3.293-3.293-1.414-1.414z" />
-            </svg>
-          </button>
-
-          {Array.from({ length: totalPages }, (_, index) => (
-            <button
-              key={index + 1}
-              onClick={() => handlePageChange(index + 1)}
-              className={`mx-1 text-white font-medium py-2 px-3 rounded ${
-                count === index + 1 ? 'bg-red-700' : 'bg-[#ff9f9f]'
-              }`}
-            >
-              {index + 1}
-            </button>
-          ))}
-
-          <button
-            onClick={() => handlePageChange(count + 1)}
-            disabled={count === totalPages}
-            className="py-2 px-3 bg-[#ff9f9f] rounded hover:bg-[#ff9f9f8c]"
-          >
-            <svg
-              fill="white"
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-            >
-              <path d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8.009 8.009 0 0 1-8 8z" />
-              <path d="M9.293 8.707 12.586 12l-3.293 3.293 1.414 1.414L15.414 12l-4.707-4.707-1.414 1.414z" />
-            </svg>
-          </button>
+        <div className="my-video-container">
+          {videos &&
+            videos.map((video) => (
+              <VideoItem
+                {...video.sukien_video[0]}
+                type="video swap"
+                key={video.id_video}
+              />
+            ))}
         </div>
-      </div>
-      {/* <div className="pagination text-4xl flex justify-center my-6" >
+
+        <div className="overflow-x-auto d-none">
+          <div className="pagination text-4xl flex justify-start items-center my-6">
+            <button
+              onClick={() => handlePageChange(count - 1)}
+              disabled={count === 1}
+              className="py-2 px-3 bg-[#ff9f9f] rounded hover:bg-[#ff9f9f8c]"
+            >
+              <svg
+                fill="white"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+              >
+                <path d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8.009 8.009 0 0 1-8 8z" />
+                <path d="M13.293 7.293 8.586 12l4.707 4.707 1.414-1.414L11.414 12l3.293-3.293-1.414-1.414z" />
+              </svg>
+            </button>
+
+            {Array.from({ length: totalPages }, (_, index) => (
+              <button
+                key={index + 1}
+                onClick={() => handlePageChange(index + 1)}
+                className={`mx-1 text-white font-medium py-2 px-3 rounded ${
+                  count === index + 1 ? 'bg-red-700' : 'bg-[#ff9f9f]'
+                }`}
+              >
+                {index + 1}
+              </button>
+            ))}
+
+            <button
+              onClick={() => handlePageChange(count + 1)}
+              disabled={count === totalPages}
+              className="py-2 px-3 bg-[#ff9f9f] rounded hover:bg-[#ff9f9f8c]"
+            >
+              <svg
+                fill="white"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+              >
+                <path d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8.009 8.009 0 0 1-8 8z" />
+                <path d="M9.293 8.707 12.586 12l-3.293 3.293 1.414 1.414L15.414 12l-4.707-4.707-1.414 1.414z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+        {/* <div className="pagination text-4xl flex justify-center my-6" >
         <button onClick={() => setCount(count - 1)} disabled={count === 1}
           className="py-2 px-3 bg-[#ff9f9f] rounded hover:bg-[#ff9f9f8c]">
           <svg
@@ -212,7 +205,8 @@ function MyVideo() {
           </svg>
         </button>
       </div> */}
-    </div>
+      </div>
+    </>
   )
 }
 

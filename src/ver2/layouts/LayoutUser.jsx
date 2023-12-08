@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Outlet } from 'react-router'
 import SideBar from '../components/SideBar'
 const LayoutUser = () => {
-  const [width, setWidth] = useState(0)
+  const [width, setWidth] = useState('315px')
   
   const getWidthSideBar = (data) => {
     setWidth(data)

@@ -88,7 +88,7 @@ const Header = ({ data }) => {
         {data?.title && (
           <h2 className="component-header-title">{data.title}</h2>
         )}
-        {data?.myCollection && <Link to="/my-video">My collections</Link>}
+        {data?.myCollection && <Link to="/videos/my-video">My collections >></Link>}
         {data?.events && <Link to="/events">My events</Link>}
       </div>
 

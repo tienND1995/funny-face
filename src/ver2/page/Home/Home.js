@@ -59,7 +59,7 @@ function Home() {
                 <h3>salient features</h3>
                 <p>AI technology swap faces from your photos and videos.</p>
 
-                <Link to="/make-video-upload">Start Face Swapping</Link>
+                <Link to="/create-video">Start Face Swapping</Link>
               </div>
 
               <div className="home-banner-image">

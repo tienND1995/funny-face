@@ -9,7 +9,7 @@ import filterApp from '../../components/image/filter-app.png'
 import Header from '../../components/Header/Header'
 import { VideoItem } from '../../components/VideoItem/VideoItem'
 
-const Video = () => {
+const Videos = () => {
   const [category, setCategory] = useState(0)
   const [listVideo, setListVideo] = useState([])
   const [count, setCount] = useState(1)
@@ -165,4 +165,4 @@ const Video = () => {
   )
 }
 
-export default Video
+export default Videos

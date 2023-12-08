@@ -3,20 +3,18 @@ import React, { useEffect, useRef } from 'react'
 import searchIcon from '../../ver2/components/image/searchIcon/vuesax/bold/search-normal.png'
 import toggleMenuIcon from '../../ver2/components/image/toggleMenuIcon.png'
 
-import ImageIcon from '@mui/icons-material/Image'
-import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
 import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import DoubleHeartIcon from '../../ver2/components/image/heart-icon-madefuture.png'
 import messagaIcon from '../../ver2/components/image/messageIcon/vuesax/bold/message-question.png'
 
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate'
+import ChildCareIcon from '@mui/icons-material/ChildCare'
+import CollectionsIcon from '@mui/icons-material/Collections'
 import EventIcon from '@mui/icons-material/Event'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import VideoLibraryIcon from '@mui/icons-material/VideoLibrary'
 import VideoSettingsIcon from '@mui/icons-material/VideoSettings'
-import CollectionsIcon from '@mui/icons-material/Collections'
-import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate'
-import ChildCareIcon from '@mui/icons-material/ChildCare'
 
 import '../css/Sidebar.css'
 
@@ -75,14 +73,14 @@ const SideBar = (props) => {
       id: 6,
       name: 'Create your video',
       icon: <VideoSettingsIcon />,
-      path: '/make-video',
+      path: '/create-video',
     },
 
     {
       id: 7,
       name: 'Create your image',
       icon: <AddPhotoAlternateIcon />,
-      path: '/make-image',
+      path: '/create-image',
     },
 
     {

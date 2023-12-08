@@ -15,26 +15,25 @@ import ProfileGuest from './ver2/components/ProfileGuest'
 
 import Home from './ver2/page/Home/Home'
 import Love from './ver2/page/Love/Love'
-import NewHistory from './ver2/page/Love/NewHistory/NewHistory'
 
 import DetailVideo from './ver2/page/Videos/DetailVideo/DetailVideo'
 import MakeVideo from './ver2/page/Videos/MakeVideo/MakeVideo'
 import MyVideo from './ver2/page/Videos/MyVideo/MyVideo'
-import Video from './ver2/page/Videos/Videos'
+import Videos from './ver2/page/Videos/Videos'
 
 import './ver2/css/index.css'
 import LayoutGuest from './ver2/layouts/LayoutGuest'
 import LayoutUser from './ver2/layouts/LayoutUser'
 
 // import Home from './ver2/page/Home'
+import ChangePassword from './ver2/components/ChangePassword'
+import { CreateVideo } from './ver2/page/CreateVideo/CreateVideo'
+import Download from './ver2/page/Download/Download'
+import Events from './ver2/page/Events/Events'
+import ForgotPassword from './ver2/page/Forgotpassword'
 import Login from './ver2/page/Login'
 import Register from './ver2/page/Register'
-import ForgotPassword from './ver2/page/Forgotpassword'
 import TiktokScandal from './ver2/tiktok-scandal'
-import ChangePassword from './ver2/components/ChangePassword'
-import Events from './ver2/page/Events/Events'
-import MakeVideoUpload from './ver2/page/Videos/MakeVideoUpload/MakeVideoUpload'
-import Download from './ver2/page/Download/Download'
 
 function App() {
   const user = window.localStorage.getItem('user-info')
@@ -50,6 +49,7 @@ function App() {
     }
     getIPAddress()
   }, [])
+
   if (!user)
     return (
       <Routes>
@@ -81,11 +81,16 @@ function App() {
         <Route path="detail/:id/:stt" element={<Events />}></Route>
         <Route path="viewEvent" element={<EventResults />} />
 
-        <Route path="videos" element={<Video />} />
-        <Route path="make-video" element={<MakeVideo />} />
-        <Route path="make-video-upload" element={<MakeVideoUpload />} />
-        <Route path="my-video" element={<MyVideo />} />
-        <Route path="detailVideo/:id" element={<DetailVideo />} />
+        <Route path="videos">
+          <Route path="" element={<Videos />} />
+          <Route path="make-video" element={<MakeVideo />} />
+          <Route path="detail-video/:id" element={<DetailVideo />} />
+          <Route path="my-video" element={<MyVideo />} />
+        </Route>
+
+        <Route path="create-video">
+          <Route path="" element={<CreateVideo />} />
+        </Route>
 
         <Route path="login" element={<Login />} />
         <Route path="profile" element={<Profile />} />
