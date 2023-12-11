@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './ClockEvent.css'
 
-function Clock(startTime) {
+function Clock({data}) {
   const [countdown, setCountdown] = useState({
     days: 0,
     hours: 0,
@@ -10,9 +10,11 @@ function Clock(startTime) {
   })
 
   useEffect(() => {
-    const countdownDate = new Date(startTime.data)
-    startCountdown(countdownDate)
-  }, [startTime])
+    if (data) {
+      const countdownDate = new Date(data)
+      startCountdown(countdownDate)
+    }
+  }, [data])
 
   const startCountdown = (startDate) => {
     const interval = setInterval(() => {

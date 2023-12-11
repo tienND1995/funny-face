@@ -38,14 +38,14 @@ function Events() {
           background: `center/cover no-repeat url(${headerbg})`,
           title: 'events',
           download: true,
-          events: false,
+          events: true,
         }}
       />
       <div className=" min-h-screen overflow-hidden events">
         <div className="events-main">
           <div
             className={
-              'lg:w-1/4 z-[10] transition-all transform hidden duration-300 ease-out'
+              'lg:w-1/4 z-[10] transition-all transform duration-300 ease-out'
             }
             style={{
               overflowY: 'auto',
@@ -59,13 +59,16 @@ function Events() {
               </li>
 
               {listEvent.length > 0
-                ? listEvent.map((event) => (
+                ? listEvent.map((event, index) => (
                     <li
                       className="events-menu-item"
                       key={event.sukien[0].id_toan_bo_su_kien}
                     >
                       <NavLink
                         to={`/events/${event.sukien[0].id_toan_bo_su_kien}/1`}
+                        className={(props) =>
+                          index === 0 ? 'active' : ''
+                        }
                       >
                         {event.sukien[0].ten_su_kien}
                       </NavLink>

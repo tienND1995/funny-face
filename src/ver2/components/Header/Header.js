@@ -24,7 +24,7 @@ const Header = ({ data }) => {
   const [isOpenModal, setIsOpenModal] = useState(false)
   const [imgUrl, setImgUrl] = useState(null)
 
-  const fetchDataUser = async () => {
+  const fetchDataUser = async (id) => {
     try {
       const response = await axios.get(
         `https://metatechvn.store/lovehistory/${id}`
@@ -50,7 +50,7 @@ const Header = ({ data }) => {
   const modalHide = () => setIsOpenModal(false)
 
   useEffect(() => {
-    fetchDataUser()
+    id && fetchDataUser(id)
 
     window.addEventListener('scroll', handleScroll)
     return () => {
@@ -88,7 +88,9 @@ const Header = ({ data }) => {
         {data?.title && (
           <h2 className="component-header-title">{data.title}</h2>
         )}
-        {data?.myCollection && <Link to="/videos/my-video">My collections >></Link>}
+        {data?.myCollection && (
+          <Link to="/videos/my-video">My collections >></Link>
+        )}
         {data?.events && <Link to="/events">My events</Link>}
       </div>
 
@@ -102,11 +104,13 @@ const Header = ({ data }) => {
                 </div>
 
                 <div className="couple-image couple-image__boy">
-                  <img
-                    src={dataUser?.link_nam_goc}
-                    alt=""
-                    onClick={() => modalShow(dataUser.link_nam_goc)}
-                  />
+                  {dataUser?.link_nam_goc && (
+                    <img
+                      src={dataUser.link_nam_goc}
+                      alt="image boy root"
+                      onClick={() => modalShow(dataUser.link_nam_goc)}
+                    />
+                  )}
                 </div>
               </div>
 
@@ -116,18 +120,20 @@ const Header = ({ data }) => {
                 </div>
 
                 <div className="couple-image couple-image__girl">
-                  <img
-                    src={dataUser?.link_nu_goc}
-                    alt=""
-                    className="love-img"
-                    onClick={() => modalShow(dataUser.link_nu_goc)}
-                  />
+                  {dataUser?.link_nu_goc && (
+                    <img
+                      src={dataUser.link_nu_goc}
+                      alt="image girl root"
+                      className="love-img"
+                      onClick={() => modalShow(dataUser.link_nu_goc)}
+                    />
+                  )}
                 </div>
               </div>
             </div>
 
             <div className="events-time">
-              {dataUser.real_time && <Clock data={dataUser.real_time} />}
+              <Clock data={dataUser?.real_time} />
             </div>
           </div>
         </div>

@@ -4,7 +4,6 @@ import 'slick-carousel/slick/slick.css'
 
 import { NavLink } from 'react-router-dom'
 
-
 import axios from 'axios'
 import { useParams } from 'react-router'
 import no_avatar from '../../../components/image/no-avatar.png'
@@ -21,8 +20,6 @@ export default function EventResult() {
   const [selectedImage, setSelectedImage] = useState('')
 
   const { id } = useParams()
-
-  console.log('id:',id)
 
   const [dataUser, setDataUser] = useState(null)
   const [dataUser1, setDataUser1] = useState(null)
@@ -47,17 +44,6 @@ export default function EventResult() {
   const userInfo = JSON.parse(window.localStorage.getItem('user-info'))
   const id_user = userInfo && userInfo.id_user
 
-  // useEffect(() => {
-  //   axios
-  //     .get(
-  //       `https://metatechvn.store/lovehistory/comment/${stt_su_kien}?id_toan_bo_su_kien=${id}?id_user=${id_user}`
-  //     )
-  //     .then((response) => {
-  //       setDataComment(response.data.comment)
-  //       console.log(response.data.comment)
-  //     })
-  // }, [params])
-
   const fetchDataUser = async () => {
     try {
       const response = await axios.get(
@@ -74,8 +60,6 @@ export default function EventResult() {
   const redirect = (e) => {
     setIsActive(e)
     setIsOpenSidebar(false)
-    // const newUrl = `/events/${Resultd}/${e}`
-    // history.replace(newUrl)
   }
 
   useEffect(() => {
@@ -83,16 +67,11 @@ export default function EventResult() {
     const currentTab = parseInt(stt_su_kien)
     setIsActive(currentTab)
   }, [])
-  const handleSidebar = () => {
-    setIsOpenSidebar(!isOpenSidebar)
-  }
 
   const handleOpenImagePopup = (imageUrl) => {
     setSelectedImage(imageUrl)
     setIsImagePopupOpen(true)
   }
-
-  
 
   return (
     <>
@@ -119,7 +98,7 @@ export default function EventResult() {
             <ul className="events-menu">
               <li className="events-menu-item events-menu-add">
                 {dataUser?.id_user === id_user && (
-                  <NavLink to={`/events/${id}/0`} onClick={() => redirect(0)}>
+                  <NavLink to={`/events/add`} onClick={() => redirect(0)}>
                     <AddCircleIcon /> Add new event
                   </NavLink>
                 )}
