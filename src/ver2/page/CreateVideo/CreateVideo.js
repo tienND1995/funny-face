@@ -1,14 +1,14 @@
-import React, { useState, useRef, useEffect } from 'react'
 import axios from 'axios'
 import * as faceapi from 'face-api.js'
+import React, { useEffect, useRef, useState } from 'react'
 import './CreateVideo.css'
 
-import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
+import ReactLoading from 'react-loading'
 import { toast } from 'react-toastify'
 import Swal from 'sweetalert2'
-import ReactLoading from 'react-loading'
 
 import Header from '../../components/Header/Header'
 import addCircle from '../../components/image/add-circle.png'
@@ -24,11 +24,11 @@ export const CreateVideo = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const [image1, setImage1] = useState(null)
-  const [imageVid, setImageVid] = useState('')
+  const [imageFile, setImageFile] = useState(null)
   const [imgUrl, setImgUrl] = useState(null)
 
   const [videoUrl, setVideoUrl] = useState(null)
+  const [videoFile, setVideoFile] = useState(null)
   const [title, setTitle] = useState(TITLE_DEFAULT)
 
   const videoRef = useRef()
@@ -37,9 +37,21 @@ export const CreateVideo = () => {
   const inputTitleRef = useRef()
   const imgRef = useRef()
 
+  const [isCreated, setIsCreated] = useState(false)
+  const [videoSwap, setVideoSwap] = useState(null)
+  const [timeCreate, setTimeCreate] = useState(null)
+
+  console.log(videoSwap)
   useEffect(() => {
     loadModels()
   }, [])
+
+  useEffect(() => {
+    if (videoUrl) {
+      videoRef.current.load()
+      videoUploadRef.current.load()
+    }
+  }, [videoUrl, videoSwap])
 
   const loadModels = () => {
     Promise.all([
@@ -53,9 +65,34 @@ export const CreateVideo = () => {
     })
   }
 
+  const getMyDetailUser = async () => {
+    try {
+      const { data } = await axios.get('https://api.ipify.org/?format=json')
+
+      if (data.ip) {
+        const browser = window.navigator.userAgent
+
+        return {
+          browser: browser,
+          ip: data.ip,
+        }
+      }
+      return false
+    } catch (error) {
+      console.log(error)
+      return false
+    }
+  }
+
   const handleSubmitFrom = (e) => {
     e.preventDefault()
-    console.log('submit')
+    if (isCreated) return
+
+    if (!imgUrl || !videoUrl || title === TITLE_DEFAULT) {
+      Swal.fire('Oops...', 'Please enter complete information!', 'warning')
+      return
+    }
+    fetchData()
   }
 
   const handleChangeTitle = (e) => {
@@ -66,9 +103,7 @@ export const CreateVideo = () => {
     let file = e.target.files[0]
     const imageUrl = URL.createObjectURL(file)
 
-    if (!file) {
-      return
-    }
+    if (!file) return
 
     setIsLoading(true)
 
@@ -94,9 +129,8 @@ export const CreateVideo = () => {
       setIsLoading(false)
 
       setImgUrl(imageUrl)
-      setImage1(file)
-      const imagevid = await uploadImage(file)
-      setImageVid(imagevid)
+      const imageFile = await uploadImage(file)
+      setImageFile(imageFile)
     } catch (error) {
       console.log(error)
       setIsLoading(false)
@@ -105,20 +139,11 @@ export const CreateVideo = () => {
 
   const handleChangeVideo = (e) => {
     const file = e.target.files[0]
-    const reader = new FileReader()
+    if (!file) return
 
-    if (!file) {
-      return
-    }
-
-    reader.readAsDataURL(file)
-    reader.onload = async () => {
-      const src = reader.result
-      setVideoUrl(src)
-
-      videoRef.current.load()
-      videoUploadRef.current.load()
-    }
+    const videoObjectURL = URL.createObjectURL(file)
+    setVideoUrl(videoObjectURL)
+    setVideoFile(file)
   }
 
   const handleClear = () => {
@@ -200,6 +225,51 @@ export const CreateVideo = () => {
     }
   }
 
+  const fetchData = async () => {
+    setIsLoading(true)
+    try {
+      const device = await getMyDetailUser()
+
+      const params = new URLSearchParams({
+        device_them_su_kien: device.browser,
+        ip_them_su_kien: device.ip,
+        id_user: idUser,
+        src_img: imageFile,
+      }).toString()
+
+      const formData = new FormData()
+      formData.append('src_vid', videoFile)
+
+      const response = await axios.post(
+        `https://lhvn.online/getdata/genvideo/swap/imagevid?${params}`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      )
+
+      dispatch({
+        type: 'SET_RESPONSE_DATA',
+        payload: response.data,
+      })
+
+      console.log(response.data)
+
+      toast.success('Successful')
+
+      setIsLoading(false)
+      setIsCreated(true)
+      setVideoSwap(response.data.sukien_swap_video.link_vid_da_swap)
+      setTimeCreate(response.data.sukien_swap_video.thoigian_sukien)
+    } catch (error) {
+      toast.warning(error.message)
+      setIsLoading(false)
+    }
+  }
+
   const renderLoading = () => {
     return (
       <div className="fixed left-0 top-0 min-w-[100%] h-[100vh] z-30">
@@ -244,7 +314,7 @@ export const CreateVideo = () => {
             </div>
 
             <div className="createVideo-upload-video">
-              <label htmlFor="">Upload your video</label>
+              <label htmlFor="">Upload the replaced video</label>
               <div
                 className="createVideo-wrap"
                 style={{
@@ -263,21 +333,25 @@ export const CreateVideo = () => {
                   accept="video/*"
                 />
 
-                <video ref={videoUploadRef}>
-                  <source src={videoUrl} type="video/mp4" />
-                </video>
+                {videoUrl && (
+                  <video ref={videoUploadRef}>
+                    <source src={videoUrl} type="video/mp4" />
+                  </video>
+                )}
               </div>
             </div>
 
             <div className="createVideo-upload-image">
-              <label htmlFor="">Upload your image</label>
+              <label htmlFor="">Upload your alternative image</label>
               <div
                 className="createVideo-wrap"
                 style={{
                   border: imgUrl ? 'none' : '1px dashed #fff',
-                  background: imgUrl
-                    ? `center/cover no-repeat url(${imgUrl})`
-                    : '#00000033',
+                  backgroundColor: '#00000033',
+                  backgroundImage: `url(${imgUrl})`,
+                  backgroundSize: 'contain',
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'center',
                 }}
               >
                 {!imgUrl && (
@@ -297,17 +371,37 @@ export const CreateVideo = () => {
               </div>
             </div>
 
-            <button className="createVideo-btn" type="submit">
-              Create
-            </button>
-            {imgUrl || videoUrl || title !== TITLE_DEFAULT ? (
+            {!isCreated && (
+              <button className="createVideo-btn" type="submit">
+                Create
+              </button>
+            )}
+
+            {(imgUrl || videoUrl || title !== TITLE_DEFAULT) && !isCreated ? (
               <button
                 onClick={handleClear}
                 className="createVideo-btn createVideo-clear"
-                type="submit"
+                type="button"
               >
                 Clear ALL
               </button>
+            ) : null}
+
+            {isCreated ? (
+              <>
+                <button
+                  type="button"
+                  className="createVideo-btn createVideo-download"
+                >
+                  Download video
+                </button>
+                <button
+                  type="button"
+                  className="createVideo-btn createVideo-save"
+                >
+                  Save to my collection
+                </button>
+              </>
             ) : null}
           </form>
         </div>
@@ -315,14 +409,25 @@ export const CreateVideo = () => {
         <div className="w-3/4 createVideo-show">
           <div className="createVideo-show-title">
             <h3 ref={titleRef}>{title}</h3>
+            {isCreated && <time>{timeCreate}</time>}
           </div>
           <div className="createVideo-content">
-            <video controls ref={videoRef}>
-              <source src={videoUrl} type="video/mp4" />
-            </video>
+            {!isCreated ? (
+              videoUrl ? (
+                <video controls ref={videoRef}>
+                  <source src={videoUrl} type="video/mp4" />
+                </video>
+              ) : null
+            ) : (
+              <video controls ref={videoRef}>
+                <source src={videoSwap} type="video/mp4" />
+              </video>
+            )}
           </div>
         </div>
       </div>
     </>
   )
 }
+
+export default CreateVideo

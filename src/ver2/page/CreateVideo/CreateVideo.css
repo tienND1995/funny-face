@@ -106,3 +106,19 @@
   background-color: transparent;
   margin-top: -12px;
 }
+
+.createVideo-save {
+  background-color: #fff;
+  color: #000;
+}
+
+time {
+  font-size: 14px;
+  color: #bfbfbf;
+  padding-top: 3px;
+}
+
+.createVideo-content > img {
+  max-width: 500px;
+  margin: 20px auto 0;
+}

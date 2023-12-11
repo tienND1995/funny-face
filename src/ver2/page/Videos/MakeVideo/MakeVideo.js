@@ -176,7 +176,7 @@ function MakeVideo() {
   }
 
   const fetchData = async () => {
-    if (!tenVideo || !tenVideo.trim()) {
+    if (!tenVideo.trim() || !showImg.img1) {
       toast.warning('Enter Name Video!')
       return
     }
@@ -201,7 +201,7 @@ function MakeVideo() {
       })
 
       const idEvent = response.data.sukien_video.id_sukien_video
-      history(`/detailVideo/${idEvent}`)
+      history(`videos/detail-video/${idEvent}`)
 
       // toast.success("Successful");
     } catch (error) {

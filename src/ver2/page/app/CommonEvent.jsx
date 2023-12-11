@@ -14,22 +14,24 @@ const templateComponents = {
   Template4: Template4,
 };
 
-function CommonEvent({ stt }) {
+function CommonEvent(props) {
   const [data, setData] = useState([]);
   const { id } = useParams();
   const [template, setTemplate] = useState("Template1");
 
+
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        `https://metatechvn.store/lovehistory/${id}`
+        `https://metatechvn.store/lovehistory/${id ||props?.idDefault}`
       );
-      setData(response.data.sukien[stt - 1]); // Chỉnh index để lấy đúng sự kiện
-      setTemplate("Template" + response.data.sukien[stt - 1].id_template);
+      setData(response.data.sukien[props.stt - 1]); // Chỉnh index để lấy đúng sự kiện
+      setTemplate("Template" + response.data.sukien[props.stt - 1].id_template);
     } catch (err) {
       console.log(err);
     }
   };
+
 
   useEffect(() => {
     fetchData();
@@ -39,7 +41,7 @@ function CommonEvent({ stt }) {
 
   return (
     <div className="flex items-center justify-center h-full">
-      {data ? <TemplateComponent data={data} stt={stt} /> : <Empty/>}
+      {data ? <TemplateComponent data={data} stt={props.stt} /> : <Empty/>}
     </div>
   );
 }
