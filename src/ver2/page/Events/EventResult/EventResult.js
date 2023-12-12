@@ -81,6 +81,7 @@ export default function EventResult() {
           title: 'events',
           download: true,
           events: true,
+          myEvent: true
         }}
       />
       <div className=" min-h-screen overflow-hidden events">

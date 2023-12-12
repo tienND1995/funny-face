@@ -91,7 +91,7 @@ const Header = ({ data }) => {
         {data?.myCollection && (
           <Link to="/videos/my-video">My collections >></Link>
         )}
-        {data?.events && <Link to="/events">My events</Link>}
+        {data?.myEvent && <Link to="/events">My events >></Link>}
       </div>
 
       {data?.events && (

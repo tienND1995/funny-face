@@ -422,8 +422,6 @@ function Love() {
       const folder = res3.success.sukien[0].folder
       navigate(`/events/${eventId}/1`)
 
-      console.log(eventId)
-
       await createAnotherEvent(
         eventId,
         folder,

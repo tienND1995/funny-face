@@ -1,0 +1,64 @@
+.addEvent {
+  display: flex;
+  justify-content: space-between;
+  background: #191919;
+  gap: 28px;
+  padding: 28px;
+}
+
+.addEvent-left {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 400px;
+}
+
+.addEvent-view {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  color: white;
+  margin-bottom: 16px;
+}
+.addEvent-view > h4 {
+  font-size: 20px;
+  font-weight: 700;
+}
+.addEvent-view > a {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1db954;
+}
+
+.addEvent-btn {
+  background: #fff;
+  border-radius: 16px;
+  height: 40px;
+  position: relative;
+  margin-top: 10px;
+}
+.addEvent-btn > input {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  z-index: 99;
+  cursor: pointer;
+
+}
+.addEvent-btn > p {
+  font-size: 16px;
+  font-weight: 700;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.addEvent-right {
+  padding: 28px;
+  background: #0f0f0f;
+  border-radius: 16px;
+}

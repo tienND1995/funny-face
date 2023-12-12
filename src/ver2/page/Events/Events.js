@@ -13,6 +13,7 @@ import CommonEvent from '../app/CommonEvent'
 const { SERVER_API_METATECH } = configs
 
 function Events() {
+  const EVENTS_DEFAULT_INDEX = 0
   const [listEvent, setListEvent] = useState([])
   const user = JSON.parse(window.localStorage.getItem('user-info'))
 
@@ -39,6 +40,7 @@ function Events() {
           title: 'events',
           download: true,
           events: true,
+          myEvent: true
         }}
       />
       <div className=" min-h-screen overflow-hidden events">
@@ -66,9 +68,7 @@ function Events() {
                     >
                       <NavLink
                         to={`/events/${event.sukien[0].id_toan_bo_su_kien}/1`}
-                        className={(props) =>
-                          index === 0 ? 'active' : ''
-                        }
+                        className={(props) => (index === EVENTS_DEFAULT_INDEX ? 'active' : '')}
                       >
                         {event.sukien[0].ten_su_kien}
                       </NavLink>
@@ -81,9 +81,9 @@ function Events() {
             <aside className="events-content">
               {listEvent.length > 0 ? (
                 <CommonEvent
-                  key={listEvent[0].sukien[0].id_toan_bo_su_kien}
-                  stt={listEvent[0].sukien[0].so_thu_tu_su_kien}
-                  idDefault={listEvent[0].sukien[0].id_toan_bo_su_kien}
+                  key={listEvent[EVENTS_DEFAULT_INDEX].sukien[0].id_toan_bo_su_kien}
+                  stt={listEvent[EVENTS_DEFAULT_INDEX].sukien[0].so_thu_tu_su_kien}
+                  idDefault={listEvent[EVENTS_DEFAULT_INDEX].sukien[0].id_toan_bo_su_kien}
                 />
               ) : null}
             </aside>

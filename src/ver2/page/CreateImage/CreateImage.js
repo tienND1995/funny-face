@@ -264,6 +264,7 @@ function CreateImage() {
         return apiResponse.data
       }
       return null
+      
     } catch (error) {
       toast.error(error.response.data.message)
       return null

@@ -1,16 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import img1 from '../../../components/image/finish.png'
-import img2 from '../img/phaitren1.png'
-import img3 from '../img/phaiduoi1.png'
-import img4 from '../img/traitren1.png'
-import img5 from '../img/traiduoi1.png'
-import CmtPopup from '../CmtPopup'
-import Clock from '../../../components/ClockEvent/CLockEvent'
-import moment from 'moment'
-import { useParams } from 'react-router'
 import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router'
+import img1 from '../../../components/image/finish.png'
+import CmtPopup from '../CmtPopup'
 import nam1 from '../img/nam1.png'
 import nu1 from '../img/nu1.png'
+import img3 from '../img/phaiduoi1.png'
+import img2 from '../img/phaitren1.png'
+import img5 from '../img/traiduoi1.png'
+import img4 from '../img/traitren1.png'
 
 function Template1(props) {
   const { id } = useParams()
@@ -18,14 +16,16 @@ function Template1(props) {
   const [isOpenPopup, setIsOpenPopup] = useState(false)
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false)
   const [selectedImage, setSelectedImage] = useState('')
-  const data = props.data
-  const stt = data.so_thu_tu_su_kien
-  const tolll = data.real_time
+
+  const data = props?.data
+  const stt = data?.so_thu_tu_su_kien
+  const tolll = data?.real_time
+
   const handleOpenImagePopup = (imageUrl) => {
     setSelectedImage(imageUrl)
     setIsImagePopupOpen(true)
   }
-  console.log(tolll)
+
   useEffect(() => {
     if (isOpenPopup) {
       const formData = new FormData()
@@ -44,7 +44,7 @@ function Template1(props) {
   }, [isOpenPopup, id, stt])
   document.addEventListener('DOMContentLoaded', function () {
     const ogImageMeta = document.querySelector('meta[property="og:image"]')
-    ogImageMeta.setAttribute('content', data.link_da_swap)
+    ogImageMeta.setAttribute('content', data?.link_da_swap)
   })
 
   const cmt =
@@ -54,12 +54,6 @@ function Template1(props) {
   if (tolll === undefined) return <div></div>
   return (
     <div className="h-full flex flex-col items-center justify-center overflow-hidden">
-      {/* <div className="mb-10 mt-20">
-        <Clock
-          data={String(tolll)
-            }
-        />
-      </div> */}
       <div className="lg:hidden scroll-container lg:h-[30%] lg:w-[100%] flex items-center justify-center mt-4">
         <div
           style={{
@@ -108,7 +102,6 @@ function Template1(props) {
               className="lg:ml-[5px] lg:mt-[3px] absolute top-0 left-0"
             />
           </div>
-          {/* image love */}
           <div className="flex flex-col lg:ml-[100px] mx-14 items-center justify-center mt-[100px]">
             <span
               key={data.id}
@@ -139,7 +132,7 @@ function Template1(props) {
               </span>
             </div>
           </div>
-          {/* image swap */}
+
           <div className="absolute left-0 bottom-0">
             <img src={img3} alt="" className="" />
           </div>
@@ -162,7 +155,6 @@ function Template1(props) {
                   className="rounded-[32px] bg-no-repeat bg-cover lg:w-[495px] lg:h-[465px] w-[300px] h-[300px] ml-[-35px] mt-6"
                 />
               </div>
-              {/* first event */}
             </div>
           </div>
           <div className="absolute right-0 bottom-0">
