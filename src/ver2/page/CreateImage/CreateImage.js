@@ -377,6 +377,7 @@ function CreateImage() {
             ip_them_su_kien: ip,
             id_user: user.id_user,
           },
+          
           headers: {
             link1: srcnu,
             link2: srcnam,

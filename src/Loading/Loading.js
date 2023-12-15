@@ -1,9 +1,9 @@
 import React from 'react'
 import ReactLoading from 'react-loading'
 
-const Loading = () => {
-  return (
-    <div className="fixed top-0 min-w-[100%] h-[100vh] z-[99]">
+const Loading = ({ status }) => {
+  return status ? (
+    <div className="fixed left-0 top-0 min-w-[100%] h-[100vh] z-[99]">
       <div className="absolute top-0 min-w-[100%] h-[100vh] bg-black opacity-70"></div>
       <div
         style={{
@@ -16,7 +16,7 @@ const Loading = () => {
         <ReactLoading type={'bars'} color={'#C0C0C0'} />
       </div>
     </div>
-  )
+  ) : null
 }
 
 export default Loading

@@ -18,6 +18,7 @@ ul.events-menu {
   font-size: 16px;
   text-align: center;
   overflow-y: auto;
+  max-height: 80vh;
 }
 
 ul.events-menu::-webkit-scrollbar {
