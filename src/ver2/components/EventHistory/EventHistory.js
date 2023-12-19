@@ -166,10 +166,10 @@ function EventHistory(props) {
   const [paginates, setPaginates] = useState([1, 2, 3])
 
   return isLoading ? (
-    <div className="flex justify-center items-center h-full">
+    <div className="flex items-center justify-center h-full">
       <div className="loader-container">
         <ReactLoading type={loadingType} color="#000000" />
-        <p className="mt-4 text-gray-500 text-3xl">Loading...</p>
+        <p className="mt-4 text-3xl text-gray-500">Loading...</p>
       </div>
     </div>
   ) : (
@@ -249,7 +249,7 @@ function EventHistory(props) {
       </div>
 
       <ul className="event-history-pagination">
-        <li className="pagination-item  arrow-link">
+        <li className="pagination-item arrow-link">
           <a
             className="pagination-link"
             href="#"
@@ -271,7 +271,7 @@ function EventHistory(props) {
         ))}
 
         <li
-          className="pagination-item  arrow-link"
+          className="pagination-item arrow-link"
           onClick={() => changePageUp()}
         >
           <a className="pagination-link" href="#">

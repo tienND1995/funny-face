@@ -19,18 +19,16 @@ export default function EventResult() {
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false)
   const [selectedImage, setSelectedImage] = useState('')
 
-  const { id } = useParams()
+  const params = useParams()
+  const id = params.id
+  const stt_su_kien = params.stt
 
-  const [dataUser, setDataUser] = useState(null)
   const [dataUser1, setDataUser1] = useState(null)
 
   const [isActive, setIsActive] = useState(1)
   const [isOpenSidebar, setIsOpenSidebar] = useState(false)
 
   const [dataComment, setDataComment] = useState([])
-  const params = window.location.href
-  const arrayUrl = params.split('/')
-  const stt_su_kien = arrayUrl[arrayUrl.length - 1]
 
   // Show cmt
   const [showMoreStates, setShowMoreStates] = useState({})
@@ -42,14 +40,13 @@ export default function EventResult() {
   }
 
   const userInfo = JSON.parse(window.localStorage.getItem('user-info'))
-  const id_user = userInfo && userInfo.id_user
+  const id_user = userInfo?.id_user
 
   const fetchDataUser = async () => {
     try {
       const response = await axios.get(
         `https://metatechvn.store/lovehistory/${id}`
       )
-      setDataUser(response.data.sukien[0])
       setDataUser1(response.data.sukien)
       console.log(response.data.sukien)
     } catch (err) {
@@ -81,10 +78,10 @@ export default function EventResult() {
           title: 'events',
           download: true,
           events: true,
-          myEvent: true
+          myEvent: true,
         }}
       />
-      <div className=" min-h-screen overflow-hidden events">
+      <div className="min-h-screen overflow-hidden events">
         <div className="events-main">
           <div
             className={`lg:w-1/4 z-[10] lg:block ${
@@ -98,11 +95,9 @@ export default function EventResult() {
           >
             <ul className="events-menu">
               <li className="events-menu-item events-menu-add">
-                {dataUser?.id_user === id_user && (
-                  <NavLink to={`/events/add`} onClick={() => redirect(0)}>
-                    <AddCircleIcon /> Add new event
-                  </NavLink>
-                )}
+                <NavLink to={`/events/add`} onClick={() => redirect(0)}>
+                  <AddCircleIcon /> Add new event
+                </NavLink>
               </li>
 
               {dataUser1 &&
@@ -118,7 +113,7 @@ export default function EventResult() {
                 ))}
             </ul>
           </div>
-          <div className="lg:w-3/4 w-full min-h-screen">
+          <div className="w-full min-h-screen lg:w-3/4">
             <aside className="events-content">
               {isActive === 0 ? (
                 <EmptyTemplate />
@@ -135,7 +130,7 @@ export default function EventResult() {
                 )
               )}
             </aside>
-            <div className="flex justify-between items-center overflow-auto lg:hidden">
+            <div className="flex items-center justify-between overflow-auto lg:hidden">
               {dataUser1 &&
                 dataUser1.map((item, index) => (
                   <li
@@ -157,7 +152,7 @@ export default function EventResult() {
                 const isShowingFullText = showMoreStates[item.id_comment]
                 if (index < 1) {
                   return (
-                    <div className="flex flex-col gap-y-4 px-4 py-3 mx-4 border border-gray-400 rounded-md shadow-md hover:bg-gray-100">
+                    <div className="flex flex-col px-4 py-3 mx-4 border border-gray-400 rounded-md shadow-md gap-y-4 hover:bg-gray-100">
                       <div className="flex items-center gap-x-4">
                         {item.avatar_user &&
                         item.avatar_user.startsWith('http') ? (
@@ -189,7 +184,7 @@ export default function EventResult() {
                             </span>
                             {item.noi_dung_cmt.length > 256 && (
                               <span
-                                className="text-base hover:underline cursor-pointer"
+                                className="text-base cursor-pointer hover:underline"
                                 onClick={() => showCmt(item.id_comment)}
                                 style={{ color: 'blue' }}
                               >
@@ -226,7 +221,7 @@ export default function EventResult() {
                 }
               })}
               {dataComment.length > 10 && (
-                <div className="flex justify-center items-center mt-4 text-lg">
+                <div className="flex items-center justify-center mt-4 text-lg">
                   <span className="text-blue-700 cursor-pointer">
                     View all comments
                   </span>
@@ -238,18 +233,18 @@ export default function EventResult() {
       </div>
 
       {isImagePopupOpen && (
-        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-75 z-50">
+        <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-black bg-opacity-75">
           <div className="max-w-screen-xl w-80% p-4 bg-white rounded-lg shadow-lg text-center relative">
             <button
               onClick={() => setIsImagePopupOpen(false)}
-              className="mt-2 mr-2 px-2 py-1 bg-red-500 hover:bg-red-600 rounded-lg absolute top-0 right-0 text-sm text-white"
+              className="absolute top-0 right-0 px-2 py-1 mt-2 mr-2 text-sm text-white bg-red-500 rounded-lg hover:bg-red-600"
             >
               Close
             </button>
             <img
               src={selectedImage}
               alt="Ảnh lớn"
-              className="w-100 h-auto mx-auto z-99999"
+              className="h-auto mx-auto w-100 z-99999"
               style={{ maxHeight: '80vh' }}
             />
           </div>

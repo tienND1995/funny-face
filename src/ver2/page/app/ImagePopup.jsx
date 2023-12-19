@@ -4,6 +4,7 @@ function ImagePopup({ imgSrc, closeImg }) {
   const downloadImg = () => {
     saveAs(imgSrc, "avatar.png");
   };
+  
   return (
     <div className="w-[80%] h-[95%] flex items-center">
       <img
@@ -13,7 +14,7 @@ function ImagePopup({ imgSrc, closeImg }) {
       />
       <div className="w-[40px] h-full flex flex-col gap-y-10">
         <button
-          className="flex items-center justify-center flex-col"
+          className="flex flex-col items-center justify-center"
           onClick={closeImg}
         >
           <svg
@@ -45,7 +46,7 @@ function ImagePopup({ imgSrc, closeImg }) {
           </svg>
         </button>
         <button
-          className="flex items-center justify-center flex-col"
+          className="flex flex-col items-center justify-center"
           onClick={downloadImg}
         >
           <svg

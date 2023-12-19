@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from 'react'
-import Clock from '../../../components/ClockEvent/CLockEvent'
-import img1 from '../img/vien.png'
-import firstdate from '../img/firstdate.png'
-import CmtPopup from '../CmtPopup'
-import moment from 'moment/moment'
-import { useParams } from 'react-router'
 import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router'
+import CmtPopup from '../CmtPopup'
 import nam1 from '../img/nam1.png'
 import nu1 from '../img/nu1.png'
+import img1 from '../img/vien.png'
+
+import bgTemplate2 from '../../../components/image/bg-template2.png'
+import frameTemplate2 from '../../../components/image/frame-template2.png'
+
+import comment from '../../../components/image/comment.png'
+import view from '../../../components/image/view.png'
 
 function Template2(props) {
   const { id } = useParams()
@@ -21,10 +24,12 @@ function Template2(props) {
       'https://i.ibb.co/2jgmv3M/fdd83ed3cbe0.jpg'
     )
   })
+  
   const handleTouchEnd = (e) => {
     e.preventDefault()
     setIsOpenPopup(true)
   }
+
   useEffect(() => {
     if (isOpenPopup) {
       const formData = new FormData()
@@ -42,9 +47,6 @@ function Template2(props) {
     }
   }, [isOpenPopup, id, stt])
 
-  console.log('====================================')
-  console.log(props)
-  console.log('====================================')
   const {
     real_time,
     noi_dung_su_kien,
@@ -54,57 +56,9 @@ function Template2(props) {
     ten_su_kien,
     link_da_swap,
   } = data
-  const cmt =
-    'https://generation-sessions.s3.amazonaws.com/a6c87cf4275ca96f7141a113f2447e31/img/group-48096950-1@2x.png'
-  const view =
-    'https://generation-sessions.s3.amazonaws.com/a6c87cf4275ca96f7141a113f2447e31/img/group-48096951-1@2x.png'
-  console.log(data.real_time)
 
   return (
     <div className="flex flex-col items-center overflow-hidden">
-      {/* <div>
-        <Clock
-          data={data.real_time
-            }
-        />
-      </div> */}
-      <div className="lg:hidden scroll-container lg:h-[30%] lg:w-[100%] flex items-center justify-center mt-4">
-        <div
-          style={{
-            backgroundImage: `url(${nam1})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center center',
-            backgroundRepeat: 'no-repeat',
-            overflow: 'hidden',
-          }}
-          className="lg:w-[150px] lg:h-[150px] w-[90px] h-[90px] object-cover"
-        >
-          <img
-            src={data.link_nam_goc}
-            alt=""
-            className="lg:w-[80%] lg:h-[80%] w-[80%] h-[80%] object-cover  rounded-full lg:mt-[25px] lg:ml-[6px] mt-6 ml-2"
-            // onClick={() => handleOpenImagePopup(dataUser.link_nam_goc)}
-          />
-        </div>
-
-        <div
-          style={{
-            backgroundImage: `url(${nu1})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center center',
-            backgroundRepeat: 'no-repeat',
-            overflow: 'hidden',
-          }}
-          className="lg:w-[150px] lg:h-[150px] w-[90px] h-[90px]"
-        >
-          <img
-            src={data?.link_nu_goc}
-            alt=""
-            className="lg:w-[80%] lg:h-[80%] w-[80%] h-[80%] object-fill  rounded-full lg:mt-[25px] ml-6 mt-2 lg:ml-9"
-            // onClick={() => handleOpenImagePopup(dataUser.link_nu_goc)}
-          />
-        </div>
-      </div>
       <div className=" lg:w-[1019px] w-[400px] h-[500px] border-8 border-pink-300  lg:h-[600px] bg-white  rounded-[36px] flex flex-row overflow-hidden relative">
         <div
           style={{ backgroundImage: `url(${link_da_swap})` }}
@@ -116,23 +70,22 @@ function Template2(props) {
             className="absolute lg:top-[180px] top-[150px] object-contain w-[600px] h-[400px] lg:w-full"
             alt="avatar"
           />
-          <div className="absolute lg:bottom-28 lg:left-10 bottom-4 px-4 flex items-center lg:justify-evenly w-full flex-col lg:flex-row justify-center">
-            <div className="flex flex-col lg:gap-y-3 items-center justify-center">
-              {/* <img src={firstdate} className="" alt="first date" /> */}
-              <p className="lg:text-5xl text-3xl  mb-2 font-bold">
+          <div className="absolute flex flex-col items-center justify-center w-full px-4 lg:bottom-28 lg:left-10 bottom-4 lg:justify-evenly lg:flex-row">
+            <div className="flex flex-col items-center justify-center lg:gap-y-3">
+              <p className="mb-2 text-3xl font-bold lg:text-5xl">
                 {ten_su_kien}
               </p>
-              <div className="flex text-2xl lg:text-3xl gap-x-7 items-center">
-                <div className="flex items-center gap-x-2 font-bold">
-                  <img src={cmt} className="w-7" alt="view" />
+              <div className="flex items-center text-2xl lg:text-3xl gap-x-7">
+                <div className="flex items-center font-bold gap-x-2">
+                  <img src={comment} className="w-7" alt="view" />
                   <span>{count_comment}</span>
                 </div>
-                <div className="flex items-center gap-x-2 font-bold">
+                <div className="flex items-center font-bold gap-x-2">
                   <img src={view} className="w-7" alt="view" />
                   <span>{count_view}</span>
                 </div>
               </div>
-              <span className="font-bold text-2xl lg:text-3xl">
+              <span className="text-2xl font-bold lg:text-3xl">
                 {data.real_time}
               </span>
             </div>
@@ -151,9 +104,7 @@ function Template2(props) {
             />
           </div>
         )}
-        {}
       </div>
-      {/* <img src={data.link_nu_chua_swap} /> */}
     </div>
   )
 }

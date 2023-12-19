@@ -73,8 +73,6 @@ const EventAdd = () => {
     }
   }
 
-
-  
   const [sttEvent, setSttEvent] = useState(0)
   const getSttEvent = async (id_tbsk) => {
     try {
@@ -88,6 +86,7 @@ const EventAdd = () => {
   }
 
   const addEvent = async () => {
+    setIsLoading(true)
     const device = await getMyDetailUser()
     const formData = new FormData()
 
@@ -120,10 +119,13 @@ const EventAdd = () => {
 
       console.log('new event:', data)
       toast.success('Add success!')
+      setIsLoading(false)
 
+      uploadImage(imageUpload, 'vid')
       navigate(`/events/${ID_TBSK_DEFAULT}/${sttEvent + 1}`)
     } catch (error) {
       console.log(error)
+      setIsLoading(false)
     }
   }
 
@@ -169,7 +171,7 @@ const EventAdd = () => {
     switch (type) {
       case 'videos':
         return videoList.map((video) => (
-          <div key={video.id} className="p-2 w-1/2">
+          <div key={video.id} className="w-1/2 p-2">
             <div className="bg-[#525252] rounded-lg">
               <video className="mx-auto h-[160px]">
                 <source src={video.link_video} type="video/mp4" />
@@ -184,7 +186,7 @@ const EventAdd = () => {
             <img
               src={image}
               alt="image boy"
-              className="rounded-lg h-full w-full object-cover"
+              className="object-cover w-full h-full rounded-lg"
             />
           </div>
         ))
@@ -213,7 +215,8 @@ const EventAdd = () => {
     setVideoList(newVideos)
     videoActiveRef.current?.load()
   }
-
+  
+  const [imageUpload, setImageUpload] = useState(null)
   const handleChangeImage = async (e) => {
     let file = e.target.files[0]
     const imageUrl = URL.createObjectURL(file)
@@ -224,7 +227,7 @@ const EventAdd = () => {
     newImageList.splice(imageIndex, 0, imageUrl)
 
     setImageList(newImageList)
-    uploadImage(file, 'vid')
+    setImageUpload(file)
   }
 
   const [form, setForm] = useState({ title: '', content: '' })
@@ -362,7 +365,7 @@ const EventAdd = () => {
                           <img
                             src={image}
                             alt="image"
-                            className="rounded-lg h-full w-full object-cover"
+                            className="object-cover w-full h-full rounded-lg"
                           />
                         </div>
                       ))
@@ -394,7 +397,7 @@ const EventAdd = () => {
                 <h3>Template</h3>
               </div>
 
-              <div className="viewAll-content flex flex-wrap">
+              <div className="flex flex-wrap viewAll-content">
                 {renderViewAllContent(isViewAll.type)}
               </div>
             </div>

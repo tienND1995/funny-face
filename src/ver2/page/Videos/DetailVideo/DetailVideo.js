@@ -3,21 +3,26 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import './DetailVideo.css'
 import Header from '../../../components/Header/Header'
+import { Link } from 'react-router-dom'
 
 const DetailVideo = () => {
   const { id } = useParams()
   const [data, setData] = useState('')
   const [video, setVideo] = useState('')
-  const [goc, Setgoc] = useState('')
+  const [videoGoc, SetVideoGoc] = useState('')
+
+  const [idUser, setIdUser] = useState(null)
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
           `https://metatechvn.store/lovehistory/sukien/video/${id}`
         )
+
+        setIdUser(response.data.sukien_video[0].id_user)
         setData(response.data.sukien_video[0])
         setVideo(response.data.sukien_video[0].link_vid_swap)
-        Setgoc(response.data.sukien_video[0].link_video_goc)
+        SetVideoGoc(response.data.sukien_video[0].link_video_goc)
         console.log('Video Value:', video)
         console.log(response.data)
       } catch (error) {
@@ -37,17 +42,19 @@ const DetailVideo = () => {
         }}
       />
       <div className="video-detail">
-        <div className="flex justify-between items-center">
+        <div className="flex items-center justify-between">
           <div className="w-1/3 detail-user">
-            <p className="detail-result">Success, this is the result !!</p>
+            <p className="detail-result">Success, this is the result!!</p>
 
             <div className="detail-info">
               <div className="detail-avatar lg:w-[160px] lg:h-[160px] w-[90px] h-[90px]">
-                <img
-                  src={data.link_image}
-                  alt=""
-                  //   className="lg:w-[100%] lg:h-[1000%] w-[80%] h-[80%] object-fill  rounded-full ml-2  mt-6 lg:mt-10 "
-                />
+                <Link to="/profile" state={{id: idUser}}>
+                  <img
+                    src={data.link_image}
+                    alt=""
+                    //   className="lg:w-[100%] lg:h-[1000%] w-[80%] h-[80%] object-fill  rounded-full ml-2  mt-6 lg:mt-10 "
+                  />
+                </Link>
               </div>
 
               <p className="detail-name">{data.ten_su_kien}</p>
@@ -70,7 +77,7 @@ const DetailVideo = () => {
             </div>
 
             <div className="w-1/2 detail-video-item">
-              <video className="" controls key={id} src={goc}></video>
+              <video className="" controls key={id} src={videoGoc}></video>
             </div>
           </div>
         </div>

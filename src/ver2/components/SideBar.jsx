@@ -87,7 +87,7 @@ const SideBar = (props) => {
       id: 8,
       name: 'Baby generator',
       icon: <ChildCareIcon />,
-      path: '/baby',
+      path: '/genbaby',
     },
   ]
 
@@ -98,7 +98,7 @@ const SideBar = (props) => {
           showSideBar ? 'full' : '100px'
         }] h-[600px] bg-[#32323280] rounded-lg mx-8 p-6 transition-all duration-300`}
       >
-        <div className="main-nav flex flex-col">
+        <div className="flex flex-col main-nav">
           {!showSideBar && (
             <img
               src={DoubleHeartIcon}
@@ -139,7 +139,7 @@ const SideBar = (props) => {
                 <img
                   src={searchIcon}
                   alt="Search"
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 h-6 w-6"
+                  className="absolute w-6 h-6 transform -translate-y-1/2 left-3 top-1/2"
                 />
               </div>
             )}

@@ -40,10 +40,10 @@ function Events() {
           title: 'events',
           download: true,
           events: true,
-          myEvent: true
+          myEvent: true,
         }}
       />
-      <div className=" min-h-screen overflow-hidden events">
+      <div className="min-h-screen overflow-hidden events">
         <div className="events-main">
           <div
             className={
@@ -68,7 +68,6 @@ function Events() {
                     >
                       <NavLink
                         to={`/events/${event.sukien[0].id_toan_bo_su_kien}/1`}
-                        className={(props) => (index === EVENTS_DEFAULT_INDEX ? 'active' : '')}
                       >
                         {event.sukien[0].ten_su_kien}
                       </NavLink>
@@ -77,13 +76,19 @@ function Events() {
                 : null}
             </ul>
           </div>
-          <div className="lg:w-3/4 w-full min-h-screen">
+          <div className="w-full min-h-screen lg:w-3/4">
             <aside className="events-content">
               {listEvent.length > 0 ? (
                 <CommonEvent
-                  key={listEvent[EVENTS_DEFAULT_INDEX].sukien[0].id_toan_bo_su_kien}
-                  stt={listEvent[EVENTS_DEFAULT_INDEX].sukien[0].so_thu_tu_su_kien}
-                  idDefault={listEvent[EVENTS_DEFAULT_INDEX].sukien[0].id_toan_bo_su_kien}
+                  key={
+                    listEvent[EVENTS_DEFAULT_INDEX].sukien[0].id_toan_bo_su_kien
+                  }
+                  stt={
+                    listEvent[EVENTS_DEFAULT_INDEX].sukien[0].so_thu_tu_su_kien
+                  }
+                  idDefault={
+                    listEvent[EVENTS_DEFAULT_INDEX].sukien[0].id_toan_bo_su_kien
+                  }
                 />
               ) : null}
             </aside>

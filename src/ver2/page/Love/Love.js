@@ -521,7 +521,7 @@ function Love() {
               justifyContent: 'right',
               alignItems: 'center',
             }}
-            className="absolute -translate-x-2/4 opacity-100 -translate-y-2/4 left-2/4 top-2/4 z-20"
+            className="absolute z-20 opacity-100 -translate-x-2/4 -translate-y-2/4 left-2/4 top-2/4"
           >
             <ReactLoading type={'bars'} color={'#C0C0C0'} />
           </div>
@@ -542,13 +542,13 @@ function Love() {
         style={{ backgroundImage: `url(${imgBg})`, minHeight: '100vh' }}
         className="bg-no-repeat bg-cover"
       >
-        {/* <div className="flex justify-center max-lg:mt-11 mb-24">
+        {/* <div className="flex justify-center mb-24 max-lg:mt-11">
         <Clock check={randomImages} />
       </div> */}
 
         {hi ? (
-          <div className="flex justify-center items-center ">
-            <div className="progressbar z-50 ">
+          <div className="flex items-center justify-center ">
+            <div className="z-50 progressbar ">
               <div
                 style={{
                   height: '100%',
@@ -571,7 +571,7 @@ function Love() {
         {isLoading ? renderLoading() : ''}
 
         <div className="love">
-          <div className="love-content flex justify-between">
+          <div className="flex justify-between love-content">
             <div className="love-item">
               <div className="love-small">
                 <img src={boysmall} alt="" />
@@ -658,16 +658,16 @@ function Love() {
             </div>
           </div>
 
-          <div className="love-start transition-transform duration-300 hover:scale-125 ">
+          <div className="transition-transform duration-300 love-start hover:scale-125 ">
             <button onClick={fetchData} className="text-4xl">
-              Bắt đầu
+              Start
             </button>
           </div>
         </div>
 
         {/* MOBILE */}
 
-        <div className="flex justify-between mx-9 pb-32 hidden">
+        <div className="flex justify-between hidden pb-32 mx-9">
           <div>
             <div
               style={{
@@ -706,7 +706,7 @@ function Love() {
 
             <div className="text-center lg:mt-16 my-3 text-2xl slab text-[#7A1E3E] font-semibold">
               {/* MALE */}
-              {/* <div className="my-2 border mx-auto w-10/12 justify-center flex items-center rounded-md shadow-md">
+              {/* <div className="flex items-center justify-center w-10/12 mx-auto my-2 border rounded-md shadow-md">
               <div className="w-full max-w-[120px]">
                 <input
                   type="search"
@@ -723,7 +723,7 @@ function Love() {
           {/*  */}
           <div
             onClick={() => fetchData()}
-            className="flex justify-center items-center transition-transform duration-300 hover:scale-125 mx-auto"
+            className="flex items-center justify-center mx-auto transition-transform duration-300 hover:scale-125"
           >
             <img
               src={bsHeart}
@@ -770,7 +770,7 @@ function Love() {
             </div>
             <div className="text-center lg:mt-16 my-3  text-2xl slab text-[#7A1E3E] font-semibold">
               {/* FEMALE */}
-              {/* <div className="my-2 border mx-auto w-10/12 justify-center flex items-center rounded-md shadow-md">
+              {/* <div className="flex items-center justify-center w-10/12 mx-auto my-2 border rounded-md shadow-md">
               <div className="w-full max-w-[120px]">
                 <input
                   type="search"
@@ -787,15 +787,15 @@ function Love() {
 
         {isModelWarning ? (
           <>
-            <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-              <div className="relative w-96 my-6 mx-auto max-w-3xl">
-                <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-                  <div className="relative p-6 flex-auto">
-                    <p className="my-4 text-slate-500 slab text-3xl leading-relaxed">
+            <div className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
+              <div className="relative max-w-3xl mx-auto my-6 w-96">
+                <div className="relative flex flex-col w-full bg-white border-0 rounded-lg shadow-lg outline-none focus:outline-none">
+                  <div className="relative flex-auto p-6">
+                    <p className="my-4 text-3xl leading-relaxed text-slate-500 slab">
                       Please select a photo to continue
                     </p>
                   </div>
-                  <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                  <div className="flex items-center justify-end p-6 border-t border-solid rounded-b border-slate-200">
                     <button
                       className="text-[#FF2C61] slab hover:bg-[#ED709D] hover:text-white font-bold uppercase px-6 py-3 rounded-xl text-2xl outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                       type="button"
@@ -809,16 +809,16 @@ function Love() {
                 </div>
               </div>
             </div>
-            <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+            <div className="fixed inset-0 z-40 bg-black opacity-25"></div>
           </>
         ) : null}
 
         <div className="relative" style={{ zIndex: 60 }}>
           {/* Nội dung khác của bạn */}
           {isModalVisible && (
-            <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-white p-8 rounded-md shadow-lg flex flex-col items-center">
+            <div className="fixed z-50 flex flex-col items-center p-8 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-md shadow-lg top-1/2 left-1/2">
               <button
-                className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+                className="absolute text-gray-500 top-2 right-2 hover:text-gray-700"
                 onClick={handleCloseModal}
               >
                 {/* Bạn có thể thay thế 'X' bằng biểu tượng đóng hoặc bất kỳ văn bản nào bạn muốn */}
@@ -826,7 +826,7 @@ function Love() {
               </button>
               <div className="flex-grow"></div>
               <img
-                className="max-w-full h-auto lg:max-w-lg md:max-w-md sm:max-w-sm"
+                className="h-auto max-w-full lg:max-w-lg md:max-w-md sm:max-w-sm"
                 src={selectedImage.url}
                 alt=""
               />
@@ -839,15 +839,15 @@ function Love() {
 
         {showModal ? (
           <>
-            <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-              <div className="relative w-96 my-6 mx-auto max-w-3xl">
-                <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-                  <div className="relative p-6 flex-auto">
-                    <p className="my-4 text-slate-500 slab text-3xl leading-relaxed">
+            <div className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
+              <div className="relative max-w-3xl mx-auto my-6 w-96">
+                <div className="relative flex flex-col w-full bg-white border-0 rounded-lg shadow-lg outline-none focus:outline-none">
+                  <div className="relative flex-auto p-6">
+                    <p className="my-4 text-3xl leading-relaxed text-slate-500 slab">
                       Can't recognize faces
                     </p>
                   </div>
-                  <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                  <div className="flex items-center justify-end p-6 border-t border-solid rounded-b border-slate-200">
                     <button
                       className="text-[#FF2C61] slab hover:bg-[#ED709D] hover:text-white font-bold uppercase px-6 py-3 rounded-xl text-2xl outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                       type="button"
@@ -861,21 +861,21 @@ function Love() {
                 </div>
               </div>
             </div>
-            <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+            <div className="fixed inset-0 z-40 bg-black opacity-25"></div>
           </>
         ) : null}
         {showModals22 ? (
           <>
-            <div className="justify-center items-center flex overflow-auto fixed inset-0 z-50 outline-none focus:outline-none">
+            <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto outline-none focus:outline-none">
               <div className="relative w-[1000px]  max-w-3xl">
                 <div className="lg:-ml-16 ml-6 lg:w-[680px] lg:py-4 lg:px-8 w-[400px] border-0 rounded-lg shadow-lg relative flex flex-col bg-black outline-none focus:outline-none">
                   <div className="relative px-10 flex-auto  lg:h-[700px] h-[600px] text-white">
                     <h1 className="mt-40 text-center text-black-500 slab max-lg:pt-8 text-4xl md:text-[32px] leading-relaxed text-white">
                       Complete upload
                     </h1>
-                    <div className="md:mt-10 text-3xl text-white">
+                    <div className="text-3xl text-white md:mt-10">
                       <div className="my-8">
-                        <h1 className="text-4xl text-green-600 flex md:py-1">
+                        <h1 className="flex text-4xl text-green-600 md:py-1">
                           <img
                             className="h-[30px]"
                             src="https://png.pngtree.com/png-vector/20221215/ourmid/pngtree-green-check-mark-png-image_6525691.png"
@@ -909,9 +909,9 @@ function Love() {
                         ))}
                       </div>
                     </div>
-                    <div className="md:mt-10 text-3xl text-white">
+                    <div className="text-3xl text-white md:mt-10">
                       <div className="my-8">
-                        <h1 className="text-4xl text-red-600 flex md:py-1">
+                        <h1 className="flex text-4xl text-red-600 md:py-1">
                           <img
                             className="h-[30px]"
                             src="https://i.ibb.co/bJ517B1/close-removebg-preview.png"
@@ -969,7 +969,7 @@ function Love() {
                 </div>
               </div>
             </div>
-            <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+            <div className="fixed inset-0 z-40 bg-black opacity-25"></div>
           </>
         ) : null}
 

@@ -6,6 +6,7 @@
   color: white;
   padding: 16px 0 16px 12px;
 }
+
 .event-user__avatar {
   width: 36px;
   height: 36px;
@@ -61,6 +62,7 @@
   font-size: 18px;
   font-weight: 700;
 }
+
 .event-marry__view > div {
   display: flex;
   gap: 8px;

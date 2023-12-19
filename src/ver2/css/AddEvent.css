@@ -33,7 +33,7 @@
   }
 }
 .progressbar{
-	position: relative;
+	/* position: relative; */
 	overflow: hidden;
 	width: 350px;
 	height: 35px;

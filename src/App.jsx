@@ -38,6 +38,7 @@ import Login from './ver2/page/Login'
 import Register from './ver2/page/Register'
 import TiktokScandal from './ver2/tiktok-scandal'
 import EventAdd from './ver2/page/Events/EventAdd/EventAdd'
+import GenBaby from './ver2/page/GenBaby/GenBaBy'
 
 function App() {
   const user = window.localStorage.getItem('user-info')
@@ -76,8 +77,6 @@ function App() {
       <Route path="" element={<LayoutUser />}>
         <Route index element={<Home />} />
 
-        <Route path="event/:id" element={<Home />} />
-
         <Route path="events">
           <Route index element={<Events />} />
           <Route path=":id/:stt" element={<EventResult />} />
@@ -86,8 +85,6 @@ function App() {
 
         <Route path="love" element={<Love />} />
         <Route path="detail/:id/:stt" element={<Events />} />
-
-        <Route path="viewEvent" element={<EventResults />} />
 
         <Route path="videos">
           <Route index element={<Videos />} />
@@ -98,6 +95,7 @@ function App() {
 
         <Route path="create-video" element={<CreateVideo />} />
         <Route path="create-image" element={<CreateImage />} />
+        <Route path="genbaby" element={<GenBaby />} />
 
         <Route path="login" element={<Login />} />
         <Route path="profile" element={<Profile />} />

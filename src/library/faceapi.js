@@ -60,7 +60,7 @@ export const uploadImage = async (image, type) => {
 
   try {
     const apiResponse = await axios.post(
-      `${SERVER_API_METATECH}/upload-gensk/${idUser}?type=src_${type}`,
+      `${SERVER_API_METATECH}/upload-gensk/${idUser}?type=src_${type.toLowerCase()}`,
       formData,
       {
         headers: {

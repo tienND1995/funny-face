@@ -30,7 +30,6 @@ function CmtPopup(props) {
   const userInfo = JSON.parse(window.localStorage.getItem("user-info"));
   const token = userInfo && userInfo.token;
   
-  console.log(props);
   const [imgComment, setImgComment] = useState("");
   const templateCmt = props.TemplateCmt;
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
@@ -207,6 +206,7 @@ function CmtPopup(props) {
   };
   const closePopup = () => {
     props.setIsOpenPopup(false);
+    console.log('props:', props)
   };
   const fetchDataCmt = async () => {
     console.log(1234);
@@ -403,7 +403,7 @@ function CmtPopup(props) {
                 dataCmt.map((cmt, index) => (
                   <>
                     <div
-                      className="flex items-stretch gap-x-4 justify-between relative"
+                      className="relative flex items-stretch justify-between gap-x-4"
                       key={index}
                     >
                       <div className="overflow-hidden rounded-[50%] w-[40px] h-[40px] ml-[20px]">
@@ -443,7 +443,7 @@ function CmtPopup(props) {
                           ) : (
                             ""
                           )}
-                          <span className="lg:text-base text-sm">
+                          <span className="text-sm lg:text-base">
                             {cmt && cmt.device_cmt}
                           </span>
                         </>
@@ -493,13 +493,13 @@ function CmtPopup(props) {
                             actionCMT.value == cmt.id_comment && (
                               <div className="shadow-[rgba(0,0,0,0.1)_0px_1px_3px_0px,rgba(0,0,0,0.06)_0px_1px_2px_0px] absolute  right-12   rounded-sm bg-slate-100 text-lg text-black">
                                 <button
-                                  className=" flex gap-3 py-1 px-3 hover:bg-blue-400 hover:text-white w-full"
+                                  className="flex w-full gap-3 px-3 py-1 hover:bg-blue-400 hover:text-white"
                                   onClick={() => startEdit(cmt)}
                                 >
                                   Edit
                                 </button>
                                 <button
-                                  className="py-1 px-3 flex gap-3 hover:bg-red-400 hover:text-white w-full"
+                                  className="flex w-full gap-3 px-3 py-1 hover:bg-red-400 hover:text-white"
                                   onClick={() =>
                                     deleteComment(cmt.id_comment)
                                   }
@@ -512,7 +512,7 @@ function CmtPopup(props) {
                             actionCMT.value == cmt.id_comment && (
                               <div className="shadow-[rgba(0,0,0,0.1)_0px_1px_3px_0px,rgba(0,0,0,0.06)_0px_1px_2px_0px] absolute right-12 rounded-sm bg-slate-100 text-lg text-black">
                                 <button
-                                  className="py-1 px-3 hover:bg-red-400 hover:text-white w-full"
+                                  className="w-full px-3 py-1 hover:bg-red-400 hover:text-white"
                                   onClick={() =>
                                     showModal(cmt.id_comment, cmt.id_user)
                                   }
@@ -527,7 +527,7 @@ function CmtPopup(props) {
                   </>
                 ))}
             </div>
-            <div className="flex items-center justify-around mx-3 gap-x-4 rounded-full shadow-sm shadow-slate-300">
+            <div className="flex items-center justify-around mx-3 rounded-full shadow-sm gap-x-4 shadow-slate-300">
               <div className="overflow-hidden rounded-full w-[50px]">
                 <img
                   src={user?.id_user ? user.link_avatar : noAvatar}
@@ -536,7 +536,7 @@ function CmtPopup(props) {
                 />
               </div>
               {isEditing ? (
-                <div className="w-full py-3 px-4 border bg-white border-gray-500 rounded-full ">
+                <div className="w-full px-4 py-3 bg-white border border-gray-500 rounded-full ">
                   <form
                     onSubmit={onSubmitComment}
                     className="flex items-center gap-x-4"
@@ -547,7 +547,7 @@ function CmtPopup(props) {
                       onChange={handleEditInputChange}
                       className="w-full h-[50px] border-none outline-none font-[Montserrat]"
                     ></textarea>
-                    <div className="inline-block relative">
+                    <div className="relative inline-block">
                       <label htmlFor="edit-file-input">
                         <img
                           src="https://cdn-icons-png.flaticon.com/512/685/685655.png"
@@ -576,20 +576,20 @@ function CmtPopup(props) {
                     </button>
                   </form>
                   {imgComment && (
-                    <div className="mt-2 flex items-center gap-2">
+                    <div className="flex items-center gap-2 mt-2">
                       <img
                         className="w-[80px] h-[70px]"
                         src={imgComment}
                         alt="Uploaded"
                       />
                       <button className="mt-[-50px]" onClick={removeImgComment}>
-                        <i className="fas fa-times font-bold" />
+                        <i className="font-bold fas fa-times" />
                       </button>
                     </div>
                   )}
                 </div>
               ) : (
-                <div className="w-full py-3 px-4 border bg-white border-gray-500 rounded-2xl mb-2">
+                <div className="w-full px-4 py-3 mb-2 bg-white border border-gray-500 rounded-2xl">
                   <form
                     onSubmit={onSubmitComment}
                     className="flex items-center gap-x-4"
@@ -601,8 +601,8 @@ function CmtPopup(props) {
                       onChange={handleInputChange}
                       className="w-full h-[100px] h-max-[400px] border-none outline-none font-[Montserrat]"
                     ></textarea>
-                    <div className="flex items-center gap-x-4 p-2">
-                      <label className="inline-block relative">
+                    <div className="flex items-center p-2 gap-x-4">
+                      <label className="relative inline-block">
                         <img
                           src="https://cdn-icons-png.flaticon.com/512/685/685655.png"
                           width="20px"
@@ -631,10 +631,10 @@ function CmtPopup(props) {
 
                   </form>
                   {imgComment && (
-                    <div className="mt-2 flex items-center gap-2">
+                    <div className="flex items-center gap-2 mt-2">
                       <img className="w-[80px] h-[70px]" src={imgComment} />
                       <button className="mt-[-50px]" onClick={removeImgComment}>
-                        <i className="fas fa-times font-bold" />
+                        <i className="font-bold fas fa-times" />
                       </button>
                     </div>
                   )}
@@ -647,7 +647,7 @@ function CmtPopup(props) {
       <div className=" h-full z-[100]" onClick={closePopup}>
         <button
           onClick={closePopup}
-          className="mt-2 mr-2 px-2 py-1 bg-red-500 hover:bg-red-600 rounded-lg absolute top-0 right-0 text-sm text-white"
+          className="absolute top-0 right-0 px-2 py-1 mt-2 mr-2 text-sm text-white bg-red-500 rounded-lg hover:bg-red-600"
           style={{ zIndex: 1 }} // Đảm bảo nút close có độ ưu tiên cao hơn các phần tử khác
         >
           Close
@@ -677,11 +677,11 @@ function CmtPopup(props) {
       </Modal>
 
       {isImagePopupOpen && (
-        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-75 z-50">
+        <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-black bg-opacity-75">
           <div className="max-w-screen-xl w-80% p-4 bg-white rounded-lg shadow-lg text-center relative">
             <button
               onClick={() => setIsImagePopupOpen(false)}
-              className="mt-2 mr-2 px-2 py-1 bg-red-500 hover:bg-red-600 rounded-lg absolute top-0 right-0 text-sm text-white"
+              className="absolute top-0 right-0 px-2 py-1 mt-2 mr-2 text-sm text-white bg-red-500 rounded-lg hover:bg-red-600"
               style={{ zIndex: 1 }} // Đảm bảo nút close có độ ưu tiên cao hơn các phần tử khác
             >
               Close
@@ -689,12 +689,12 @@ function CmtPopup(props) {
             <img
               src={selectedImage}
               alt="Ảnh lớn"
-              className="w-100 h-auto mx-auto z-99999"
+              className="h-auto mx-auto w-100 z-99999"
               style={{ maxHeight: "80vh", zIndex: 0 }} // Đảm bảo ảnh có độ ưu tiên thấp hơn nút close
             />
             <button
               onClick={downloadImg}
-              className="mt-2 mr-2 px-2 py-1 bg-blue-500 hover:bg-blue-600 rounded-lg text-sm text-white"
+              className="px-2 py-1 mt-2 mr-2 text-sm text-white bg-blue-500 rounded-lg hover:bg-blue-600"
               style={{ zIndex: 1 }} // Đảm bảo nút download có độ ưu tiên cao hơn các phần tử khác
             >
               Download

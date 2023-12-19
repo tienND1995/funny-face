@@ -1,0 +1,88 @@
+.template {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 50px;
+  border-radius: 16px;
+  color: black;
+  cursor: pointer;
+
+  min-width: 650px;
+  width: 100%;
+}
+
+.template-main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.template-title {
+  font-size: 24px;
+  font-family: 'starborn';
+}
+
+.template-text {
+  font-size: 16px;
+  max-width: 300px;
+  line-height: 1.5;
+  font-weight: 500;
+
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  display: -webkit-box;
+  overflow: hidden;
+}
+
+.template-icon {
+  display: flex;
+  gap: 28px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.template-icon__child {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.template-main time {
+  font-size: 12px;
+  color: black;
+  font-weight: 500;
+}
+
+.template-image {
+  width: 226px;
+  height: 212px;
+  position: relative;
+}
+
+.template-image__bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+}
+
+.template-image__swap {
+  position: absolute;
+  width: 66%;
+  height: 71%;
+  object-fit: cover;
+  left: 46px;
+  top: 44px;
+}
+
+/* template empty */
+.template-empty .template-input {
+  border: 2px dashed #424242;
+  max-width: 300px;
+}
+
+.template-empty .template-text {
+  min-height: 100px;
+}
