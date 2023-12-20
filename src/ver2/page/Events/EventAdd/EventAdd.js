@@ -322,6 +322,7 @@ const EventAdd = () => {
                 <div className="addEvent-template-content">
                   <Slider
                     {...settingSlider}
+                    initialSlide={indexTemplate}
                     afterChange={(index) => {
                       setIndexTemplate(index)
                       setForm({ title: '', content: '' })
@@ -359,6 +360,7 @@ const EventAdd = () => {
                 <Slider
                   {...settingSlider}
                   afterChange={(index) => setVideoIndex(index)}
+                  initialSlide={videoIndex}
                 >
                   {videoList.length > 0
                     ? videoList.map((video, index) => (
@@ -403,6 +405,7 @@ const EventAdd = () => {
                 <Slider
                   {...settingSlider}
                   afterChange={(index) => setImageIndex(index)}
+                  initialSlide={imageIndex}
                 >
                   {imageList.length > 0
                     ? imageList.map((image, index) => (
