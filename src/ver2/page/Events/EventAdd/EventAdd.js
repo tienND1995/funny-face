@@ -450,7 +450,10 @@ const EventAdd = () => {
         </div>
 
         <div className="w-3/4 addEvent-show">
-          <TemplateComponent onChangeValue={handleChangeValue} />
+          <TemplateComponent
+            onChangeValue={handleChangeValue}
+            image={imageList[imageIndex]}
+          />
 
           <button className="addEvent-btn-create" onClick={handleCreateEvent}>
             Create

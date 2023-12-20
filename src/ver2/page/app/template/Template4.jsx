@@ -88,6 +88,7 @@ function Template4(props) {
               />
             </>
           )}
+          
           <div className="template-icon">
             <div className="template-icon__child">
               <img src={comment} alt="comment" />
@@ -101,7 +102,7 @@ function Template4(props) {
           </div>
           <time>
             {data?.real_time || (
-              <Moment format="YYYY/MM/DD">{new Date()}</Moment>
+              <Moment format="DD/MM/YYYY">{new Date()}</Moment>
             )}
           </time>
         </div>
@@ -112,10 +113,10 @@ function Template4(props) {
             src={frameTemplate5}
             alt="first date"
           />
-          {data && (
+          {(data || props.image) && (
             <img
               className="template-image__swap"
-              src={data.link_da_swap}
+              src={data?.link_da_swap || props?.image}
               alt="image swap"
             />
           )}

@@ -103,7 +103,7 @@ function Template1(props) {
 
           <time>
             {data?.real_time || (
-              <Moment format="YYYY/MM/DD">{new Date()}</Moment>
+              <Moment format="DD/MM/YYYY">{new Date()}</Moment>
             )}
           </time>
         </div>
@@ -114,10 +114,10 @@ function Template1(props) {
             src={frameTemplate1}
             alt="first date"
           />
-          {data && (
+          {(data || props.image) && (
             <img
               className="template-image__swap"
-              src={data.link_da_swap}
+              src={data?.link_da_swap || props.image}
               alt="image swap"
             />
           )}

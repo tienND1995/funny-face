@@ -3,7 +3,6 @@ import { useParams } from 'react-router'
 import CmtPopup from '../CmtPopup'
 import Moment from 'react-moment'
 
-
 import bgTemplate3 from '../../../components/image/bg-template3.png'
 import frameTemplate3 from '../../../components/image/frame-template3.png'
 
@@ -104,7 +103,7 @@ function Template3(props) {
 
           <time>
             {data?.real_time || (
-              <Moment format="YYYY/MM/DD">{new Date()}</Moment>
+              <Moment format="DD/MM/YYYY">{new Date()}</Moment>
             )}
           </time>
         </div>
@@ -115,10 +114,10 @@ function Template3(props) {
             src={frameTemplate3}
             alt="first date"
           />
-          {data && (
+          {(data || props.image) && (
             <img
               className="template-image__swap"
-              src={data.link_da_swap}
+              src={data?.link_da_swap || props.image}
               alt="image swap"
             />
           )}
