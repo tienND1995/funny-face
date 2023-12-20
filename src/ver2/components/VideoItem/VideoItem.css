@@ -14,7 +14,7 @@
   text-align: center;
 }
 
-.component-video-wrap > video {
+.component-video-wrap  video {
   width: 100%;
   object-fit: cover;
 }
@@ -28,6 +28,6 @@
   font-weight: 700;
 }
 
-.component-video-link > div {
+.component-video-link > h3 {
   text-transform: uppercase;
 }

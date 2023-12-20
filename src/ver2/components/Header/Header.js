@@ -75,7 +75,7 @@ const Header = ({ data }) => {
 
         <div className="component-header-user">
           {data?.download && (
-            <Link to="/download">
+            <Link to="/download-app">
               <DownloadIcon />
               Download app
             </Link>
@@ -96,7 +96,7 @@ const Header = ({ data }) => {
 
       {data?.events && (
         <div className="component-header-events pt-[40px]">
-          <div className="events-header w-full">
+          <div className="w-full events-header">
             <div className="events-couple">
               <div className="couple-item">
                 <div className="couple-icon couple-icon__male">

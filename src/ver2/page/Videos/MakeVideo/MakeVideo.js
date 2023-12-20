@@ -221,7 +221,7 @@ function MakeVideo() {
               justifyContent: 'right',
               alignItems: 'center',
             }}
-            className="absolute -translate-x-2/4 opacity-100 -translate-y-2/4 left-2/4 top-2/4 z-20"
+            className="absolute z-20 opacity-100 -translate-x-2/4 -translate-y-2/4 left-2/4 top-2/4"
           >
             <ReactLoading type={'bars'} color={'#C0C0C0'} />
           </div>
@@ -247,8 +247,8 @@ function MakeVideo() {
         )}
         {isLoading ? renderLoading() : ''}
         <div className="flex flex-col lg:flex-row lg:items-center">
-          <div className="lg:w-1/2 p-4">
-            <div className="flex justify-center items-center name-video">
+          <div className="p-4 lg:w-1/2">
+            <div className="flex items-center justify-center name-video">
               <img src={pen} alt="edit" />
               <input
                 type="text"
@@ -258,8 +258,8 @@ function MakeVideo() {
               />
             </div>
 
-            <div className="flex justify-center items-center">
-              <div className="responsiveImg relative create-video">
+            <div className="flex items-center justify-center">
+              <div className="relative responsiveImg create-video">
                 <img className="create-video-add" src={add} alt="" />
 
                 <div
@@ -289,15 +289,15 @@ function MakeVideo() {
 
             <button
               onClick={() => fetchData()}
-              className="flex justify-center items-center transition-transform duration-300 start-video "
+              className="flex items-center justify-center transition-transform duration-300 start-video "
             >
               Start
             </button>
           </div>
 
-          <div className="lg:w-1/2 p-4">
+          <div className="p-4 lg:w-1/2">
             <div className="flex flex-col">
-              <div className="flex justify-center items-center">
+              <div className="flex items-center justify-center">
                 <div className="make-video__video">
                   <video controls>
                     <source src={link} type="video/mp4" />

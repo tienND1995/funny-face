@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from 'react'
-import img2 from '../components/image/Rectangle4958.png'
 import axios from 'axios'
-import useEventStore from '../../utils/store'
-import ReactLoading from 'react-loading'
 import * as faceapi from 'face-api.js'
-import { toast } from 'react-toastify'
-import { Link, useLocation } from 'react-router-dom'
-import '../components/Profile.css'
-import HistoryCommentList from './HistoryCommentList'
-import EventListProfile from './EventListProfile'
-import ManagerAcount from './ManagerAcount'
+import React, { useEffect, useState } from 'react'
 import { IoCloseCircle } from 'react-icons/io5'
+import ReactLoading from 'react-loading'
+import { useParams } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import useEventStore from '../../utils/store'
+import '../components/Profile.css'
+import img2 from '../components/image/Rectangle4958.png'
+import EventListProfile from './EventListProfile'
+import HistoryCommentList from './HistoryCommentList'
+import ManagerAcount from './ManagerAcount'
 
 export default function Profile() {
-  const {state} = useLocation()
+  const { id } = useParams()
   const user = JSON.parse(localStorage.getItem('user-info'))
-  const token =  user?.token
-  
-  const userId = state?.id || user?.id_user 
+  const token = user?.token
+
+  const userId = id || user?.id_user
 
   const [data, setData] = useState([])
   // const [userName, setUserName] = useState([]);
@@ -50,7 +50,6 @@ export default function Profile() {
   const [imgError, setImgError] = React.useState([
     'https://i.ibb.co/vBNPH32/Not-Face-Girl-Big-Shoes-Avatar.png',
   ])
-
 
   const [selectedImage, setSelectedImage] = useState(null)
   const img_url = {
@@ -155,10 +154,7 @@ export default function Profile() {
         const res = await uploadImage(file)
         list_img[`'${i + 1}'`] = res.success
       }
-      const res = await axios.post(
-        `${server}/saveimage/${userId}`,
-        list_img
-      )
+      const res = await axios.post(`${server}/saveimage/${userId}`, list_img)
       setIsLoading(false)
       resetImgShow()
       console.log(res)

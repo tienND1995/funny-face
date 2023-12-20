@@ -48,7 +48,7 @@ const DetailVideo = () => {
 
             <div className="detail-info">
               <div className="detail-avatar lg:w-[160px] lg:h-[160px] w-[90px] h-[90px]">
-                <Link to="/profile" state={{id: idUser}}>
+                <Link to={`/profile/${idUser}`}>
                   <img
                     src={data.link_image}
                     alt=""
