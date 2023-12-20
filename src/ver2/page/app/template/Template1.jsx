@@ -1,7 +1,7 @@
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams } from 'react-router'
 import CmtPopup from '../CmtPopup'
+import Moment from 'react-moment'
 
 import bgTemplate1 from '../../../components/image/bg-template1.png'
 import frameTemplate1 from '../../../components/image/frame-template1.png'
@@ -9,13 +9,13 @@ import frameTemplate1 from '../../../components/image/frame-template1.png'
 import comment from '../../../components/image/comment.png'
 import view from '../../../components/image/view.png'
 
-import './Template1.css'
+import './Template.css'
 
 function Template1(props) {
-  const params = useParams()
-  const data = props?.data
-  const stt = params?.stt
-  const id = params?.id
+  const handleChangeValue = props?.onChangeValue
+
+  const { stt, id } = useParams()
+  const data = props.data
 
   const [isOpenPopup, setIsOpenPopup] = useState(false)
   // const user = JSON.parse(window.localStorage.getItem('user-info'))
@@ -54,44 +54,58 @@ function Template1(props) {
   return (
     <>
       <div
-        className="template"
+        className={`template template1 ${
+          data ? 'cursor-pointer' : 'template-empty'
+        }`}
         style={{ background: `center/cover no-repeat url(${bgTemplate1})` }}
         onClick={() => {
           setIsOpenPopup(true)
         }}
       >
         <div className="template-main">
-          {/* <input
-          className="template-title template-input"
-          placeholder="Title here"
-          type="text"
-        />
+          {data ? (
+            <>
+              <h3 className="template-title">{data.ten_su_kien}</h3>
 
-        <input
-          className="template-input template-text"
-          placeholder="Content here"
-          type="text"
-        />
-         */}
-          <h3 className="template-title" to={`/ array / ${data.id}`}>
-            {data.ten_su_kien}
-          </h3>
+              <p className="template-text">{data.noi_dung_su_kien}</p>
+            </>
+          ) : (
+            <>
+              <input
+                className="template-title template-input"
+                placeholder="Title here"
+                type="text"
+                name="title"
+                onChange={handleChangeValue}
+              />
 
-          <p className="template-text">{data.noi_dung_su_kien}</p>
+              <input
+                className="template-input template-text"
+                placeholder="Content here."
+                type="text"
+                name="content"
+                onChange={handleChangeValue}
+              />
+            </>
+          )}
 
           <div className="template-icon">
             <div className="template-icon__child">
               <img src={comment} alt="comment" />
-              <span>{data.count_comment}</span>
+              <span>{data?.count_comment || 0}</span>
             </div>
 
             <div className="template-icon__child">
               <img src={view} alt="view" />
-              <span>{data.count_view}</span>
+              <span>{data?.count_view || 0}</span>
             </div>
           </div>
 
-          <time> {data.real_time}</time>
+          <time>
+            {data?.real_time || (
+              <Moment format="YYYY/MM/DD">{new Date()}</Moment>
+            )}
+          </time>
         </div>
 
         <div className="template-image">
@@ -100,15 +114,17 @@ function Template1(props) {
             src={frameTemplate1}
             alt="first date"
           />
-          <img
-            className="template-image__swap"
-            src={data.link_nu_goc}
-            alt="image swap"
-          />
+          {data && (
+            <img
+              className="template-image__swap"
+              src={data.link_da_swap}
+              alt="image swap"
+            />
+          )}
         </div>
       </div>
 
-      {isOpenPopup && (
+      {isOpenPopup && data && (
         <CmtPopup
           setIsOpenPopup={setIsOpenPopup}
           data={data}

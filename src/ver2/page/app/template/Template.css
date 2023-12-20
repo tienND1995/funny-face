@@ -6,9 +6,7 @@
   padding: 50px;
   border-radius: 16px;
   color: black;
-  cursor: pointer;
 
-  min-width: 650px;
   width: 100%;
 }
 
@@ -56,33 +54,64 @@
 }
 
 .template-image {
-  width: 226px;
-  height: 212px;
   position: relative;
 }
 
 .template-image__bg {
-  position: absolute;
-  left: 0;
-  top: 0;
+  position: relative;
   z-index: 1;
 }
 
 .template-image__swap {
   position: absolute;
-  width: 66%;
-  height: 71%;
   object-fit: cover;
-  left: 46px;
-  top: 44px;
 }
 
 /* template empty */
 .template-empty .template-input {
-  border: 2px dashed #424242;
+  border: 2px dashed #898080;
   max-width: 300px;
+  padding: 5px 20px;
+}
+
+.template-empty .template-input::placeholder {
+  color: black;
 }
 
 .template-empty .template-text {
   min-height: 100px;
+}
+
+/* css type template */
+
+.template1 .template-image__swap {
+  width: 68%;
+  height: 75%;
+  left: 19%;
+  top: 17%;
+}
+
+.template2 .template-image__swap {
+  width: 60%;
+  height: 77%;
+  left: 24%;
+  top: 9%;
+  z-index: 2;
+}
+
+.template3 .template-image__swap {
+  width: 23%;
+  height: 79%;
+  right: 21%;
+  top: 17%;
+  transform: rotate(3deg);
+}
+
+.template4 .template-image__swap {
+  width: 80%;
+  height: 78%;
+  transform: rotate(5deg);
+  right: 11.5%;
+  top: 9.5%;
+  z-index: 2;
 }

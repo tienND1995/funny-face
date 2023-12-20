@@ -39,7 +39,7 @@ function CommonEvent(props) {
 
   return (
     <div className="flex items-center justify-center h-full">
-      <TemplateComponent data={data} stt={props.stt} />
+      <TemplateComponent data={data} />
     </div>
   )
 }

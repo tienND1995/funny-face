@@ -1,6 +1,7 @@
 import axios from 'axios'
-import configs from '../configs/configs.json'
+import { toast } from 'react-toastify'
 
+import configs from '../configs/configs.json'
 const { SERVER_API_USER_DETAIL, SERVER_API_THINKDIFF } = configs
 
 const user = JSON.parse(window.localStorage.getItem('user-info'))
@@ -36,6 +37,7 @@ const createEvent = async (srcnam, srcnu, browser, ip) => {
           ip_them_su_kien: ip,
           id_user: user.id_user,
         },
+        
         headers: {
           linknam: srcnam,
           linknu: srcnu,
@@ -50,4 +52,47 @@ const createEvent = async (srcnam, srcnu, browser, ip) => {
   }
 }
 
-export {getMyDetailUser, createEvent}
+const createUndergroundEvent = async (
+  idTB,
+  folder,
+  browser,
+  ip,
+  male,
+  female,
+  srcnam, srcnu
+) => {
+  const user = JSON.parse(window.localStorage.getItem('user-info'))
+  if (!user) {
+    return false
+  }
+  try {
+    const response = await axios.get(`${SERVER_API_THINKDIFF}/getdata/skngam`, {
+      params: {
+        id_toan_bo_su_kien: idTB,
+        device_them_su_kien: browser,
+        ip_them_su_kien: ip,
+        id_user: user.id_user,
+        ten_nam: male,
+        ten_nu: female,
+      },
+      headers: {
+        linknam: srcnam,
+        linknu: srcnu,
+        folder,
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    toast.success(
+      'Created implicit event successfully. Please reload the page or the system will reload the page in 7 seconds!!'
+    )
+    setTimeout(() => {
+      window.location.reload()
+    }, 7000)
+    return { success: response }
+  } catch (error) {
+    console.log(error)
+    return error
+  }
+}
+
+export {getMyDetailUser, createEvent, createUndergroundEvent}

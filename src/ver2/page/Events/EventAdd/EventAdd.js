@@ -13,26 +13,33 @@ import './EventAdd.css'
 
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace'
 import headerbg from '../../../../ver2/components/image/bg-header.png'
-import comment from '../../../components/image/comment.png'
-import firstdate from '../../../components/image/first-date.png'
-import view from '../../../components/image/view.png'
+
+import imgTemplate1 from '../../../components/image/img-template1.png'
+import imgTemplate2 from '../../../components/image/img-template2.png'
+import imgTemplate3 from '../../../components/image/img-template3.png'
+import imgTemplate4 from '../../../components/image/img-template4.png'
+
+import Template1 from '../../app/template/Template1'
+import Template2 from '../../app/template/Template2'
+import Template3 from '../../app/template/Template3'
+import Template4 from '../../app/template/Template4'
 
 import { v4 as uuidV4 } from 'uuid'
-import Header from '../../../components/Header/Header'
 import Loading from '../../../../Loading/Loading'
 import configs from '../../../../configs/configs.json'
 import { loadModels, uploadImage } from '../../../../library/faceapi'
+import { getMyDetailUser } from '../../../../utils/getDataCommon'
+import Header from '../../../components/Header/Header'
 
 const { SERVER_API_METATECH } = configs
 const INDEX_DEFAULT = 0
-const ID_TBSK_DEFAULT = 955674353513
-const ID_TEMPLATE_DEFAULT = 1
 
 const EventAdd = () => {
   const user = JSON.parse(window.localStorage.getItem('user-info'))
   const token = user?.token
   const idUser = user?.id_user
 
+  const [idTbsk, setIdTbsk] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
 
@@ -50,28 +57,48 @@ const EventAdd = () => {
     loadModels()
     getImageList(idUser)
     getVideoList()
-    getSttEvent(ID_TBSK_DEFAULT)
+    randomIdTbsk()
   }, [])
 
-  const getMyDetailUser = async () => {
-    try {
-      const { data } = await axios.get('https://api.ipify.org/?format=json')
-      if (data.ip) {
-        const browser = window.navigator.userAgent
-        return {
-          browser: browser,
-          ip: data.ip,
-          nameM: data.ip + ' ' + 'Boy',
-          nameF: data.ip + ' ' + 'Girl',
-        }
-      }
+  useEffect(() => {
+    idTbsk && getSttEvent(idTbsk)
+  }, [idTbsk])
 
-      return false
-    } catch (error) {
-      console.log(error)
-      return false
-    }
+  // * template
+
+  const randomIdTbsk = () => {
+    const idList = ['035890949987', 955674353513, 531755026825, 108282543599]
+    const idTBSK = idList[Math.floor(Math.random() * idList.length)]
+    setIdTbsk(idTBSK)
   }
+
+  const templateList = [
+    {
+      image: imgTemplate1,
+      id: 1,
+    },
+
+    {
+      image: imgTemplate2,
+      id: 2,
+    },
+
+    {
+      image: imgTemplate3,
+      id: 3,
+    },
+
+    {
+      image: imgTemplate4,
+      id: 4,
+    },
+  ]
+
+  const templateComponentList = [Template1, Template2, Template3, Template4]
+  const [indexTemplate, setIndexTemplate] = useState(0)
+  const TemplateComponent = templateComponentList[indexTemplate]
+
+  // * ___________________________
 
   const [sttEvent, setSttEvent] = useState(0)
   const getSttEvent = async (id_tbsk) => {
@@ -87,7 +114,9 @@ const EventAdd = () => {
 
   const addEvent = async () => {
     setIsLoading(true)
+    const id_template = templateList[indexTemplate].id
     const device = await getMyDetailUser()
+
     const formData = new FormData()
 
     formData.append('ten_sukien', form.title)
@@ -100,12 +129,12 @@ const EventAdd = () => {
 
     formData.append('link_img', imageList[imageIndex])
     formData.append('link_video', videoList[videoIndex])
-    formData.append('id_template', ID_TEMPLATE_DEFAULT)
+    formData.append('id_template', id_template)
     formData.append('id_user', idUser)
 
     try {
       const { data } = await axios.post(
-        `${SERVER_API_METATECH}/lovehistory/add/${ID_TBSK_DEFAULT}`,
+        `${SERVER_API_METATECH}/lovehistory/add/${idTbsk}`,
         formData,
         {
           headers: {
@@ -121,8 +150,8 @@ const EventAdd = () => {
       toast.success('Add success!')
       setIsLoading(false)
 
-      uploadImage(imageUpload, 'vid')
-      navigate(`/events/${ID_TBSK_DEFAULT}/${sttEvent + 1}`)
+      await uploadImage(imageUpload, 'vid')
+      navigate(`/events/${idTbsk}/${sttEvent + 1}`)
     } catch (error) {
       console.log(error)
       setIsLoading(false)
@@ -169,6 +198,19 @@ const EventAdd = () => {
 
   const renderViewAllContent = (type) => {
     switch (type) {
+      case 'templates':
+        return templateList.map(({ id, image }) => (
+          <div key={id} className="w-full p-2">
+            <div className="overflow-hidden h-[160px] rounded-lg bg-[#525252]">
+              <img
+                className="object-cover w-full h-full"
+                src={image}
+                alt={`template ${id}`}
+              />
+            </div>
+          </div>
+        ))
+
       case 'videos':
         return videoList.map((video) => (
           <div key={video.id} className="w-1/2 p-2">
@@ -215,7 +257,7 @@ const EventAdd = () => {
     setVideoList(newVideos)
     videoActiveRef.current?.load()
   }
-  
+
   const [imageUpload, setImageUpload] = useState(null)
   const handleChangeImage = async (e) => {
     let file = e.target.files[0]
@@ -237,11 +279,12 @@ const EventAdd = () => {
 
   const handleCreateEvent = () => {
     const { title, content } = form
-    if (title.trim() === '')
-      return Swal.fire('Oops...', `Please enter title!`, 'warning')
-
-    if (content.trim() === '')
-      return Swal.fire('Oops...', `Please enter content!`, 'warning')
+    if (title.trim() === '' || content.trim() === '')
+      return Swal.fire(
+        'Oops...',
+        `Please enter title && content complete!`,
+        'warning'
+      )
 
     addEvent()
   }
@@ -268,7 +311,7 @@ const EventAdd = () => {
                   <a
                     onClick={(e) => {
                       e.preventDefault()
-                      handleViewAll('template')
+                      handleViewAll('templates')
                     }}
                     href="#"
                   >
@@ -277,22 +320,24 @@ const EventAdd = () => {
                 </div>
 
                 <div className="addEvent-template-content">
-                  <Slider {...settingSlider}>
-                    <div className="h-[80px] p-2 ">
-                      <span className="w-full h-full flex  bg-[#525252] rounded-md"></span>
-                    </div>
-                    <div className="h-[80px] p-2 ">
-                      <span className="w-full h-full flex  bg-[#525252] rounded-md"></span>
-                    </div>
-                    <div className="h-[80px] p-2 ">
-                      <span className="w-full h-full flex  bg-[#525252] rounded-md"></span>
-                    </div>
-                    <div className="h-[80px] p-2 ">
-                      <span className="w-full h-full flex  bg-[#525252] rounded-md"></span>
-                    </div>
-                    <div className="h-[80px] p-2 ">
-                      <span className="w-full h-full flex  bg-[#525252] rounded-md"></span>
-                    </div>
+                  <Slider
+                    {...settingSlider}
+                    afterChange={(index) => {
+                      setIndexTemplate(index)
+                      setForm({ title: '', content: '' })
+                    }}
+                  >
+                    {templateList.map(({ id, image }) => (
+                      <div key={id} className="p-2">
+                        <div className="overflow-hidden h-[160px] rounded-lg bg-[#525252]">
+                          <img
+                            className="object-cover w-full h-full"
+                            src={image}
+                            alt={`template ${id}`}
+                          />
+                        </div>
+                      </div>
+                    ))}
                   </Slider>
                 </div>
               </div>
@@ -405,43 +450,7 @@ const EventAdd = () => {
         </div>
 
         <div className="w-3/4 addEvent-show">
-          <div className="event-history-marry">
-            <div className="event-marry__info">
-              <div className="border-solid border-2 border-black border-dashed h-[30px]">
-                <input
-                  onChange={handleChangeValue}
-                  type="text"
-                  name="title"
-                  placeholder="Title here"
-                />
-              </div>
-              <div className="border-solid border-2 border-black border-dashed h-[80px]">
-                <input
-                  onChange={handleChangeValue}
-                  type="text"
-                  name="content"
-                  placeholder="Content here"
-                />
-              </div>
-
-              <div className="event-marry__view">
-                <div>
-                  <img src={comment} alt="" />
-                  <span>0</span>
-                </div>
-                <div>
-                  <img src={view} alt="" />
-                  <span>0</span>
-                </div>
-              </div>
-              <time className="event-marry__times">12/12/2023</time>
-            </div>
-
-            <div className="event-marry__image">
-              <img className="image1" src={firstdate} alt="" />
-              {/* <img className="image2" src="" alt="" /> */}
-            </div>
-          </div>
+          <TemplateComponent onChangeValue={handleChangeValue} />
 
           <button className="addEvent-btn-create" onClick={handleCreateEvent}>
             Create

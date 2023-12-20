@@ -86,9 +86,9 @@ function Events() {
                   stt={
                     listEvent[EVENTS_DEFAULT_INDEX].sukien[0].so_thu_tu_su_kien
                   }
-                  idDefault={
-                    listEvent[EVENTS_DEFAULT_INDEX].sukien[0].id_toan_bo_su_kien
-                  }
+                  // idDefault={
+                  //   listEvent[EVENTS_DEFAULT_INDEX].sukien[0].id_toan_bo_su_kien
+                  // }
                 />
               ) : null}
             </aside>

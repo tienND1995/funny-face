@@ -1,137 +1,136 @@
-import React, { useState, useEffect } from 'react'
-import CmtPopup from '../CmtPopup'
-import Clock from '../../../components/ClockEvent/CLockEvent'
-import moment from 'moment'
-import axios from 'axios'
+import { useState, useEffect } from 'react'
 import { useParams } from 'react-router'
-import nam1 from '../img/nam1.png'
-import nu1 from '../img/nu1.png'
+import CmtPopup from '../CmtPopup'
+import Moment from 'react-moment'
+
+import bgTemplate5 from '../../../components/image/bg-template5.png'
+import frameTemplate5 from '../../../components/image/frame-template5.png'
+
+import comment from '../../../components/image/comment.png'
+import view from '../../../components/image/view.png'
+
+import './Template.css'
 
 function Template4(props) {
-  const { id } = useParams()
-  console.log(id)
+  const handleChangeValue = props?.onChangeValue
+
+  const { stt, id } = useParams()
+  const data = props.data
 
   const [isOpenPopup, setIsOpenPopup] = useState(false)
-  const data = props.data
-  console.log('====================================')
-  console.log('Props, ', props)
-  const stt = data.so_thu_tu_su_kien
-  console.log('====================================')
-  const cmt =
-    'https://generation-sessions.s3.amazonaws.com/a6c87cf4275ca96f7141a113f2447e31/img/group-48096950-1@2x.png'
-  const view =
-    'https://generation-sessions.s3.amazonaws.com/a6c87cf4275ca96f7141a113f2447e31/img/group-48096951-1@2x.png'
+  // const user = JSON.parse(window.localStorage.getItem('user-info'))
+  // const token = user?.token
+
+  // useEffect(() => {
+  //   isOpenPopup && updateView()
+  // }, [isOpenPopup])
+
+  // const updateView = async () => {
+  //   const formData = new FormData()
+  //   formData.append('id_toan_bo_su_kien', id)
+  //   formData.append('so_thu_tu_su_kien', stt)
+
+  //   try {
+  //     const res = await axios.post(`${SERVER_SAKAIVN}/countview`, formData, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //         'Content-Type': 'multipart/form-data',
+  //       },
+  //     })
+
+  //     console.log('update view success!!')
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
   useEffect(() => {
-    if (isOpenPopup) {
-      const formData = new FormData()
-      formData.append('id_toan_bo_su_kien', id)
-      formData.append('so_thu_tu_su_kien', stt)
-
-      axios
-        .post('https://sakaivn.online/countview', formData)
-        .then((response) => {
-          console.log('API response:', response.data.count_view)
-        })
-        .catch((error) => {
-          console.error('Lỗi khi gửi request API:', error)
-        })
-    }
-  }, [isOpenPopup, id, stt])
+    document.addEventListener('DOMContentLoaded', function () {
+      const ogImageMeta = document.querySelector('meta[property="og:image"]')
+      ogImageMeta.setAttribute('content', data?.link_da_swap)
+    })
+  }, [])
 
   return (
-    <div className="flex flex-col items-center overflow-hidden ">
-      <div className="lg:hidden scroll-container lg:h-[30%] lg:w-[100%] flex items-center justify-center mt-4">
-        <div
-          style={{
-            backgroundImage: `url(${nam1})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center center',
-            backgroundRepeat: 'no-repeat',
-            overflow: 'hidden',
-          }}
-          className="lg:w-[150px] lg:h-[150px] w-[90px] h-[90px] object-cover"
-        >
-          <img
-            src={data.link_nam_goc}
-            alt=""
-            className="lg:w-[80%] lg:h-[80%] w-[80%] h-[80%] object-cover  rounded-full lg:mt-[25px] lg:ml-[6px] mt-6 ml-2"
-            // onClick={() => handleOpenImagePopup(dataUser.link_nam_goc)}
-          />
+    <>
+      <div
+        className={`template template4 ${
+          data ? 'cursor-pointer' : 'template-empty'
+        }`}
+        style={{ background: `center/cover no-repeat url(${bgTemplate5})` }}
+        onClick={() => {
+          setIsOpenPopup(true)
+        }}
+      >
+        <div className="template-main">
+          {data ? (
+            <>
+              <h3 className="template-title">{data.ten_su_kien}</h3>
+
+              <p className="template-text">{data.noi_dung_su_kien}</p>
+            </>
+          ) : (
+            <>
+              <input
+                className="template-title template-input"
+                placeholder="Title here"
+                type="text"
+                name="title"
+                onChange={handleChangeValue}
+              />
+
+              <input
+                className="template-input template-text"
+                placeholder="Content here."
+                type="text"
+                onChange={handleChangeValue}
+                name="content"
+              />
+            </>
+          )}
+          <div className="template-icon">
+            <div className="template-icon__child">
+              <img src={comment} alt="comment" />
+              <span>{data?.count_comment || 0}</span>
+            </div>
+
+            <div className="template-icon__child">
+              <img src={view} alt="view" />
+              <span>{data?.count_view || 0}</span>
+            </div>
+          </div>
+          <time>
+            {data?.real_time || (
+              <Moment format="YYYY/MM/DD">{new Date()}</Moment>
+            )}
+          </time>
         </div>
 
-        <div
-          style={{
-            backgroundImage: `url(${nu1})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center center',
-            backgroundRepeat: 'no-repeat',
-            overflow: 'hidden',
-          }}
-          className="lg:w-[150px] lg:h-[150px] w-[90px] h-[90px]"
-        >
+        <div className="template-image">
           <img
-            src={data?.link_nu_goc}
-            alt=""
-            className="lg:w-[80%] lg:h-[80%] w-[80%] h-[80%] object-fill  rounded-full lg:mt-[25px] ml-6 mt-2 lg:ml-9"
-            // onClick={() => handleOpenImagePopup(dataUser.link_nu_goc)}
+            className="template-image__bg"
+            src={frameTemplate5}
+            alt="first date"
           />
+          {data && (
+            <img
+              className="template-image__swap"
+              src={data.link_da_swap}
+              alt="image swap"
+            />
+          )}
         </div>
       </div>
-      <div
-        className={` lg:w-[1019px] w-[400px] h-full  border-8 border-pink-300  bg-white rounded-[36px] flex lg:flex-row flex-col gap-x-10 overflow-hidden`}
-      >
-        <div
-          className="h-[300px] lg:h-auto lg:w-[60%] w-full"
-          style={{
-            backgroundImage: `url(${data.link_da_swap})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center center',
-          }}
-          onClick={setIsOpenPopup.bind(this, true)}
+
+      {isOpenPopup && data && (
+        <CmtPopup
+          setIsOpenPopup={setIsOpenPopup}
+          data={data}
+          stt={stt}
+          TemplateCmt="TemplateCmt4"
         />
-        <div className="h-[auto] lg:mt-[70px] mt-[30px] lg:ml-[20px] text-center lg:text-left flex flex-col items-center my-8">
-          {/* <div className="content-none absolute border-[100px 0 0 173.2px]"> */}
-          <span
-            key={data.id}
-            to={`/ array / ${data.id}`}
-            className="lg:text-5xl text-4xl "
-          >
-            {data.ten_su_kien}
-          </span>
-          <p className="lg:text-3xl text-2xl font-[Montserrat] max-w-lg overflow-y-auto  lg:mt-[50px] mt-[20px] text-center">
-            {data.noi_dung_su_kien}
-          </p>
-          <div className="flex flex-row ">
-            <div className="flex mt-[10px]">
-              <img className="h-[28px] w-[35px] " src={cmt} alt="" />
-              <div className="text-2xl ml-[10px]">{data.count_comment}</div>
-            </div>
-            <div className="flex mt-[10px] ml-[100px]">
-              <img className="h-[28px] w-[35px] " src={view} alt="" />
-              <div className="text-2xl ml-[10px]">{data.count_view}</div>
-            </div>
-          </div>
-          <div className="my-4 ">
-            <span
-              style={{ fontStyle: 'normal' }}
-              className="text-time text-3xl "
-            >
-              {data.real_time}
-            </span>
-          </div>
-          {/* </div> */}
-        </div>
-        {isOpenPopup && (
-          <CmtPopup
-            setIsOpenPopup={setIsOpenPopup}
-            data={data}
-            TemplateCmt="TemplateCmt4"
-            stt={props.stt}
-          />
-        )}
-      </div>
-    </div>
+      )}
+    </>
   )
 }
 
