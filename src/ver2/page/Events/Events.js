@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useId } from 'react'
 import { NavLink } from 'react-router-dom'
 
 import AddCircleIcon from '@mui/icons-material/AddCircle'
@@ -80,12 +80,6 @@ function Events() {
             <aside className="events-content">
               {listEvent.length > 0 ? (
                 <CommonEvent
-                  key={
-                    listEvent[EVENTS_DEFAULT_INDEX].sukien[0].id_toan_bo_su_kien
-                  }
-                  stt={
-                    listEvent[EVENTS_DEFAULT_INDEX].sukien[0].so_thu_tu_su_kien
-                  }
                   idDefault={
                     listEvent[EVENTS_DEFAULT_INDEX].sukien[0].id_toan_bo_su_kien
                   }

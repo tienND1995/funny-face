@@ -66,6 +66,7 @@ function CmtPopup(props) {
           id_user_report: idUser,
         }
       );
+      
       toast.success(response.data.message);
       setOpen(false);
 
@@ -230,7 +231,6 @@ function CmtPopup(props) {
     fetchDataCmt();
   }, []);
 
-  const ne = window.navigator.userAgent;
   const userAgent = window.navigator.userAgent;
 
   // Tách thông tin trình duyệt và phiên bản từ chuỗi User-Agent
@@ -243,8 +243,6 @@ function CmtPopup(props) {
   console.log("Browser:", browserName);
   console.log("Version:", browserVersion);
 
-  const platform = window.navigator.platform;
-  console.log("User Operating System:", platform);
   const ipComment = localStorage.getItem("ip");
   const ip = navigator.geolocation;
   console.log("====================================");
@@ -288,16 +286,19 @@ function CmtPopup(props) {
       id_user: user?.id_user,
       location: location.city,
     };
+    
     comment2 = {
       id_toan_bo_su_kien: param.id,
       ipComment: ipComment,
       so_thu_tu_su_kien: props.data.so_thu_tu_su_kien,
       id_user: user?.id_user
     }
+    
     if (!inputValue.trim() && !imgComment) {
       toast.warning("Comment cannot be empty!");
       return;
     }
+    
     const data = { ...comment, noi_dung_cmt: inputValue };
     const jsonData = JSON.stringify(comment2)
     websckt.send(jsonData)
@@ -323,6 +324,7 @@ function CmtPopup(props) {
         console.error("Lỗi khi gửi dữ liệu:", error);
       });
   };
+  
   const TemplateComponent = templateComponents[templateCmt];
   const onSubmitComment = (event) => {
     event.preventDefault();
@@ -338,6 +340,8 @@ function CmtPopup(props) {
     setImgComment(apiResponse.data.data.url);
     setIsImageUploading(false);
   };
+
+  
   const removeImgComment = () => {
     setImgComment("");
   };

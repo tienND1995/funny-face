@@ -8,24 +8,25 @@ import axios from 'axios'
 import { useParams } from 'react-router'
 import no_avatar from '../../../components/image/no-avatar.png'
 import CommonEvent from '../../app/CommonEvent'
-import EmptyTemplate from '../../app/template/EmptyTemplate'
 
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import headerbg from '../../../../ver2/components/image/bg-header.png'
 import Header from '../../../components/Header/Header'
 import './EventResult.css'
 
+import configs from '../../../../configs/configs.json'
+
+const { SERVER_API_METATECH } = configs
+
 export default function EventResult() {
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false)
   const [selectedImage, setSelectedImage] = useState('')
 
-  const params = useParams()
-  const id = params.id
-  const stt_su_kien = params.stt
+  const { id, stt } = useParams()
 
-  const [dataUser1, setDataUser1] = useState(null)
+  const [sttEvent, setSttEvent] = useState(1)
+  const [dataUser, setDataUser] = useState([])
 
-  const [isActive, setIsActive] = useState(1)
   const [isOpenSidebar, setIsOpenSidebar] = useState(false)
 
   const [dataComment, setDataComment] = useState([])
@@ -39,31 +40,20 @@ export default function EventResult() {
     }))
   }
 
-  const userInfo = JSON.parse(window.localStorage.getItem('user-info'))
-  const id_user = userInfo?.id_user
-
   const fetchDataUser = async () => {
     try {
       const response = await axios.get(
-        `https://metatechvn.store/lovehistory/${id}`
+        `${SERVER_API_METATECH}/lovehistory/${id}`
       )
-      setDataUser1(response.data.sukien)
-      console.log(response.data.sukien)
+      setDataUser(response.data.sukien)
     } catch (err) {
       console.log(err)
     }
   }
-
-  const redirect = (e) => {
-    setIsActive(e)
-    setIsOpenSidebar(false)
-  }
-
   useEffect(() => {
     fetchDataUser()
-    const currentTab = parseInt(stt_su_kien)
-    setIsActive(currentTab)
-  }, [])
+    setSttEvent(parseInt(stt))
+  }, [stt])
 
   const handleOpenImagePopup = (imageUrl) => {
     setSelectedImage(imageUrl)
@@ -95,18 +85,15 @@ export default function EventResult() {
           >
             <ul className="events-menu">
               <li className="events-menu-item events-menu-add">
-                <NavLink to={`/events/add`} onClick={() => redirect(0)}>
+                <NavLink to={`/events/add`}>
                   <AddCircleIcon /> Add new event
                 </NavLink>
               </li>
 
-              {dataUser1 &&
-                dataUser1.map((item) => (
+              {dataUser.length >= 1 &&
+                dataUser.map((item) => (
                   <li className="events-menu-item" key={item.id}>
-                    <NavLink
-                      to={`/events/${id}/${item.so_thu_tu_su_kien}`}
-                      onClick={() => redirect(item.so_thu_tu_su_kien)}
-                    >
+                    <NavLink to={`/events/${id}/${item.so_thu_tu_su_kien}`}>
                       {item.ten_su_kien}
                     </NavLink>
                   </li>
@@ -115,37 +102,14 @@ export default function EventResult() {
           </div>
           <div className="w-full min-h-screen lg:w-3/4">
             <aside className="events-content">
-              {isActive === 0 ? (
-                <EmptyTemplate />
-              ) : (
-                dataUser1 &&
-                dataUser1.map(
+              {dataUser.length >= 1 &&
+                dataUser.map(
                   (item) =>
-                    isActive === item.so_thu_tu_su_kien && (
-                      <CommonEvent
-                        key={item.so_thu_tu_su_kien}
-                        stt={item.so_thu_tu_su_kien}
-                      />
+                    item.so_thu_tu_su_kien === sttEvent && (
+                      <CommonEvent key={item.id}  />
                     )
-                )
-              )}
+                )}
             </aside>
-            <div className="flex items-center justify-between overflow-auto lg:hidden">
-              {dataUser1 &&
-                dataUser1.map((item, index) => (
-                  <li
-                    key={index}
-                    className={`cursor-pointer flex  text-center justify-center items-center hover:bg-[#782353] rounded-3xl lg:py-10 lg:px-36 py-6 px-2 ${
-                      isActive === item.so_thu_tu_su_kien
-                        ? 'bg-[#782353] text-white'
-                        : ''
-                    }`}
-                    onClick={() => redirect(item.so_thu_tu_su_kien)}
-                  >
-                    {item.ten_su_kien}
-                  </li>
-                ))}
-            </div>
 
             <div className="flex flex-col pt-10 mb-16 w-full font-[Montserrat] ">
               {dataComment.map((item, index) => {

@@ -163,10 +163,10 @@ function EventHistory(props) {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-full">
+      <div className="flex items-center justify-center h-full">
         <div className="loader-container">
           <ReactLoading type={loadingType} color="#000000" />
-          <p className="mt-4 text-gray-500 text-3xl">Loading...</p>
+          <p className="mt-4 text-3xl text-gray-500">Loading...</p>
         </div>
       </div>
     )
@@ -188,7 +188,7 @@ function EventHistory(props) {
               {array.sukien[array.sukien.length - 1].id_template === 1 && 4 ? (
                 <div
                   style={{ backgroundImage: `url(${bg1})` }}
-                  className="bg-no-repeat lg:bg-contain bg-center lg:w-full lg:h-full"
+                  className="bg-center bg-no-repeat lg:bg-contain lg:w-full lg:h-full"
                 >
                   <div className="grid grid-cols-2 ">
                     <div className="lg:w-[300px] flex flex-col justify-center lg:ml-28 ml-5 lg:mt-0 mt-20">
@@ -238,13 +238,13 @@ function EventHistory(props) {
                   className="bg-no-repeat bg-cover rounded-[29px] h-[214px] bg-center lg:w-full lg:h-full"
                 >
                   <div className="grid grid-cols-3">
-                    <div className="flex justify-center items-center">
+                    <div className="flex items-center justify-center">
                       <div
                         style={{ backgroundImage: `url(${vec1})` }}
-                        className="bg-no-repeat bg-cover lg:w-60 lg:h-60 w-32 h-32"
+                        className="w-32 h-32 bg-no-repeat bg-cover lg:w-60 lg:h-60"
                       />
                     </div>
-                    <div className="flex flex-col justify-center items-center mt-12">
+                    <div className="flex flex-col items-center justify-center mt-12">
                       {/* image love */}
                       <span
                         key={array.sukien[array.sukien.length - 1].id}
@@ -255,7 +255,7 @@ function EventHistory(props) {
                       >
                         {array.sukien[array.sukien.length - 1].ten_su_kien}
                       </span>
-                      <div className="box lg:h-52 h-36 mt-3">
+                      <div className="mt-3 box lg:h-52 h-36">
                         <p className="slab font-semibold lg:text-[16px]">
                           {
                             array.sukien[array.sukien.length - 1]
@@ -273,10 +273,10 @@ function EventHistory(props) {
                         </span>
                       </div>
                     </div>
-                    <div className="flex justify-center items-center">
+                    <div className="flex items-center justify-center">
                       <div
                         style={{ backgroundImage: `url(${vec2})` }}
-                        className="bg-no-repeat bg-cover lg:w-60 lg:h-60 w-32 h-32"
+                        className="w-32 h-32 bg-no-repeat bg-cover lg:w-60 lg:h-60"
                       ></div>
                     </div>
                   </div>
@@ -286,7 +286,7 @@ function EventHistory(props) {
                   style={{ backgroundImage: `url(${bg2})` }}
                   className="bg-no-repeat bg-cover rounded-[29px] h-[214px] bg-center lg:w-full lg:h-full"
                 >
-                  <div className="flex flex-col justify-center items-center">
+                  <div className="flex flex-col items-center justify-center">
                     {/* image love */}
                     <div className=" lg:w-[370px] w-80 lg:mt-36 mt-16">
                       <span
@@ -339,7 +339,7 @@ function EventHistory(props) {
               {array.nodata ? (
                 <span
                   style={{ marginLeft: '50%' }}
-                  className=" z-99 text-3xl text-center"
+                  className="text-3xl text-center z-99"
                 >
                   No data
                 </span>
@@ -347,7 +347,7 @@ function EventHistory(props) {
                 4 ? (
                 <div
                   style={{ backgroundImage: `url(${bg1})` }}
-                  className="bg-no-repeat lg:bg-contain bg-center lg:w-full lg:h-full"
+                  className="bg-center bg-no-repeat lg:bg-contain lg:w-full lg:h-full"
                 >
                   <div className="grid grid-cols-2 ">
                     <div className="lg:w-[300px] flex flex-col justify-center lg:ml-28 ml-5 lg:mt-0 mt-20 ">
@@ -399,14 +399,14 @@ function EventHistory(props) {
                   className="bg-no-repeat bg-cover rounded-[29px] h-[214px] bg-center lg:w-full lg:h-full"
                 >
                   <div className="grid grid-cols-3">
-                    <div className="bg-no-repeat bg-cover lg:w-96 lg:h-96 w-48 h-48 relative">
-                      <div className="flex justify-center items-center">
+                    <div className="relative w-48 h-48 bg-no-repeat bg-cover lg:w-96 lg:h-96">
+                      <div className="flex items-center justify-center">
                         <div
                           style={{
                             backgroundImage: `url(${vec3})`,
                             marginTop: '20%',
                           }}
-                          className="bg-no-repeat bg-cover lg:w-96 lg:h-96 w-48 h-48 z-10"
+                          className="z-10 w-48 h-48 bg-no-repeat bg-cover lg:w-96 lg:h-96"
                         ></div>
                         <div
                           style={{
@@ -419,11 +419,11 @@ function EventHistory(props) {
                             marginTop: '20%', // Thay đổi khoảng cách dọc giữa các ảnh
                             backgroundPosition: 'center',
                           }}
-                          className="bg-no-repeat bg-cover lg:w-72 lg:h-72 w-36 h-36 absolute"
+                          className="absolute bg-no-repeat bg-cover lg:w-72 lg:h-72 w-36 h-36"
                         ></div>
                       </div>
                     </div>
-                    <div className="flex flex-col justify-center items-center mt-12">
+                    <div className="flex flex-col items-center justify-center mt-12">
                       {/* image love */}
                       <span
                         key={array.sukien[array.sukien.length - 1].id}
@@ -434,7 +434,7 @@ function EventHistory(props) {
                       >
                         {array.sukien[array.sukien.length - 1].ten_su_kien}
                       </span>
-                      <div className="box lg:h-52 h-36 mt-3">
+                      <div className="mt-3 box lg:h-52 h-36">
                         <p className="slab font-semibold lg:text-[16px]">
                           {
                             array.sukien[array.sukien.length - 1]
@@ -453,14 +453,14 @@ function EventHistory(props) {
                         </span>
                       </div>
                     </div>
-                    <div className="bg-no-repeat bg-cover lg:w-96 lg:h-96 w-48 h-48 relative ml-auto">
-                      <div className="flex justify-center items-center">
+                    <div className="relative w-48 h-48 ml-auto bg-no-repeat bg-cover lg:w-96 lg:h-96">
+                      <div className="flex items-center justify-center">
                         <div
                           style={{
                             backgroundImage: `url(${vec3})`,
                             marginTop: '20%',
                           }}
-                          className="bg-no-repeat bg-cover lg:w-96 lg:h-96 w-48 h-48 z-10"
+                          className="z-10 w-48 h-48 bg-no-repeat bg-cover lg:w-96 lg:h-96"
                         ></div>
                         <div
                           style={{
@@ -473,7 +473,7 @@ function EventHistory(props) {
                             marginTop: '20%', // Thay đổi khoảng cách dọc giữa các ảnh
                             backgroundPosition: 'center',
                           }}
-                          className="bg-no-repeat bg-cover lg:w-72 lg:h-72 w-36 h-36 absolute"
+                          className="absolute bg-no-repeat bg-cover lg:w-72 lg:h-72 w-36 h-36"
                         ></div>
                       </div>
                     </div>
@@ -485,14 +485,14 @@ function EventHistory(props) {
                   className="bg-no-repeat bg-cover rounded-[29px] h-[214px] bg-center lg:w-full lg:h-full"
                 >
                   <div className="grid grid-cols-3">
-                    <div className="bg-no-repeat bg-cover lg:w-96 lg:h-96 w-48 h-48 relative">
-                      <div className="flex justify-center items-center">
+                    <div className="relative w-48 h-48 bg-no-repeat bg-cover lg:w-96 lg:h-96">
+                      <div className="flex items-center justify-center">
                         <div
                           style={{
                             backgroundImage: `url(${vec4})`,
                             marginTop: '20%',
                           }}
-                          className="bg-no-repeat bg-cover lg:w-96 lg:h-96 w-48 h-48 z-10"
+                          className="z-10 w-48 h-48 bg-no-repeat bg-cover lg:w-96 lg:h-96"
                         ></div>
                         <div
                           style={{
@@ -505,11 +505,11 @@ function EventHistory(props) {
                             marginTop: '20%', // Thay đổi khoảng cách dọc giữa các ảnh
                             backgroundPosition: 'center',
                           }}
-                          className="bg-no-repeat bg-cover lg:w-72 lg:h-72 w-36 h-36 absolute"
+                          className="absolute bg-no-repeat bg-cover lg:w-72 lg:h-72 w-36 h-36"
                         ></div>
                       </div>
                     </div>
-                    <div className="flex flex-col justify-center items-center mt-3">
+                    <div className="flex flex-col items-center justify-center mt-3">
                       {/* image love */}
                       <span
                         key={array.sukien[array.sukien.length - 1].id}
@@ -520,7 +520,7 @@ function EventHistory(props) {
                       >
                         {array.sukien[array.sukien.length - 1].ten_su_kien}
                       </span>
-                      <div className="box lg:h-52 h-36 mt-3">
+                      <div className="mt-3 box lg:h-52 h-36">
                         <p className="slab font-semibold lg:text-[16px]">
                           {
                             array.sukien[array.sukien.length - 1]
@@ -539,14 +539,14 @@ function EventHistory(props) {
                         </span>
                       </div>
                     </div>
-                    <div className="bg-no-repeat bg-cover lg:w-96 lg:h-96 w-48 h-48 relative ml-auto">
-                      <div className="flex justify-center items-center">
+                    <div className="relative w-48 h-48 ml-auto bg-no-repeat bg-cover lg:w-96 lg:h-96">
+                      <div className="flex items-center justify-center">
                         <div
                           style={{
                             backgroundImage: `url(${vec4})`,
                             marginTop: '20%',
                           }}
-                          className="bg-no-repeat bg-cover lg:w-96 lg:h-96 w-48 h-48 z-10"
+                          className="z-10 w-48 h-48 bg-no-repeat bg-cover lg:w-96 lg:h-96"
                         ></div>
                         <div
                           style={{
@@ -559,7 +559,7 @@ function EventHistory(props) {
                             marginTop: '20%', // Thay đổi khoảng cách dọc giữa các ảnh
                             backgroundPosition: 'center',
                           }}
-                          className="bg-no-repeat bg-cover lg:w-72 lg:h-72 w-36 h-36 absolute"
+                          className="absolute bg-no-repeat bg-cover lg:w-72 lg:h-72 w-36 h-36"
                         ></div>
                       </div>
                     </div>
@@ -570,7 +570,7 @@ function EventHistory(props) {
           ))}
         </div>
       )}
-      <div className="pagination text-4xl flex justify-center my-6">
+      <div className="flex justify-center my-6 text-4xl pagination">
         <button
           type="button"
           className="py-2 px-3 bg-[#ff9f9f] rounded hover:bg-[#ff9f9f8c]"
@@ -589,7 +589,7 @@ function EventHistory(props) {
         {/* {renderPageNumbers()} */}
         <button
           type="button"
-          className="mx-3 text-white font-medium py-2 px-4 rounded bg-red-700"
+          className="px-4 py-2 mx-3 font-medium text-white bg-red-700 rounded"
         >
           {id ? id : count}
         </button>

@@ -11,11 +11,11 @@ import view from '../../../components/image/view.png'
 
 import './Template.css'
 
-function Template3(props) {
-  const handleChangeValue = props?.onChangeValue
+function Template3({ onChangeValue, data, isRecent, image }) {
+  // const handleChangeValue = props?.onChangeValue
 
   const { stt, id } = useParams()
-  const data = props.data
+  // const data = props.data
 
   const [isOpenPopup, setIsOpenPopup] = useState(false)
   // const user = JSON.parse(window.localStorage.getItem('user-info'))
@@ -59,7 +59,7 @@ function Template3(props) {
         }`}
         style={{ background: `center/cover no-repeat url(${bgTemplate3})` }}
         onClick={() => {
-          setIsOpenPopup(true)
+          !isRecent && setIsOpenPopup(true)
         }}
       >
         <div className="template-main">
@@ -76,14 +76,14 @@ function Template3(props) {
                 placeholder="Title here"
                 type="text"
                 name="title"
-                onChange={handleChangeValue}
+                onChange={onChangeValue}
               />
 
               <input
                 className="template-input template-text"
                 placeholder="Content here."
                 type="text"
-                onChange={handleChangeValue}
+                onChange={onChangeValue}
                 name="content"
               />
             </>
@@ -114,10 +114,10 @@ function Template3(props) {
             src={frameTemplate3}
             alt="first date"
           />
-          {(data || props.image) && (
+          {(data || image) && (
             <img
               className="template-image__swap"
-              src={data?.link_da_swap || props.image}
+              src={data?.link_da_swap || image}
               alt="image swap"
             />
           )}

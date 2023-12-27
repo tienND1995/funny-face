@@ -88,7 +88,7 @@ function Home() {
             <h3 className="home-title">Recent Events</h3>
 
             <div className="home-recent-main">
-              <div className="home-events lg:w-2/3 w-full">
+              <div className="w-full home-events lg:w-2/3">
                 <EventHistory />
               </div>
 

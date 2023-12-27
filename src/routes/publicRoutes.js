@@ -13,6 +13,7 @@ import CreateImage from '../ver2/page/CreateImage/CreateImage'
 import CreateVideo from '../ver2/page/CreateVideo/CreateVideo'
 import GenBaby from '../ver2/page/GenBaby/GenBaBy'
 import Love from '../ver2/page/Love/Love'
+import Home from '../ver2/page/Home/Home'
 
 import NotFound from '../ver2/components/NotFound'
 import TiktokScandal from '../ver2/tiktok-scandal'
@@ -22,9 +23,11 @@ export const publicRoutes = (
   <>
     <Route path="/events">
       <Route index element={<Events />} />
+      <Route exact path=':id' element={<Home/>} />
       <Route path=":id/:stt" element={<EventResult />} />
       <Route path="add" element={<EventAdd />} />
     </Route>
+
 
     <Route path="/love" element={<Love />} />
     <Route path="/videos">
