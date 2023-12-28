@@ -63,7 +63,7 @@
   padding: 48px 0 24px;
 }
 
-.home-episodes-head > button {
+.home-episodes-head > a {
   font-size: 18px;
   font-weight: 600;
 }

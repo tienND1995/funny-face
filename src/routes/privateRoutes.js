@@ -11,17 +11,17 @@ import AuthMiddleware from '../middleware/AuthMiddleware'
 import HomeMiddleware from '../middleware/HomeMiddleware'
 
 export const privateRoutes = (
-  <>
-    <Route path="" element={<HomeMiddleware />}>
-      <Route index element={<Home />} />
-    </Route>
+    <>
+        <Route path='' element={<HomeMiddleware />}>
+            <Route index element={<Home />} />
+        </Route>
 
-    <Route path="" element={<AuthMiddleware />}>
-      <Route path="login" element={<Login />} />
-      <Route path="register" element={<Register />} />
-      <Route path="forgot" element={<ForgotPassword />} />
-      <Route path="reset" element={<ChangePassword />} />
-      <Route path="policy" element={<Policy />} />
-    </Route>
-  </>
+        <Route path='' element={<AuthMiddleware />}>
+            <Route path='login' element={<Login />} />
+            <Route path='register' element={<Register />} />
+            <Route path='forgot' element={<ForgotPassword />} />
+            <Route path='reset' element={<ChangePassword />} />
+            <Route path='policy' element={<Policy />} />
+        </Route>
+    </>
 )
