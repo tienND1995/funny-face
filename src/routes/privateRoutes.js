@@ -1,11 +1,11 @@
 import { Route } from 'react-router-dom'
 
-import Home from '../ver2/page/Home/Home'
 import ChangePassword from '../ver2/components/ChangePassword'
+import Policy from '../ver2/components/Policy'
 import ForgotPassword from '../ver2/page/Forgotpassword'
+import Home from '../ver2/page/Home/Home'
 import Login from '../ver2/page/Login'
 import Register from '../ver2/page/Register'
-import Policy from '../ver2/components/Policy'
 
 import AuthMiddleware from '../middleware/AuthMiddleware'
 import HomeMiddleware from '../middleware/HomeMiddleware'

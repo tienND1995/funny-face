@@ -1,4 +1,3 @@
-
 import bgTemplate3 from '../../../components/image/bg-template3.png'
 import comment from '../../../components/image/comment.png'
 import frameTemplate3 from '../../../components/image/frame-template3.png'
@@ -13,9 +12,7 @@ function TemplateCmt3(props) {
  return (
   <div className=' flex relative'>
    <div
-    className={`template template3 rounded-0 ${
-     data ? 'cursor-pointer' : 'template-empty'
-    }`}
+    className='template template3 rounded-0'
     style={{ background: `center/cover no-repeat url(${bgTemplate3})` }}
    >
     <div className='template-main'>
@@ -46,7 +43,7 @@ function TemplateCmt3(props) {
      </time>
     </div>
 
-    <div className='template-image' onClick={onClick}>
+    <div className='template-image cursor-pointer' onClick={onClick}>
      <img
       className='template-image__bg'
       src={frameTemplate3}

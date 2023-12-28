@@ -273,7 +273,6 @@ function CmtPopup(props) {
 
   console.log(websckt)
 
-
   await axios
    .post(url, data, {
     headers: {
@@ -368,134 +367,132 @@ function CmtPopup(props) {
             <ImagePopup imgSrc={props.data.link_da_swap} closeImg={closePopup} />
           ) : ( */}
      <div className='rounded-[16px] flex flex-col w-max bg-white gap-y-4 overflow-y-auto'>
-      <div
-       className='w-[50vw] relative'
-       onClick={() => handleOpenImagePopup(props.data.link_da_swap)}
-      >
-       <TemplateComponent data={props.data} onClick={handlePopup} />
+      <div className='w-[50vw] relative'>
+       <TemplateComponent
+        data={props.data}
+        onClick={() => handleOpenImagePopup(props.data.link_da_swap)}
+       />
       </div>
 
       <div className='mt-5 flex flex-col gap-y-2 max-h-[60vh] overflow-y-auto'>
        {dataCmt?.length > 0 &&
         dataCmt.map((cmt, index) => (
-         <>
-          <div
-           className='relative flex items-stretch justify-between gap-x-4'
-           key={index}
-          >
-           <div className='overflow-hidden rounded-[50%] w-[40px] h-[40px] ml-[20px]'>
-            {cmt && cmt.avatar_user && cmt.avatar_user.startsWith('https') ? (
-             <Link to={cmt.id_user === 0 ? '' : `/user/${cmt.id_user}`}>
-              <img
-               className='object-cover h-full w-full'
-               src={cmt && cmt.avatar_user}
-               alt='Avatar'
-              />
-             </Link>
-            ) : (
-             <img src={noAvatar} alt='Avatar' />
-            )}
-           </div>
-           <div className='flex flex-col gap-x-2 font-[Montserrat]'>
-            <span className='lg:text-[18px] text-lg font-semibold'>
-             {cmt && cmt.user_name ? cmt && cmt.user_name : 'Guest'}
-            </span>
+         <div
+          className='relative flex items-stretch justify-between gap-x-4'
+          key={index}
+         >
+          <div className='overflow-hidden rounded-[50%] w-[40px] h-[40px] ml-[20px]'>
+           {cmt && cmt.avatar_user && cmt.avatar_user.startsWith('https') ? (
+            <Link to={cmt.id_user === 0 ? '' : `/user/${cmt.id_user}`}>
+             <img
+              className='object-cover h-full w-full'
+              src={cmt && cmt.avatar_user}
+              alt='Avatar'
+             />
+            </Link>
+           ) : (
+            <img src={noAvatar} alt='Avatar' />
+           )}
+          </div>
+          <div className='flex flex-col gap-x-2 font-[Montserrat]'>
+           <span className='lg:text-[18px] text-lg font-semibold'>
+            {cmt && cmt.user_name ? cmt && cmt.user_name : 'Guest'}
+           </span>
 
-            <>
-             <span
-              className='lg:text-[16px] text-base mt-3 max-w-[25vw] '
-              style={{ whiteSpace: 'pre-wrap' }}
-             >
-              {cmt && cmt.noi_dung_cmt}
-             </span>
-             {cmt && cmt.imageattach ? (
-              <img
-               className='w-[60px] h-[50px]'
-               src={cmt.imageattach}
-               alt=''
-               onClick={() => handleOpenImagePopup(cmt?.imageattach)}
-              />
-             ) : (
-              ''
-             )}
-             <span className='text-sm lg:text-base'>
-              {cmt && cmt.device_cmt}
-             </span>
-            </>
-           </div>
-           <div className='lg:text-[13px] text-sm ml-auto font-[Montserrat]'>
-            {cmt && cmt.thoi_gian_release}
-           </div>
-           <div className='lg:w-[15%] w-[20%] lg:text-[13px] text-sm font-[Montserrat]'>
-            <p> {cmt && cmt.dia_chi_ip}</p>
-            <p> {cmt && cmt.location}</p>
-           </div>
-           <div className='lg:text-[13px] text-sm font-[Montserrat] relative flex gap-3'>
-            <button
-             className='lg:text-[5px] max-lg:text-[3px] flex gap-1 py-3'
-             onClick={() =>
-              setActionCMT({
-               status: !actionCMT.status,
-               value: cmt?.id_comment,
-              })
-             }
+           <>
+            <span
+             className='lg:text-[16px] text-base mt-3 max-w-[25vw] '
+             style={{ whiteSpace: 'pre-wrap' }}
             >
-             <svg
-              xmlns='http://www.w3.org/2000/svg'
-              height='1em'
-              viewBox='0 0 512 512'
-             >
-              <path d='M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z' />
-             </svg>
-             <svg
-              xmlns='http://www.w3.org/2000/svg'
-              height='1em'
-              viewBox='0 0 512 512'
-             >
-              <path d='M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z' />
-             </svg>
-             <svg
-              xmlns='http://www.w3.org/2000/svg'
-              height='1em'
-              viewBox='0 0 512 512'
-             >
-              <path d='M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z' />
-             </svg>
-            </button>
-            <div className='flex gap-3'>
-             {idUser === cmt?.id_user
-              ? actionCMT.status &&
-                actionCMT.value == cmt.id_comment && (
-                 <div className='shadow-[rgba(0,0,0,0.1)_0px_1px_3px_0px,rgba(0,0,0,0.06)_0px_1px_2px_0px] absolute  right-12   rounded-sm bg-slate-100 text-lg text-black'>
-                  <button
-                   className='flex w-full gap-3 px-3 py-1 hover:bg-blue-400 hover:text-white'
-                   onClick={() => startEdit(cmt)}
-                  >
-                   Edit
-                  </button>
-                  <button
-                   className='flex w-full gap-3 px-3 py-1 hover:bg-red-400 hover:text-white'
-                   onClick={() => deleteComment(cmt.id_comment)}
-                  >
-                   Delete
-                  </button>
-                 </div>
-                )
-              : actionCMT.status &&
-                actionCMT.value == cmt.id_comment && (
-                 <div className='shadow-[rgba(0,0,0,0.1)_0px_1px_3px_0px,rgba(0,0,0,0.06)_0px_1px_2px_0px] absolute right-12 rounded-sm bg-slate-100 text-lg text-black'>
-                  <button
-                   className='w-full px-3 py-1 hover:bg-red-400 hover:text-white'
-                   onClick={() => showModal(cmt.id_comment, cmt.id_user)}
-                  >
-                   Report
-                  </button>
-                 </div>
-                )}
-            </div>
+             {cmt && cmt.noi_dung_cmt}
+            </span>
+            {cmt && cmt.imageattach ? (
+             <img
+              className='w-[60px] h-[50px]'
+              src={cmt.imageattach}
+              alt=''
+              onClick={() => handleOpenImagePopup(cmt?.imageattach)}
+             />
+            ) : (
+             ''
+            )}
+            <span className='text-sm lg:text-base'>
+             {cmt && cmt.device_cmt}
+            </span>
+           </>
+          </div>
+          <div className='lg:text-[13px] text-sm ml-auto font-[Montserrat]'>
+           {cmt && cmt.thoi_gian_release}
+          </div>
+          <div className='lg:w-[15%] w-[20%] lg:text-[13px] text-sm font-[Montserrat]'>
+           <p> {cmt && cmt.dia_chi_ip}</p>
+           <p> {cmt && cmt.location}</p>
+          </div>
+          <div className='lg:text-[13px] text-sm font-[Montserrat] relative flex gap-3'>
+           <button
+            className='lg:text-[5px] max-lg:text-[3px] flex gap-1 py-3'
+            onClick={() =>
+             setActionCMT({
+              status: !actionCMT.status,
+              value: cmt?.id_comment,
+             })
+            }
+           >
+            <svg
+             xmlns='http://www.w3.org/2000/svg'
+             height='1em'
+             viewBox='0 0 512 512'
+            >
+             <path d='M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z' />
+            </svg>
+            <svg
+             xmlns='http://www.w3.org/2000/svg'
+             height='1em'
+             viewBox='0 0 512 512'
+            >
+             <path d='M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z' />
+            </svg>
+            <svg
+             xmlns='http://www.w3.org/2000/svg'
+             height='1em'
+             viewBox='0 0 512 512'
+            >
+             <path d='M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z' />
+            </svg>
+           </button>
+           <div className='flex gap-3'>
+            {idUser === cmt?.id_user
+             ? actionCMT.status &&
+               actionCMT.value == cmt.id_comment && (
+                <div className='shadow-[rgba(0,0,0,0.1)_0px_1px_3px_0px,rgba(0,0,0,0.06)_0px_1px_2px_0px] absolute  right-12   rounded-sm bg-slate-100 text-lg text-black'>
+                 <button
+                  className='flex w-full gap-3 px-3 py-1 hover:bg-blue-400 hover:text-white'
+                  onClick={() => startEdit(cmt)}
+                 >
+                  Edit
+                 </button>
+                 <button
+                  className='flex w-full gap-3 px-3 py-1 hover:bg-red-400 hover:text-white'
+                  onClick={() => deleteComment(cmt.id_comment)}
+                 >
+                  Delete
+                 </button>
+                </div>
+               )
+             : actionCMT.status &&
+               actionCMT.value == cmt.id_comment && (
+                <div className='shadow-[rgba(0,0,0,0.1)_0px_1px_3px_0px,rgba(0,0,0,0.06)_0px_1px_2px_0px] absolute right-12 rounded-sm bg-slate-100 text-lg text-black'>
+                 <button
+                  className='w-full px-3 py-1 hover:bg-red-400 hover:text-white'
+                  onClick={() => showModal(cmt.id_comment, cmt.id_user)}
+                 >
+                  Report
+                 </button>
+                </div>
+               )}
            </div>
           </div>
-         </>
+         </div>
         ))}
       </div>
       <div className='flex items-center justify-around m-3 rounded-full shadow-sm gap-x-4 shadow-slate-300'>

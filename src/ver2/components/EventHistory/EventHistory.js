@@ -4,16 +4,13 @@ import axios from 'axios'
 import { NavLink } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import Swal from 'sweetalert2'
+import { v4 as uuid } from 'uuid'
 
 import { useNavigate, useParams } from 'react-router-dom'
 import { getMyDetailUser } from '../../../utils/getDataCommon'
 import './EventHistory.css'
 
-import addsquare from '../../components/image/add-square.png'
-import commentwhite from '../../components/image/comment-white.png'
-import addImage from '../../components/image/gallery-add.png'
 import send from '../../components/image/send.png'
-import share from '../../components/image/share.png'
 
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
@@ -31,7 +28,6 @@ function EventHistory() {
 
  const [data, setData] = useState([])
  const [isLoading, setIsLoading] = useState(false)
- const [currentPage, setCurrentPage] = useState(1)
  const navigate = useNavigate()
  const [count, setCount] = useState(1)
 
@@ -40,87 +36,47 @@ function EventHistory() {
  const idUser = userInfo?.id_user || 0
  const token = userInfo?.token
 
- useEffect(() => {
-  idUser && getUserProfile()
- }, [])
+ // *  get event recent and total page
+ const sortedData = data.sort((a, b) => {
+  const dateA = new Date(a.real_time)
+  const dateB = new Date(b.real_time)
+  return dateB - dateA
+ })
+
+ const MAX_PAGE = 3
+ const dataShow = sortedData.slice(0, MAX_PAGE)
+
+ const totalPage = dataShow.reduce((sum, item) => {
+  return sum + item.sukien.length
+ }, 0)
+
+ //  ______________________________
 
  const getUserProfile = async () => {
-  const response = await axios.get(`https://metatechvn.store/profile/${idUser}`)
-
-  if (response.status) {
-   setUser(response.data)
-  }
- }
-
- const handlePageChange = (e) => {
-  e.preventDefault()
-  const page = Number.parseInt(e.target.innerText)
-
-  // Kiểm tra giới hạn trang để đảm bảo rằng trang không vượt quá giới hạn
-  const newPage = Math.min(Math.max(1, page), totalPages)
-
-  setCount(newPage)
-  navigate(`/event/${newPage}`)
- }
-
- const resultsPerPage = 3
-
- const fetchData = async () => {
   try {
-   setIsLoading(true)
-   const response = await fetch(
-    `https://metatechvn.store/lovehistory/page/${
-     id ? id : count
-    }?id_user=${idUser}`
-   )
-
-   const jsonData = await response.json()
-   const updatedData = jsonData.list_sukien.map((item) => {
-    if (item.sukien.length === 0) {
-     return { ...item, nodata: true }
-    }
-
-    return item
-   })
-
-   setData(updatedData)
-   setIsLoading(false)
+   const response = await axios.get(`${SERVER_API_METATECH}/profile/${idUser}`)
+   setUser(response.data)
   } catch (error) {
    console.log(error)
   }
  }
 
- const changePageUp = () => {
-  if (!id) {
-   if (count < 200) {
-    const newCount = count + 1
-    setCount(newCount)
-    navigate(`/events/${newCount}`)
-   }
-  } else {
-   const numericId = parseInt(id, 10) // Chuyển đổi id thành số nguyên
-   if (!isNaN(numericId) && numericId < 200) {
-    const newId = numericId + 1
-    setCount(newId)
-    navigate(`/events/${newId}`)
-   }
-  }
- }
+ const fetchData = async () => {
+  setIsLoading(true)
+  try {
+   const response = await axios.get(
+    `${SERVER_API_METATECH}/lovehistory/page/${
+     id ? id : count
+    }?id_user=${idUser}`
+   )
 
- const changePageDown = () => {
-  if (!id) {
-   if (count > 1) {
-    const newCount = count - 1
-    setCount(newCount)
-    navigate(`/events/${newCount}`)
-   }
-  } else {
-   const numericId = parseInt(id, 10)
-   if (!isNaN(numericId) && numericId > 1) {
-    const newId = numericId - 1
-    setCount(newId)
-    navigate(`/events/${newId}`)
-   }
+   console.log(response.data)
+
+   setData(response.data.list_sukien)
+   setIsLoading(false)
+  } catch (error) {
+   console.log(error)
+   setIsLoading(false)
   }
  }
 
@@ -128,18 +84,46 @@ function EventHistory() {
   fetchData()
  }, [count, id])
 
- const sortedData = data.sort((a, b) => {
-  const dateA = new Date(a.real_time)
-  const dateB = new Date(b.real_time)
-  return dateB - dateA
- })
+ useEffect(() => {
+  idUser && getUserProfile()
+  id && setCount(parseInt(id))
+ }, [])
 
- const indexOfLastResult = currentPage * resultsPerPage
- const indexOfFirstResult = indexOfLastResult - resultsPerPage
- const currentResults = sortedData.slice(indexOfFirstResult, indexOfLastResult)
- const totalPages = Math.ceil(sortedData.length / resultsPerPage)
+ const changePageUp = () => {
+  if (id) {
+   const idNumber = parseInt(id)
+   if (idNumber < totalPage) {
+    const newId = idNumber + 1
+    setCount(newId)
+    navigate(`/events/${newId}`)
+   }
 
- const [paginates, setPaginates] = useState([1, 2, 3])
+   return
+  }
+
+  if (count < totalPage) {
+   setCount((prev) => prev + 1)
+   navigate(`/events/${count + 1}`)
+  }
+ }
+
+ const changePageDown = () => {
+  if (id) {
+   const idNumber = parseInt(id)
+   if (idNumber > 1) {
+    const newId = idNumber - 1
+    setCount(newId)
+    navigate(`/events/${newId}`)
+   }
+
+   return
+  }
+
+  if (count > 1) {
+   setCount((prev) => prev - 1)
+   navigate(`/events/${count - 1}`)
+  }
+ }
 
  const renderEventTemplate = (id, data) => {
   switch (id) {
@@ -172,21 +156,7 @@ function EventHistory() {
    })
  }, [ipComment])
 
- const [imgComment, setImgComment] = useState('')
-
- const handleChangeImgCmt = async (event) => {
-  const formData = new FormData()
-  formData.append('image', event.target.files[0])
-  const apiResponse = await axios.post(
-   `https://api.imgbb.com/1/upload?key=283182a99cb41ed4065016b64933524f`,
-   formData
-  )
-
-  setImgComment(apiResponse.data.data.url)
- }
-
  const [inputValue, setInputValue] = useState('')
-
  const handleChangeValueCmt = (e) => {
   setInputValue(e.target.value)
  }
@@ -203,7 +173,7 @@ function EventHistory() {
    ipComment: device.ip,
    id_toan_bo_su_kien: idTbsk,
    so_thu_tu_su_kien: sttTbsk,
-   imageattach: imgComment,
+   imageattach: '',
    id_user: user?.id_user,
    location: location.city,
    link_imagesk: linkImgEvent,
@@ -224,7 +194,6 @@ function EventHistory() {
 
    console.log(response)
    setInputValue('')
-   setImgComment('')
    toast.success('Commented!!!')
   } catch (error) {
    console.log(error)
@@ -237,8 +206,8 @@ function EventHistory() {
    {/* <Loading status={isLoading} /> */}
 
    <div className='events-history-main'>
-    {currentResults.map((array, index) => (
-     <div className='event-history-item' key={index}>
+    {dataShow.map((array, index) => (
+     <div className='event-history-item' key={uuid()}>
       <div className='event-history-user'>
        <div className='event-user__avatar'>
         <img src={user.link_avatar} alt='avatar' />
@@ -257,23 +226,6 @@ function EventHistory() {
        )}
       </NavLink>
 
-      <div className='event-history-interact'>
-       <div>
-        <img src={commentwhite} alt='icon comment' />
-        <a href='#'>Comment</a>
-       </div>
-
-       <div>
-        <img src={addsquare} alt='icon add' />
-        <a href='#'>follow</a>
-       </div>
-
-       <div>
-        <img src={share} alt='icon share' />
-        <a href='#'>share</a>
-       </div>
-      </div>
-
       <div className='event-history-comment'>
        <div className='event-history__avatar'>
         <img src={user.link_avatar} alt='avatar' />
@@ -285,72 +237,47 @@ function EventHistory() {
          e.preventDefault()
          HandleSubmitFormCmt(
           array.sukien[array.sukien.length - 1].id_toan_bo_su_kien,
-          array.sukien[array.sukien.length - 1].so_thu_tu_su_kien
-          // array.sukien[array.sukien.length - 1].link_da_swap
+          array.sukien[array.sukien.length - 1].so_thu_tu_su_kien,
+          array.sukien[array.sukien.length - 1].link_da_swap
          )
         }}
        >
         <input
          type='text'
-         placeholder='Comment'
+         placeholder='Comment...'
          onChange={handleChangeValueCmt}
         />
 
-        <div className='event-history-icon'>
-         <div className='event-history-form__enter'>
-          <img src={addImage} alt='image add' />
-
-          <input type='file' onChange={handleChangeImgCmt} accept='.jpg' />
-         </div>
-
-         <button type='submit'>
-          <img src={send} alt='image send' />
-         </button>
-        </div>
+        <button type='submit'>
+         <img src={send} alt='image send' />
+        </button>
        </form>
-       {/* {/* <div className="flex items-center gap-2 mt-2">
-                <img
-                  className="w-[80px] h-[70px]"
-                  // src={imgComment}
-                  alt="Uploaded"
-                />
-                <button
-                  className="mt-[-50px]"
-                  // onClick={removeImgComment}
-                >
-                  <i className="font-bold fas fa-times" />
-                </button> */}
       </div>
 
-      {currentResults.length - 1 !== index && <hr />}
+      {dataShow.length - 1 !== index && <hr />}
      </div>
     ))}
    </div>
 
-   <ul className='event-history-pagination'>
-    <li className='pagination-item arrow-link'>
-     <a className='pagination-link' href='#' onClick={() => changePageDown()}>
-      <ArrowBackIosNewIcon />
-     </a>
-    </li>
+   <div className='event-history-pagination'>
+    <button
+     className={`event-history-pagination__btn ${count == 1 ? 'disabled' : ''}`}
+     onClick={() => changePageDown()}
+    >
+     <ArrowBackIosNewIcon />
+    </button>
 
-    {paginates.map((number) => (
-     <li
-      className={`pagination-item ${number === count ? 'active' : ''}`}
-      key={number}
-     >
-      <a className='pagination-link' href='#' onClick={handlePageChange}>
-       {number}
-      </a>
-     </li>
-    ))}
+    <span>{id ? id : count}</span>
 
-    <li className='pagination-item arrow-link' onClick={() => changePageUp()}>
-     <a className='pagination-link' href='#'>
-      <ArrowForwardIosIcon />
-     </a>
-    </li>
-   </ul>
+    <button
+     className={`event-history-pagination__btn ${
+      count >= totalPage ? 'disabled' : ''
+     }`}
+     onClick={() => changePageUp()}
+    >
+     <ArrowForwardIosIcon />
+    </button>
+   </div>
   </div>
  )
 }

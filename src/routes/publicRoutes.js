@@ -14,35 +14,36 @@ import CreateVideo from '../ver2/page/CreateVideo/CreateVideo'
 import GenBaby from '../ver2/page/GenBaby/GenBaBy'
 import Love from '../ver2/page/Love/Love'
 import Home from '../ver2/page/Home/Home'
+import Profile from '../ver2/components/Profile'
 
 import NotFound from '../ver2/components/NotFound'
 import TiktokScandal from '../ver2/tiktok-scandal'
 import YoutubeScandal from '../ver2/YoutubeScandal'
 
 export const publicRoutes = (
-  <>
-    <Route path="/events">
-      <Route index element={<Events />} />
-      <Route exact path=':id' element={<Home/>} />
-      <Route path=":id/:stt" element={<EventResult />} />
-      <Route path="add" element={<EventAdd />} />
-    </Route>
+ <>
+  <Route path='/events'>
+   <Route index element={<Events />} />
+   <Route exact path=':id' element={<Home />} />
+   <Route path=':id/:stt' element={<EventResult />} />
+   <Route path='add' element={<EventAdd />} />
+  </Route>
 
+  <Route path='/love' element={<Love />} />
+  <Route path='/videos'>
+   <Route index element={<Videos />} />
+   <Route path='make-video' element={<MakeVideo />} />
+   <Route path='detail-video/:id' element={<DetailVideo />} />
+   <Route path='my-video' element={<MyVideo />} />
+  </Route>
 
-    <Route path="/love" element={<Love />} />
-    <Route path="/videos">
-      <Route index element={<Videos />} />
-      <Route path="make-video" element={<MakeVideo />} />
-      <Route path="detail-video/:id" element={<DetailVideo />} />
-      <Route path="my-video" element={<MyVideo />} />
-    </Route>
+  <Route path='/create-video' element={<CreateVideo />} />
+  <Route path='/create-image' element={<CreateImage />} />
+  <Route path='/genbaby' element={<GenBaby />} />
+  <Route path='profile' element={<Profile />} />
 
-    <Route path="/create-video" element={<CreateVideo />} />
-    <Route path="/create-image" element={<CreateImage />} />
-    <Route path="/genbaby" element={<GenBaby />} />
-
-    <Route path="/youtube/:idVideo" element={<YoutubeScandal />} />
-    <Route path="/tiktok/:idVideo" element={<TiktokScandal />} />
-    <Route path="*" exact={true} element={<NotFound />} />
-  </>
+  <Route path='/youtube/:idVideo' element={<YoutubeScandal />} />
+  <Route path='/tiktok/:idVideo' element={<TiktokScandal />} />
+  <Route path='*' exact={true} element={<NotFound />} />
+ </>
 )
